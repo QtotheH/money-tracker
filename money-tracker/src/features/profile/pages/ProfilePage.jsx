@@ -1,0 +1,77 @@
+import ProfileAvatar from "../components/ProfileAvatar"
+import PersonalInfoTab from "../components/PersonalInfoTab"
+import SecurityTab from "../components/SecurityTab"
+import PreferencesTab from "../components/PreferencesTab"
+
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger
+} from "@/components/ui/tabs"
+
+const ProfilePage = () => {
+  return (
+    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+        <div className="p-6 space-y-6">
+
+            {/* Tiêu đề */}
+            <div>
+                <h1 className="text-3xl font-bold tracking-tight text-emerald-800 dark:text-emerald-400">
+                    Hồ sơ cá nhân
+                </h1>
+
+                <p className="text-muted-foreground">
+                Quản lý thông tin và cài đặt tài khoản của bạn
+                </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <ProfileAvatar />
+
+                <div className="lg:col-span-2">
+                {/* orientation="vertical"  -> Đặt tab theo trục dọc*/}
+                <Tabs defaultValue="personal" className="p-3">
+                    {/* variant="line"  -> Đặt tab theo trục dọc*/}
+                    <TabsList className="mb-4 bg-gray-100 p-1 rounded-lg">
+
+                        <TabsTrigger value="personal" >
+                            Thông tin cá nhân
+                        </TabsTrigger>
+
+                        <TabsTrigger value="security">
+                            Bảo mật
+                        </TabsTrigger>
+
+                        <TabsTrigger value="preferences">
+                            Tùy chọn
+                        </TabsTrigger>
+
+                    </TabsList>
+
+                    <TabsContent value="personal">
+                    <   PersonalInfoTab />
+                    </TabsContent>
+
+                    <TabsContent value="security">
+                        <SecurityTab />
+                    </TabsContent>
+
+                    <TabsContent value="preferences">
+                        <PreferencesTab />
+                    </TabsContent>
+
+                </Tabs>
+
+                </div>
+
+            </div>
+
+            </div>
+    </main>
+
+  )
+}
+
+export default ProfilePage
