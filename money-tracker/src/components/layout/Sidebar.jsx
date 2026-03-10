@@ -21,7 +21,7 @@ function Sidebar({className}) {
 
     const routes = [
         {
-            href: "/",
+            href: "/dashboard",
             icon: <HomeIcon className="h-5 w-5"/>,
             label: "Tổng quan",
         },
