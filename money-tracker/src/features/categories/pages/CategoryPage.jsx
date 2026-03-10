@@ -8,8 +8,27 @@ import {
 } from "@/components/ui/card"
 import { PlusIcon } from "lucide-react"
 import {useState} from "react";
+import CategoryList from "@/features/categories/components/CategoryList.jsx";
+import AddCategoryDialog from "@/features/categories/components/AddCategoryDialog.jsx";
 const CategoryPage = () => {
-    const [isAddCategoryOpen, setIsAddCategoryOpen] = useState(false);
+    // State cho dialog
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [dialogMode, setDialogMode] = useState("add")       // "add" hoặc "edit"
+    const [editingCategory, setEditingCategory] = useState(null)
+
+    // Mở dialog ở chế độ THÊM
+    const handleAdd = () => {
+        setDialogMode("add")
+        setEditingCategory(null)
+        setIsDialogOpen(true)
+    }
+
+    // Mở dialog ở chế độ SỬA
+    const handleEdit = (category) => {
+        setDialogMode("edit")
+        setEditingCategory(category)
+        setIsDialogOpen(true)
+    }
 
     return (
         <main
@@ -23,7 +42,7 @@ const CategoryPage = () => {
                             <p className="text-muted-foreground">Xem và quản lý tất cả danh mục thu chi của bạn</p>
                         </div>
                         <Button
-                            onClick={() => setIsAddCategoryOpen(true)}
+                            onClick={handleAdd}
                             className="bg-emerald-600 hover:bg-emerald-700 text-white"
                         >
                             <PlusIcon className="mr-2 h-4 w-4" />
@@ -40,9 +59,17 @@ const CategoryPage = () => {
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            {/* <TransactionList showAll={true} /> */}
+                            <CategoryList onEdit={handleEdit}/>
                         </CardContent>
                     </Card>
+
+                    {/* Dialog Thêm / Sửa */}
+                    <AddCategoryDialog
+                        open={isDialogOpen}
+                        onOpenChange={setIsDialogOpen}
+                        mode={dialogMode}
+                        category={editingCategory}
+                    />
                 </div>
             </div>
         </main>
