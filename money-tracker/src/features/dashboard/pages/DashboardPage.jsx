@@ -46,11 +46,16 @@ const DashboardPage = () => {
 
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-6">
+            <div className="grid lg:grid-cols-12 gap-6">
 
-                <RecentTransactions/>
+                <div className="lg:col-span-7">  
+                    <RecentTransactions/>
+                </div>
 
-                <BudgetProgress/>
+                <div className="lg:col-span-5">  
+                    <BudgetProgress/>
+                </div>
+
 
             </div>
 
