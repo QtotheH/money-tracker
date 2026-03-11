@@ -6,8 +6,7 @@ import {
   Legend
 } from "chart.js"
 import { Doughnut } from "react-chartjs-2"
-
-// Đăng ký các thành phần cần thiết cho biểu đồ hình tròn
+import { ArrowDownToLine, ArrowUpFromLine } from "lucide-react"// Đăng ký các thành phần cần thiết cho biểu đồ hình tròn
 ChartJS.register(
   ArcElement,
   Tooltip,
@@ -81,18 +80,35 @@ const ExpenseCategoryChart = () => {
 
   return (
     <Card className="py-6 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
-      <CardHeader className="space-y-1.5 ob-0">
-        <CardTitle className="text-2xl font-semibold tracking-tight">
-          Chi tiêu theo hạng mục
-        </CardTitle>
-            <p className="text-sm text-muted-foreground">
-            Phân bổ ngân sách của bạn trong tháng này
-            </p>
+        <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-">
+            <div className="space-y-1.5">
+                <CardTitle className="text-2xl font-semibold tracking-tight">
+                    Chi tiêu theo hạng mục
+                </CardTitle>
+                <p className="text-sm text-muted-foreground">
+                    Phân bổ ngân sách của bạn trong tháng này
+                </p>
+            </div>
+            
+            {/* Thanh lọc */}
+            <div className="flex items-center border rounded-full p-1 bg-white shadow-sm">
+                {/* Nút Thu nhập */}
+                <button title="Xem Thu Nhập" className="flex items-center justify-center w-10 h-8 rounded-full bg-emerald-50 text-emerald-600 transition-colors hover:bg-emerald-100">
+                    <ArrowDownToLine size={18} strokeWidth={2.5} />
+                </button>
+
+                <div className="w-[1px] h-4 bg-slate-200 mx-1" />
+
+                {/* Nút Chi tiêu */}
+                <button title="Xem Chi Tiêu" className="flex items-center justify-center w-10 h-8 rounded-full text-orange-500 transition-colors hover:bg-orange-50">
+                    <ArrowUpFromLine size={18} strokeWidth={2.5} />
+                </button>
+            </div>
         </CardHeader>
         {/* Phần biểu đồ */}
-      <CardContent className="h-[320px] pt-4">
-        <Doughnut data={data} options={options} />
-      </CardContent>
+        <CardContent className="h-[320px] pt-4">
+            <Doughnut data={data} options={options} />
+        </CardContent>
     </Card>
   )
 }
