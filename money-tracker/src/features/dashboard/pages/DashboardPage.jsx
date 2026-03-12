@@ -1,4 +1,4 @@
-import BalanceCards from "../components/BalanceCards"
+import BalanceCards from "../components/BalanceCardList"
 import FinancialOverviewChart from "../components/FinancialOverviewChart"
 import ExpenseCategoryChart from "../components/ExpenseCategoryChart"
 import RecentTransactions from "../components/RecentTransactions"
