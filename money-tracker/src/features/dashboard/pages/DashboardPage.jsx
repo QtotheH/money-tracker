@@ -1,8 +1,9 @@
-import BalanceCards from "../components/BalanceCards"
+import BalanceCards from "../components/BalanceCardList"
 import FinancialOverviewChart from "../components/FinancialOverviewChart"
 import ExpenseCategoryChart from "../components/ExpenseCategoryChart"
 import RecentTransactions from "../components/RecentTransactions"
 import BudgetProgress from "../components/BudgetProgress"
+import GoalProgress from "../components/GoalProgress"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 
@@ -47,18 +48,20 @@ const DashboardPage = () => {
             </div>
 
             <div className="grid lg:grid-cols-12 gap-6">
-
                 <div className="lg:col-span-7">  
                     <RecentTransactions/>
                 </div>
 
-                <div className="lg:col-span-5">  
-                    <BudgetProgress/>
+                <div className="lg:col-span-5 space-y-5"> 
+                    <div>
+                        <BudgetProgress/>
+                    </div> 
+                    <div>
+                        <GoalProgress/>
+                    </div> 
                 </div>
-
-
+                
             </div>
-
         </div>
     </main>
 

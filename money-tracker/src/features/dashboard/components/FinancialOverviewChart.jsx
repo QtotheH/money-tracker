@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import FinancialChartFilter from "@/features/dashboard/components/FinancialChartFilter.jsx";
 import {
   Chart as ChartJS,
   CategoryScale,   // Trục X (tháng)
@@ -105,20 +106,24 @@ const FinancialOverviewChart = () => {
 
   return (
     <Card className="py-6 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
-      <CardHeader className="space-y-1 pb-0">
-        {/* style={{ 
-            fontSize: '1.5rem', // tương đương h2
-            fontWeight: '700',
-            color: '#1a1a1a',
-            marginBottom: '0.5rem'
-            }} */}
-        <CardTitle className="text-2xl font-semibold tracking-tight"> 
-            Tổng quan tài chính
-        </CardTitle>
-        <p className="text-sm text-muted-foreground">
-          Thu nhập và chi tiêu trong 6 tháng gần đây
-        </p>
-      </CardHeader>
+        <CardHeader className="pb-0">
+            <div className="flex items-start justify-between">
+                
+                {/* Bên trái */}
+                <div className="space-y-1">
+                <CardTitle className="text-2xl font-semibold tracking-tight">
+                    Tổng quan tài chính
+                </CardTitle>
+                <p className="text-sm text-muted-foreground">
+                    Thu nhập và chi tiêu các tháng gần đây
+                </p>
+                </div>
+
+                {/*  Filter */}
+                <FinancialChartFilter />
+
+            </div>
+        </CardHeader>
 
     {/* Phần biểu đồ */}
       <CardContent className="h-[320px] pt-4">

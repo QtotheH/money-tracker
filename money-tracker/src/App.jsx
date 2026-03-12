@@ -4,6 +4,7 @@ import LoginPage from "@/features/auth/pages/LoginPage.jsx";
 import RegisterPage from "@/features/auth/pages/RegisterPage.jsx";
 import ProfilePage from "@/features/profile/pages/ProfilePage.jsx";
 import DashboardPage from "@/features/dashboard/pages/DashboardPage.jsx";
+import BudgetPage from "@/features/budgets/pages/BudgetPage.jsx";
 import Sidebar from "@/components/layout/Sidebar.jsx";
 
 
@@ -19,6 +20,7 @@ function App() {
                     <Route path="/register" element={<RegisterPage/>}/>
                     <Route path="/profile" element={<ProfilePage/>}/>
                     <Route path="/dashboard" element={<DashboardPage/>}/>
+                    <Route path="/budgets" element={<BudgetPage/>}/>
                 </Routes>
             </div>
         </div>

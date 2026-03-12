@@ -1,41 +1,44 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Eye, Utensils, Car, Heart } from "lucide-react"
+import { Home, Car, Heart, Eye } from "lucide-react"
 
-import BudgetList from "./BudgetList"
+import GoalList from "./GoalList"
 
-const budgets = [
+const goals = [
   {
-    name: "Ăn uống",
-    spent: 450,
-    total: 500,
-    icon: <Utensils className="size-4" />,
-    color: "bg-emerald-500",
+    name: "Nhà ở",
+    targetDate: "30/12/2023",
+    spent: 850,
+    total: 1000,
+    daysLeft: 2,
+    icon: <Home className="size-5" />,
   },
   {
     name: "Di chuyển",
+    targetDate: "30/12/2023",
     spent: 300,
-    total: 400,
-    icon: <Car className="size-4" />,
-    color: "bg-emerald-500",
+    total: 1000,
+    daysLeft: 2,
+    icon: <Car className="size-5" />,
   },
   {
     name: "Giải trí",
-    spent: 200,
-    total: 300,
-    icon: <Heart className="size-4" />,
-    color: "bg-emerald-500",
+    targetDate: "30/12/2023",
+    spent: 600,
+    total: 1000,
+    daysLeft: 2,
+    icon: <Heart className="size-5" />,
   },
 ]
 
-const BudgetProgress = () => {
+const GoalProgress = () => {
   return (
     <Card className="py-6 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
 
       <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
 
         <div className="space-y-1">
-          <CardTitle className="text-2xl font-bold tracking-tight">
-            Tiến độ ngân sách
+          <CardTitle className="text-2xl font-bold tracking-tight text-slate-900">
+            Tiến độ mục tiêu
           </CardTitle>
 
           <p className="text-sm text-muted-foreground">
@@ -53,11 +56,11 @@ const BudgetProgress = () => {
       </CardHeader>
 
       <CardContent>
-        <BudgetList budgets={budgets} />
+        <GoalList goals={goals} />
       </CardContent>
 
     </Card>
   )
 }
 
-export default BudgetProgress
+export default GoalProgress
