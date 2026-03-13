@@ -1,9 +1,9 @@
-import BalanceCards from "../components/BalanceCardList"
-import FinancialOverviewChart from "../components/FinancialOverviewChart"
-import ExpenseCategoryChart from "../components/ExpenseCategoryChart"
-import RecentTransactions from "../components/RecentTransactions"
-import BudgetProgress from "../components/BudgetProgress"
-import GoalProgress from "../components/GoalProgress"
+import BalanceCardList from "@/features/dashboard/components/BalanceCardList.jsx";
+import FinancialOverviewChart from "@/features/dashboard/components/FinancialOverviewChart.jsx";
+import ExpenseCategoryChart from "@/features/dashboard/components/ExpenseCategoryChart.jsx";
+import RecentTransactions from "@/features/dashboard/components/RecentTransactions.jsx";
+import BudgetProgress from "@/features/dashboard/components/BudgetProgress.jsx";
+import GoalProgress from "@/features/dashboard/components/GoalProgress.jsx";
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 
@@ -33,7 +33,7 @@ const DashboardPage = () => {
 
             </div>
 
-            <BalanceCards/>
+            <BalanceCardList/>
 
             <div className="grid lg:grid-cols-12 gap-6">
 
@@ -47,20 +47,20 @@ const DashboardPage = () => {
 
             </div>
 
+            {/* TODO: Fix giao diện - 2 cột RecentTransaction và Budgets - Goals chiều cao không bằng nhau */}
             <div className="grid lg:grid-cols-12 gap-6">
-                <div className="lg:col-span-7">  
+                <div className="lg:col-span-7">
                     <RecentTransactions/>
                 </div>
 
-                <div className="lg:col-span-5 space-y-5"> 
+                <div className="lg:col-span-5 space-y-5">
                     <div>
                         <BudgetProgress/>
-                    </div> 
+                    </div>
                     <div>
                         <GoalProgress/>
-                    </div> 
+                    </div>
                 </div>
-                
             </div>
         </div>
     </main>

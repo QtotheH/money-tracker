@@ -1,4 +1,4 @@
-import GoalItem from "./GoalItem"
+import GoalItem from "@/features/dashboard/components/GoalItem.jsx";
 
 const GoalList = ({ goals }) => {
   return (
