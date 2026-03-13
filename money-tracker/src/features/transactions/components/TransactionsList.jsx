@@ -154,7 +154,7 @@ function TransactionsList({ limit, showAll = false }) {
         </div>
       )}
 
-      <div className="space-y-2">
+      <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
         {limitedTransactions.map((transaction) => (
           <div
             key={transaction.id}

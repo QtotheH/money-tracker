@@ -49,13 +49,13 @@ function AddTransactionDialog({ open, onOpenChange }) {
           <div className="grid gap-4 py-4">
             <RadioGroup value={transactionType} onValueChange={setTransactionType} className="grid grid-cols-2 gap-4">
               <div className="flex items-center space-x-2 rounded-md border p-3">
-                <RadioGroupItem value="expense" id="expense" />
+                <RadioGroupItem value="expense" id="expense" className="border-emerald-600 text-emerald-600" />
                 <Label htmlFor="expense" className="flex-1">
                   Chi tiêu
                 </Label>
               </div>
               <div className="flex items-center space-x-2 rounded-md border p-3">
-                <RadioGroupItem value="income" id="income" />
+                <RadioGroupItem value="income" id="income" className="border-emerald-600 text-emerald-600" />
                 <Label htmlFor="income" className="flex-1">
                   Thu nhập
                 </Label>
@@ -140,7 +140,7 @@ function AddTransactionDialog({ open, onOpenChange }) {
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Hủy
             </Button>
-            <Button type="submit">Thêm giao dịch</Button>
+            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white" type="submit">Thêm giao dịch</Button>
           </DialogFooter>
         </form>
       </DialogContent>
