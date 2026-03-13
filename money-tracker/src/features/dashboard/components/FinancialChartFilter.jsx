@@ -1,0 +1,27 @@
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+const FinancialChartFilter = () => {
+  return (
+     <Select defaultValue="6months">
+        <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Chọn thời gian" />
+        </SelectTrigger>
+
+        <SelectContent>
+            <SelectItem value="1month">Tháng trước</SelectItem>
+            <SelectItem value="3months">3 tháng gần đây</SelectItem>
+            <SelectItem value="6months">6 tháng gần đây</SelectItem>
+            <SelectItem value="1year">Năm trước</SelectItem>
+        </SelectContent>
+    </Select>
+  )
+}
+
+export default FinancialChartFilter
+     

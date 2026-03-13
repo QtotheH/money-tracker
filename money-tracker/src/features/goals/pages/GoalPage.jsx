@@ -4,6 +4,19 @@ import { PlusIcon } from "lucide-react";
 import GoalCard from "@/features/goals/components/GoalCard";
 import AddGoalDialog from "@/features/goals/components/AddGoalModalDialog";
 
+const goals = [
+    {
+      id: nanoid(),
+      name: "Quỹ khẩn cấp",
+      date: "31/12/2025",
+      current: 6500,
+      target: 10000,
+      iconClass: "fa-regular fa-house",
+        iconName: "house",
+    },
+    
+  ];
+
 const GoalsPage = () => {
   const [open, setOpen] = useState(false);
 
@@ -16,7 +29,6 @@ const GoalsPage = () => {
     <main className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
       {/* Chia 2 thành phần */}
       <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col space-y-6">
           {/* Thành phần thứ nhất */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
@@ -35,10 +47,9 @@ const GoalsPage = () => {
               Thêm mục tiêu
             </Button>
           </div>
-        </div>
+        {/* CARD */}
+        <GoalCard />
       </div>
-      {/* CARD */}
-      <GoalCard />
 
       <AddGoalDialog open={open} setOpen={setOpen} addGoal={addGoal} />
     </main>

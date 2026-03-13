@@ -66,45 +66,6 @@ const LoginForm = () => {
           Đăng nhập
         </Button>
 
-        {/* Divider */}
-        <div className="flex items-center gap-3 my-4">
-          <div className="flex-1 h-px bg-gray-200"/>
-          <span className="text-xs text-muted-foreground">
-            Hoặc đăng nhập bằng
-          </span>
-          <div className="flex-1 h-px bg-gray-200"/>
-        </div>
-
-        {/* Login mạng xã hội */}
-        <div className="flex justify-center gap-4">
-            {/* Google */}
-            <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full bg-gray-100 hover:bg-gray-200 border-none"
-            >
-                <i className="fa-brands fa-google text-[#DB4437] text-lg"></i>
-            </Button>
-
-            {/* Twitter */}
-            <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full bg-gray-100 hover:bg-gray-200 border-none"
-            >
-                <i className="fa-brands fa-twitter text-[#1DA1F2] text-lg"></i>
-            </Button>
-
-            {/* Facebook */}
-            <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full bg-gray-100 hover:bg-gray-200 border-none"
-            >
-                <i className="fa-brands fa-facebook-f text-[#1877F2] text-lg"></i>
-            </Button>
-        </div>
-
       </CardContent>
 
     </Card>

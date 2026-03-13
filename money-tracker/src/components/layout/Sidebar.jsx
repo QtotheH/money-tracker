@@ -70,20 +70,20 @@ function Sidebar({ className }) {
             <div className="h-8 w-8 rounded-full bg-emerald-600 flex items-center justify-center">
               <DollarSignIcon className="h-5 w-5 text-white" />
             </div>
-            <h1 className="text-2xl font-bold">Money Tracker</h1>
+            <h1 className="text-xl font-bold">Money Tracker</h1>
           </div>
           <div className="space-y-1">
             {routes.map((route) => (
               <Button
                 key={route.href}
                 variant={pathname === route.href ? "secondary" : "ghost"}
-                size="sm"
-                className="w-full justify-start py-5 mb-1 transition-colors"
+                size="lg"
+                className="w-full justify-start py-5 mb-3 transition-colors"
                 asChild
               >
                 <Link to={route.href} className="pt-6 pb-6">
                   {route.icon}
-                  <span className="ml-2 text-xl">{route.label}</span>
+                  <span className="ml-2 text-lg">{route.label}</span>
                 </Link>
               </Button>
             ))}

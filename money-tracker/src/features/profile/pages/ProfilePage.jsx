@@ -1,7 +1,6 @@
 import ProfileAvatar from "../components/ProfileAvatar"
 import PersonalInfoTab from "../components/PersonalInfoTab"
 import SecurityTab from "../components/SecurityTab"
-import PreferencesTab from "../components/PreferencesTab"
 
 import {
   Tabs,
@@ -32,20 +31,16 @@ const ProfilePage = () => {
 
                 <div className="lg:col-span-2">
                 {/* orientation="vertical"  -> Đặt tab theo trục dọc*/}
-                <Tabs defaultValue="personal" className="p-3">
+                <Tabs defaultValue="personal" className="">
                     {/* variant="line"  -> Đặt tab theo trục dọc*/}
-                    <TabsList className="mb-4 bg-gray-100 p-1 rounded-lg">
+                    <TabsList className="mb-4 bg-gray-100 rounded-lg p-1">
 
-                        <TabsTrigger value="personal" >
+                        <TabsTrigger value="personal">
                             Thông tin cá nhân
                         </TabsTrigger>
 
                         <TabsTrigger value="security">
                             Bảo mật
-                        </TabsTrigger>
-
-                        <TabsTrigger value="preferences">
-                            Tùy chọn
                         </TabsTrigger>
 
                     </TabsList>
@@ -58,9 +53,6 @@ const ProfilePage = () => {
                         <SecurityTab />
                     </TabsContent>
 
-                    <TabsContent value="preferences">
-                        <PreferencesTab />
-                    </TabsContent>
 
                 </Tabs>
 

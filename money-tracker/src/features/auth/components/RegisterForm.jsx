@@ -117,45 +117,7 @@ const RegisterForm = () => {
         <Button className="w-full bg-emerald-600 hover:bg-emerald-700">
           Đăng ký
         </Button>
-
-        {/* Divider */}
-        <div className="flex items-center gap-3 my-4">
-          <div className="flex-1 h-px bg-gray-200"/>
-          <span className="text-xs text-muted-foreground">
-            Hoặc đăng ký bằng
-          </span>
-          <div className="flex-1 h-px bg-gray-200"/>
-        </div>
-
-        {/* Social Register */}
-        <div className="flex justify-center gap-4">
-
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full bg-gray-100 hover:bg-gray-200 border-none"
-          >
-            <i className="fa-brands fa-google text-[#DB4437] text-lg"></i>
-          </Button>
-
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full bg-gray-100 hover:bg-gray-200 border-none"
-          >
-            <i className="fa-brands fa-twitter text-[#1DA1F2] text-lg"></i>
-          </Button>
-
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full bg-gray-100 hover:bg-gray-200 border-none"
-          >
-            <i className="fa-brands fa-facebook-f text-[#1877F2] text-lg"></i>
-          </Button>
-
-        </div>
-
+        
       </CardContent>
 
     </Card>
