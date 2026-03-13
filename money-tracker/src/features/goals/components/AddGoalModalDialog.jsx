@@ -15,18 +15,13 @@ const AddGoalModal = ({ open, setOpen }) => {
   const [currentAmount, setCurrentAmount] = useState("");
   const [targetDate, setTargetDate] = useState("");
 
+  
+
   const handleAddGoal = () => {
     if (!goalName || !targetAmount || !targetDate) {
       alert("Vui lòng nhập đầy đủ thông tin");
       return;
     }
-    const newGoal = {
-      id: Date.now(),
-      name: goalName,
-      target: Number(targetAmount),
-      current: Number(currentAmount),
-      date: targetDate,
-    };
 
     setOpen(false);
   };

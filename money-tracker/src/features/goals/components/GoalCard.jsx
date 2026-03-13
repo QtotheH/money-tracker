@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 
 import React from "react";
-import GoalList from "./GoalList";
+import GoalList from "@/features/goals/components/GoalList";
 
 const GoalCard = () => {
   return (
@@ -21,7 +21,7 @@ const GoalCard = () => {
         </p>
       </CardHeader>
 
-      <CardContent className="max-h-[450px] overflow-y-auto custom-scrollbar">
+      <CardContent>
         <GoalList />
       </CardContent>
     </Card>

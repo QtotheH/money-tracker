@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import React from "react";
-import CurrencySelect from "./CurrencySelect";
+import CurrencySelect from "@/features/settings/components/CurrencySelect";
 import { Toggle } from "@/components/ui/toggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun } from "@fortawesome/free-regular-svg-icons";

@@ -30,9 +30,7 @@ const CurrencySelect = () => {
           </SelectGroup>
         </SelectContent>
       </Select>
-      {/* <div>
-        <Switch className="data-[state=checked]:bg-green-600" />
-      </div> */}
+      
     </div>
   );
 };

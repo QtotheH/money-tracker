@@ -1,6 +1,6 @@
 import React from "react";
-import AppearanceCard from "../components/AppearanceCard";
-import NotificationCard from "../components/NotificationCard";
+import AppearanceCard from "@/features/settings/components/AppearanceCard";
+import NotificationCard from "@/features/settings/components/NotificationCard";
 
 const SettingPage = () => {
   return (

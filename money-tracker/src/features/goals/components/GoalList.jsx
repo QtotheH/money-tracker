@@ -1,11 +1,12 @@
 import React from "react";
-import GoalItem from "./GoalItem";
+import GoalItem from "@/features/goals/components/GoalItem";
 import { faHouse } from "@fortawesome/free-regular-svg-icons";
 import { faPlane } from "@fortawesome/free-solid-svg-icons";
+import { nanoid } from "@reduxjs/toolkit";
 const GoalList = () => {
   const goals = [
     {
-      id: 1,
+      id: nanoid(),
       name: "Quỹ khẩn cấp",
       date: "31/12/2025",
       current: 6500,
@@ -13,7 +14,7 @@ const GoalList = () => {
       icon: faHouse,
     },
     {
-      id: 2,
+      id: nanoid(),
       name: "Du lịch",
       date: "3/1/2025",
       current: 8500,
@@ -70,7 +71,7 @@ const GoalList = () => {
     },
   ];
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-h-[450px] overflow-y-auto custom-scrollbar pr-2">
       {goals.map((goal) => (
         <GoalItem key={goal.id} goal={goal} />
       ))}

@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
-import GoalProgress from "./GoalProgress";
+import GoalProgress from "@/features/goals/components/GoalProgress";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import AddFund from "./AddFund";
+import AddFund from "@/features/goals/components/AddFund";
 
 const GoalItem = ({ goal }) => {
   const [add, setAdd] = useState(false);
@@ -34,7 +34,7 @@ const GoalItem = ({ goal }) => {
       </div>
       <GoalProgress value={progress} />
       <div className="flex justify-between text-sm mt-1">
-        <span>{goal.current}VNĐ</span>
+        <span>{goal.current.toLocaleString()}VNĐ</span>
 
         <span className="text-muted-foreground">{goal.target}VNĐ goal</span>
       </div>
