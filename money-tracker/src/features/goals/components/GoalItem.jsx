@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import GoalProgress from "@/features/goals/components/GoalProgress";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import AddFund from "@/features/goals/components/AddFund";
+import AddFundDialog from "@/features/goals/components/AddFundDialog";
 
 const GoalItem = ({ goal }) => {
   const [add, setAdd] = useState(false);
@@ -30,7 +30,7 @@ const GoalItem = ({ goal }) => {
         >
           Thêm tiền
         </Button>
-        <AddFund add={add} setAdd={setAdd} />
+        <AddFundDialog add={add} setAdd={setAdd} />
       </div>
       <GoalProgress value={progress} />
       <div className="flex justify-between text-sm mt-1">

@@ -9,13 +9,11 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-const AddGoalModal = ({ open, setOpen }) => {
+const AddGoalDialog = ({ open, setOpen }) => {
   const [goalName, setGoalName] = useState("");
   const [targetAmount, setTargetAmount] = useState("");
   const [currentAmount, setCurrentAmount] = useState("");
   const [targetDate, setTargetDate] = useState("");
-
-  
 
   const handleAddGoal = () => {
     if (!goalName || !targetAmount || !targetDate) {
@@ -101,4 +99,4 @@ const AddGoalModal = ({ open, setOpen }) => {
   );
 };
 
-export default AddGoalModal;
+export default AddGoalDialog;

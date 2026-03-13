@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import GoalCard from "@/features/goals/components/GoalCard";
-import AddGoalModal from "@/features/goals/components/AddGoalModalDialog";
+import AddGoalDialog from "@/features/goals/components/AddGoalModalDialog";
 
 const GoalsPage = () => {
   const [open, setOpen] = useState(false);
@@ -40,7 +40,7 @@ const GoalsPage = () => {
       {/* CARD */}
       <GoalCard />
 
-      <AddGoalModal open={open} setOpen={setOpen} addGoal={addGoal} />
+      <AddGoalDialog open={open} setOpen={setOpen} addGoal={addGoal} />
     </main>
   );
 };

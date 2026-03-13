@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-const AddFund = ({ add, setAdd }) => {
+const AddFundDialog = ({ add, setAdd }) => {
   return (
     <Dialog open={add} onOpenChange={setAdd}>
       <DialogContent className="sm:max-w-[400px]">
@@ -47,4 +47,4 @@ const AddFund = ({ add, setAdd }) => {
   );
 };
 
-export default AddFund;
+export default AddFundDialog;
