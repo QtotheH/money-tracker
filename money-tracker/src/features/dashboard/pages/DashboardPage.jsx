@@ -47,6 +47,7 @@ const DashboardPage = () => {
 
             </div>
 
+            {/* TODO: Fix giao diện - 2 cột RecentTransaction và Budgets - Goals chiều cao không bằng nhau */}
             <div className="grid lg:grid-cols-12 gap-6">
                 <div className="lg:col-span-7">
                     <RecentTransactions/>
