@@ -13,9 +13,9 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-const AddFundDialog = ({ add, setAdd }) => {
+const AddFundDialog = ({ open, setOpenChange }) => {
   return (
-    <Dialog open={add} onOpenChange={setAdd}>
+    <Dialog open={open} onOpenChange={setOpenChange}>
       <DialogContent className="sm:max-w-[400px]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">Thêm tiền</DialogTitle>
@@ -35,7 +35,7 @@ const AddFundDialog = ({ add, setAdd }) => {
           </div>
         </div>
         <div className="flex justify-end gap-3">
-          <Button variant="outline" onClick={() => setAdd(false)}>
+          <Button variant="outline" onClick={() => setOpenChange(false)}>
             Hủy
           </Button>
           <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">

@@ -5,14 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AddFundDialog from "@/features/goals/components/AddFundDialog";
 
 const GoalItem = ({ goal }) => {
-  const [add, setAdd] = useState(false);
-  const progress = (goal.current / goal.target) * 100;
+  const [isAddFundOpen, setIsAddFundOpen] = useState(false);
+  const progress = Math.round((goal.current / goal.target) * 100);
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-3">
-          <FontAwesomeIcon icon={goal.icon} size="lg" />
-
+          <i className={goal.iconClass}></i>
           <div>
             <p className="font-medium text-lg">{goal.name}</p>
             <p className="text-xs text-muted-foreground">
@@ -23,20 +22,20 @@ const GoalItem = ({ goal }) => {
 
         <Button
           onClick={() => {
-            setAdd(true);
+            setIsAddFundOpen(true);
           }}
           variant="outline"
           size="lg"
         >
           Thêm tiền
         </Button>
-        <AddFundDialog add={add} setAdd={setAdd} />
+        <AddFundDialog open={isAddFundOpen} setOpenChange={setIsAddFundOpen} />
       </div>
       <GoalProgress value={progress} />
       <div className="flex justify-between text-sm mt-1">
-        <span>{goal.current.toLocaleString()}VNĐ</span>
+        <span>₫{goal.current.toLocaleString()}</span>
 
-        <span className="text-muted-foreground">{goal.target}VNĐ goal</span>
+        <span className="text-muted-foreground">₫{goal.target.toLocaleString()} đã đạt</span>
       </div>
     </div>
   );
