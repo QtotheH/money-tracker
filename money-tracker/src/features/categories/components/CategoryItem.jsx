@@ -12,7 +12,8 @@ const CategoryItem = ({category, onEdit}) => {
             {/* Bên trái: Icon + Thông tin */}
             <div className="flex items-center gap-3">
                 <div className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800">
-                    {icon}
+                    {/* {icon} */}
+                    <i className={category.iconClass}></i>
                 </div>
                 <div>
                     <p className="font-medium">{categoryName}</p>

@@ -72,13 +72,13 @@ function Sidebar({className}) {
                             <Button
                                 key={route.href}
                                 variant={pathname === route.href ? "secondary" : "ghost"}
-                                size="sm"
-                                className="w-full justify-start py-5 mb-1 transition-colors"
+                                size="lg"
+                                className="w-full justify-start py-5 mb-3 transition-colors"
                                 asChild
                             >
                                 <Link to={route.href}>
                                     {route.icon}
-                                    <span className="ml-2">{route.label}</span>
+                                    <span className="ml-2 text-lg">{route.label}</span>
                                 </Link>
                             </Button>
                         ))}
