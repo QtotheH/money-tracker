@@ -6,7 +6,7 @@ import {
   ClipboardList,
   UserIcon,
   SettingsIcon,
-  LogOutIcon,
+  LogOutIcon, Minimize2,
 } from "lucide-react";
 import { Link, useLocation } from "react-router";
 
@@ -16,9 +16,8 @@ import { Toggle } from "@/components/ui/toggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun } from "@fortawesome/free-regular-svg-icons";
 
-// import { ThemeToggle } from "@/components/layout/ThemeToggle"
 
-function Sidebar({ className }) {
+function Sidebar({ className, onCloseSidebar }) {
   const location = useLocation();
   const pathname = location.pathname;
 
@@ -64,13 +63,18 @@ function Sidebar({ className }) {
     <div
       className={cn("h-full bg-white dark:bg-slate-950 shadow-sm", className)}
     >
-      <div className="flex flex-col h-full w-66">
+      <div className="flex flex-col h-full w-72">
         <div className="p-6">
-          <div className="flex items-center gap-2 mb-8">
-            <div className="h-8 w-8 rounded-full bg-emerald-600 flex items-center justify-center">
-              <DollarSignIcon className="h-5 w-5 text-white" />
+          <div className="flex justify-between items-center mb-8">
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-full bg-emerald-600 flex items-center justify-center">
+                <DollarSignIcon className="h-5 w-5 text-white" />
+              </div>
+              <h1 className="text-lg font-bold">Money Tracker</h1>
             </div>
-            <h1 className="text-xl font-bold">Money Tracker</h1>
+            <Button size="sm" variant="ghost" onClick={() => onCloseSidebar(false)}>
+              <Minimize2 />
+            </Button>
           </div>
           <div className="space-y-1">
             {routes.map((route) => (
@@ -78,7 +82,7 @@ function Sidebar({ className }) {
                 key={route.href}
                 variant={pathname === route.href ? "secondary" : "ghost"}
                 size="lg"
-                className="w-full justify-start py-5 mb-3 transition-colors"
+                className="w-full justify-start py-5 mb-2 transition-colors"
                 asChild
               >
                 <Link to={route.href} className="pt-6 pb-6">
@@ -102,7 +106,6 @@ function Sidebar({ className }) {
             </div>
             <div>
               <p className="text-lg font-medium">Q to the H</p>
-              {/* <p className="text-xs text-muted-foreground">Premium Account</p> */}
             </div>
             <Button variant="ghost" size="icon" className="ml-auto">
               <LogOutIcon className="h-4 w-4" />

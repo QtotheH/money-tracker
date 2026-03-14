@@ -11,7 +11,7 @@ const DashboardPage = () => {
   return (
      <main
         className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-        <div className="p-6 space-y-6">
+        <div className="container mx-auto p-6 space-y-6">
 
             {/* Header */}
             <div className="flex justify-between items-center">

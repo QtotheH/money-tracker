@@ -6,6 +6,17 @@ import { Button } from "@/components/ui/button"
 import TransactionsList from "@/features/transactions/components/TransactionsList"
 import AddTransactionDialog from "@/features/transactions/components/AddTransactionDialog"
 
+/* const transactions = [
+  {
+    id: nanoid(), // string
+    description: "Mô tả cho giao dịch", //string
+    amount: 0, // number
+    type: "loại giao dịch", // income | expense: string
+    date: "ngày tạo gdich", // Date()
+    categoryId: "mã danh mục", // string
+  },
+] */
+
 const TransactionPage = () => {
   const [isAddTransactionOpen, setIsAddTransactionOpen] = useState(false)
 

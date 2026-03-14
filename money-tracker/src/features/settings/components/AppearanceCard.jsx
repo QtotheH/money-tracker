@@ -13,7 +13,7 @@ import { faSun } from "@fortawesome/free-regular-svg-icons";
 
 const AppearanceCard = () => {
   return (
-    <Card className="p-5">
+    <Card className="p-4">
       <CardHeader>
         <CardTitle className="text-2xl">Appearance</CardTitle>
         <CardDescription>
