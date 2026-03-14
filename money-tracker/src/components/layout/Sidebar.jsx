@@ -6,7 +6,7 @@ import {
   ClipboardList,
   UserIcon,
   SettingsIcon,
-  LogOutIcon,
+  LogOutIcon, Minimize2,
 } from "lucide-react";
 import { Link, useLocation } from "react-router";
 
@@ -17,7 +17,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun } from "@fortawesome/free-regular-svg-icons";
 
 
-function Sidebar({ className }) {
+function Sidebar({ className, onCloseSidebar }) {
   const location = useLocation();
   const pathname = location.pathname;
 
@@ -63,13 +63,18 @@ function Sidebar({ className }) {
     <div
       className={cn("h-full bg-white dark:bg-slate-950 shadow-sm", className)}
     >
-      <div className="flex flex-col h-full w-64">
+      <div className="flex flex-col h-full w-72">
         <div className="p-6">
-          <div className="flex items-center gap-2 mb-8">
-            <div className="h-8 w-8 rounded-full bg-emerald-600 flex items-center justify-center">
-              <DollarSignIcon className="h-5 w-5 text-white" />
+          <div className="flex justify-between items-center mb-8">
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-full bg-emerald-600 flex items-center justify-center">
+                <DollarSignIcon className="h-5 w-5 text-white" />
+              </div>
+              <h1 className="text-lg font-bold">Money Tracker</h1>
             </div>
-            <h1 className="text-xl font-bold">Money Tracker</h1>
+            <Button size="sm" variant="ghost" onClick={() => onCloseSidebar(false)}>
+              <Minimize2 />
+            </Button>
           </div>
           <div className="space-y-1">
             {routes.map((route) => (
