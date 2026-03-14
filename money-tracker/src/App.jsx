@@ -12,8 +12,8 @@ import SettingPage from "./features/settings/pages/SettingPage.jsx";
 function App() {
   return (
     <div className="flex min-h-screen">
-      <Sidebar className="hidden md:block w-64 border-r" />
-      <div className="flex-1 overflow-auto">
+      <Sidebar className="hidden fixed md:block w-64 border-r" />
+      <div className="flex-1 overflow-auto ml-64">
         <Routes>
           <Route path="/categories" element={<CategoryPage />} />
           <Route path="/login" element={<LoginPage />} />

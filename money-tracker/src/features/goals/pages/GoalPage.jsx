@@ -18,7 +18,7 @@ const initialGoals = [
     {
         id: nanoid(),
         name: "Quỹ khẩn cấp",
-        date: "31/12/2025",
+        targetDate: "01/01/2026",
         current: 6500,
         target: 10000,
         iconClass: "fa-regular fa-house",
@@ -26,8 +26,8 @@ const initialGoals = [
     },
     {
         id: nanoid(),
-        name: "Quỹ khẩn cấp",
-        date: "31/12/2025",
+        name: "Du lịch",
+        targetDate: "09/06/2026",
         current: 6500,
         target: 10000,
         iconClass: "fa-regular fa-house",
@@ -35,8 +35,8 @@ const initialGoals = [
     },
     {
         id: nanoid(),
-        name: "Quỹ khẩn cấp",
-        date: "31/12/2025",
+        name: "Mua nhà",
+        targetDate: "08/17/2026",
         current: 6500,
         target: 10000,
         iconClass: "fa-regular fa-house",
@@ -44,8 +44,8 @@ const initialGoals = [
     },
     {
         id: nanoid(),
-        name: "Quỹ khẩn cấp",
-        date: "31/12/2025",
+        name: "Học phí đại học",
+        targetDate: "09/05/2026",
         current: 6500,
         target: 10000,
         iconClass: "fa-regular fa-house",
@@ -53,14 +53,13 @@ const initialGoals = [
     },
     {
         id: nanoid(),
-        name: "Quỹ khẩn cấp",
-        date: "31/12/2025",
+        name: "Mua xe máy",
+        targetDate: "04/30/2026",
         current: 6500,
         target: 10000,
         iconClass: "fa-regular fa-house",
         iconName: "house",
     },
-
 ];
 
 const GoalsPage = () => {

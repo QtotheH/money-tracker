@@ -10,6 +10,70 @@ import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 import CategoryList from "@/features/categories/components/CategoryList.jsx";
 import AddCategoryDialog from "@/features/categories/components/AddCategoryDialog.jsx";
+
+const categories = [
+  {
+    id: "1",
+    categoryName: "Ăn uống",
+    iconClass: "fa-regular fa-utensils",
+    iconName: "utensils",
+  },
+  {
+    id: "2",
+    categoryName: "Lương",
+    iconClass: "fa-regular fa-dollar-sign",
+    iconName: "dollar-sign",
+  },
+  {
+    id: "3",
+    categoryName: "Thuê nhà",
+    iconClass: "fa-regular fa-house",
+    iconName: "house",
+  },
+  {
+    id: "4",
+    categoryName: "Học phí",
+    iconClass: "fa-regular fa-graduation-cap",
+    iconName: "graduation-cap",
+  },
+  {
+    id: "5",
+    categoryName: "Quà sinh nhật",
+    iconClass: "fa-regular fa-gift",
+    iconName: "gift",
+  },
+  {
+    id: "6",
+    categoryName: "Gói đăng ký Youtube",
+    iconClass: "fa-brands fa-youtube",
+    iconName: "youtube",
+  },
+  {
+    id: "7",
+    categoryName: "Gói đăng ký Spotify",
+    iconClass: "fa-brands fa-spotify",
+    iconName: "spotify",
+  },
+  {
+    id: "8",
+    categoryName: "Vé xem phim",
+    iconClass: "fa-regular fa-film",
+    iconName: "film",
+  },
+  {
+    id: "9",
+    categoryName: "Đổ xăng",
+    iconClass: "fa-regular fa-gas-pump",
+    iconName: "gas-pump",
+  },
+  {
+    id: "10",
+    categoryName: "Bảo dưỡng xe",
+    iconClass: "fa-regular fa-screwdriver-wrench",
+    iconName: "screwdriver-wrench",
+  },
+]
+
 const CategoryPage = () => {
   // State cho dialog
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -62,7 +126,7 @@ const CategoryPage = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <CategoryList onEdit={handleEdit} />
+              <CategoryList categories={categories} onEdit={handleEdit} />
             </CardContent>
           </Card>
 

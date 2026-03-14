@@ -17,13 +17,13 @@ const CurrencySelect = () => {
         </p>
       </div>
       <Select defaultValue="vnd">
-        <SelectTrigger className="w-72">
+        <SelectTrigger className="max-w-65">
           <SelectValue placeholder="VNĐ"></SelectValue>
         </SelectTrigger>
 
         <SelectContent>
           <SelectGroup>
-            <SelectItem value="vnd">VND (đ)</SelectItem>
+            <SelectItem value="vnd">Việt Nam Đồng (₫)</SelectItem>
             <SelectItem value="usd">USD ($)</SelectItem>
             <SelectItem value="eur">Euro (€)</SelectItem>
             <SelectItem value="gbp">Bảng Anh (£)</SelectItem>

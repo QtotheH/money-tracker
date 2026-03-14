@@ -10,7 +10,7 @@ import { Switch } from "@/components/ui/switch";
 
 const NotificationCard = () => {
   return (
-    <Card className="p-5">
+    <Card className="p-4">
       <CardHeader>
         <CardTitle className="text-2xl">Thông báo</CardTitle>
         <CardDescription>Quản lý thông báo yêu thích của bạn</CardDescription>
@@ -31,9 +31,9 @@ const NotificationCard = () => {
 
         <div className="flex items-center justify-between">
           <div>
-            <p className="font-medium text-lg">Nhắc nhở thanh toán</p>
+            <p className="font-medium text-lg">Nhắc nhở đạt mục tiêu</p>
             <p className="text-muted-foreground">
-              Nhận thông báo nhắc nhở cho kì thông báo sắp đến
+              Nhận thông báo nhắc nhở khi sắp đạt mục tiêu tiết kiệm
             </p>
           </div>
           <div>

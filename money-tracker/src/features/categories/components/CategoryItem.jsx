@@ -1,7 +1,7 @@
 import {Button} from "@/components/ui/button.jsx";
 
 const CategoryItem = ({category, onEdit}) => {
-    const {id, categoryName, icon} = category;
+    const {iconClass, categoryName} = category;
     return (
         <div
             onClick={() => onEdit(category)}
@@ -11,12 +11,12 @@ const CategoryItem = ({category, onEdit}) => {
         >
             {/* Bên trái: Icon + Thông tin */}
             <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 text-emerald-600">
                     {/* {icon} */}
-                    <i className={category.iconClass}></i>
+                    <i className={iconClass}></i>
                 </div>
                 <div>
-                    <p className="font-medium">{categoryName}</p>
+                    <p className="font-medium text-[16px]">{categoryName}</p>
                 </div>
             </div>
 
