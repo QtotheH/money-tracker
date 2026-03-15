@@ -98,7 +98,7 @@ const CategoryPage = () => {
     <main className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
       <div className="container mx-auto px-4 py-8">
         {/* Page */}
-        <div className="flex flex-col space-y-6">
+        {/* <div className="flex flex-col space-y-6"> */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
               <h1 className="text-3xl font-bold tracking-tight text-emerald-800 dark:text-emerald-400">
@@ -118,7 +118,7 @@ const CategoryPage = () => {
           </div>
 
           {/* Danh sách giao dịch */}
-          <Card className="card-hover-effect">
+          <Card className="mt-6">
             <CardHeader>
               <CardTitle>Tất cả danh mục</CardTitle>
               <CardDescription>
@@ -138,7 +138,7 @@ const CategoryPage = () => {
             category={editingCategory}
           />
         </div>
-      </div>
+      {/* </div> */}
     </main>
   );
 };

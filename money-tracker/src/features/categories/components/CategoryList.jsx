@@ -16,7 +16,7 @@ const CategoryList = ({categories, onEdit}) => {
             <CategoryFilter searchTerm={searchTerm} onSearchChange={setSearchTerm}/>
 
             {/* Danh sách danh mục */}
-            <div className="space-y-2 max-h-[450px] overflow-y-auto pr-2 custom-scrollbar">
+            <div className="space-y-2 max-h-[600px] md:max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
                 {filteredCategories.map((category) => (
                     <CategoryItem
                         key={category.id}

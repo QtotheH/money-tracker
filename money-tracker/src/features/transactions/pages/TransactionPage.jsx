@@ -3,7 +3,7 @@ import { PlusIcon } from "lucide-react"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import TransactionsList from "@/features/transactions/components/TransactionsList"
+import TransactionList from "@/features/transactions/components/TransactionList.jsx"
 import AddTransactionDialog from "@/features/transactions/components/AddTransactionDialog"
 
 /* const transactions = [
@@ -47,7 +47,7 @@ const TransactionPage = () => {
               <CardDescription>Lịch sử đầy đủ cho các hoạt động tài chính của bạn</CardDescription>
             </CardHeader>
             <CardContent>
-              <TransactionsList showAll={true} />
+              <TransactionList showAll={true} />
             </CardContent>
           </Card>
 

@@ -1,24 +1,29 @@
-import { Badge } from "@/components/ui/badge"
-import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge.jsx"
+import { cn } from "@/lib/utils.js"
+import {formatDateToVNDate} from "@/lib/helpers.js";
 
 const TransactionItem = ({ transaction }) => {
+  console.log(transaction)
+  const category = transaction.category;
   return (
     <div
       className="flex items-center justify-between p-4 border rounded-xl hover:bg-slate-50/50 transition-colors duration-300 ease-in-out hover:shadow-lg"
     >
       <div className="flex items-center gap-4">
 
-        <div className={`p-2.5 bg-slate-100 rounded-full ${transaction.iconBg}`}>
-          {transaction.icon}
+        <div className={`p-2.5 bg-slate-100 rounded-full`}>
+          <i
+              className={`${transaction.type === 'income' ? `text-emerald-600` : `text-rose-600`} ${category.iconClass}`}>
+          </i>
         </div>
 
         <div>
           <p className="font-semibold text-slate-900 text-[16px]">
-            {transaction.name}
+            {transaction.description}
           </p>
 
           <p className="text-[14px] text-muted-foreground">
-            {transaction.date} • {transaction.category}
+            {formatDateToVNDate(transaction.date)} • {category.categoryName}
           </p>
         </div>
 
@@ -34,7 +39,8 @@ const TransactionItem = ({ transaction }) => {
               : "text-rose-500"
           )}
         >
-          {transaction.amount}
+          {transaction.type === "income" ? '+' : '-'}
+          ₫{transaction.amount.toLocaleString()}
         </span>
 
         <Badge

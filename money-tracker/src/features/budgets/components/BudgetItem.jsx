@@ -35,12 +35,6 @@ const BudgetItem = ({ budget }) => {
       </div>
 
       {/* Progress */}
-      {/* <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden"> */}
-        {/* <div */}
-        {/*   className={`${budget.spent < budget.total ? `bg-emerald-600` : `bg-rose-600`} h-full rounded-full transition-all duration-500`} */}
-        {/*   style={{ width: `${Math.min(percentage, 100)}%` }} */}
-        {/* /> */}
-      {/* </div> */}
         <BudgetProgressBar value={Math.min(percentage, 100)} progressColor={budget.spent < budget.total ? `bg-emerald-600` : `bg-rose-600`}/>
 
       {/* Footer */}

@@ -3,7 +3,8 @@ import React, {useState} from "react";
 import GoalProgressBar from "@/features/goals/components/GoalProgressBar.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AddFundDialog from "@/features/goals/components/AddFundDialog";
-import {formatDateToVNDate, getDaysLeft} from "@/lib/goalUtils.js";
+import {getDaysLeft} from "@/lib/goalUtils.js";
+import {formatDateToVNDate} from "@/lib/helpers.js";
 
 const GoalItem = ({goal, isDashboard = false}) => {
     const [isAddFundOpen, setIsAddFundOpen] = useState(false);

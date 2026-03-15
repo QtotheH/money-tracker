@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import BudgetList from "@/features/budgets/components/BudgetList"
 import AddBudgetDialog from "@/features/budgets/components/AddBudgetDialog"
 import {nanoid} from "@reduxjs/toolkit";
-import {buildCategoryById, withCategory} from "@/lib/budgetUtils.js";
+import {buildCategoryById, withCategory} from "@/lib/helpers.js";
 
 // TODO: delete mock data
 const categories = [
