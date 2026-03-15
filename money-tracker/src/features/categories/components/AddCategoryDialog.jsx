@@ -12,7 +12,9 @@ import {cn} from "@/lib/utils.js";
 import {Label} from "@/components/ui/label.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import IconPicker from "@/features/categories/components/IconPicker.jsx";
-
+import {useDispatch, useSelector} from "react-redux";
+import {createCategory, selectAllCategoriesState} from "@/store/slices/categorySlice.js";
+import FailedAlert from "@/components/common/alert/FailedAlert.jsx";
 
 /**
  * Dialog Thêm / Sửa danh mục.
@@ -24,10 +26,16 @@ import IconPicker from "@/features/categories/components/IconPicker.jsx";
  *   - category: object|null  → Dữ liệu danh mục cần sửa (null nếu mode = "add")
  *                               { id, categoryName, iconClass }
  */
-const AddCategoryDialog = ({ open, onOpenChange, mode = "add", category = null }) => {
+const AddCategoryDialog = ({open, onOpenChange, mode = "add", category = null}) => {
+    const dispatch = useDispatch();
+    const {createStatus} = useSelector(selectAllCategoriesState);
+
     const [categoryName, setCategoryName] = useState("");
     const [selectedIcon, setSelectedIcon] = useState(null); // { name, className }
     const [isIconPickerOpen, setIsIconPickerOpen] = useState(false);
+
+    // thông báo validate
+    const [formError, setFormError] = useState("");
 
     const isEditMode = mode === "edit";
 
@@ -37,32 +45,59 @@ const AddCategoryDialog = ({ open, onOpenChange, mode = "add", category = null }
             setCategoryName(category.categoryName || "")
             setSelectedIcon(
                 category.iconClass
-                    ? { name: category.iconName || "", className: category.iconClass }
+                    ? {name: category.iconName || "", className: category.iconClass}
                     : null
             )
+            setFormError("")
         }
         // Khi mở dialog ở chế độ thêm → reset form
         if (open && !isEditMode) {
             setCategoryName("")
             setSelectedIcon(null)
+            setFormError("")
         }
     }, [open, isEditMode, category])
 
-    const handleSubmit = (e) => {
+    const validate = () => {
+        if (!categoryName.trim()) return "Vui lòng nhập tên danh mục.";
+        if (!selectedIcon?.name || !selectedIcon?.className) return "Vui lòng chọn icon cho danh mục.";
+        return "";
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const data = {
-            categoryName,
-            iconClass: selectedIcon?.className || "",
-            iconName: selectedIcon?.name || "",
+        // Validate
+        const message = validate();
+        if (message) {
+            setFormError(message);
+            return;
         }
 
-        if (isEditMode) {
-            // TODO: Gọi API hoặc dispatch Redux action để cập nhật
-            console.log("Cập nhật danh mục:", { id: category?.id, ...data })
+        // Submit
+        if (!isEditMode) {
+            try {
+                await dispatch(
+                    createCategory({
+                        categoryName,
+                        selectedIcon, // { name, className }
+                    })
+                ).unwrap();
+
+                // Reset form & đóng dialog
+                setCategoryName("");
+                setSelectedIcon(null);
+                setFormError("");
+                onOpenChange(false);
+            } catch (err) {
+                // err là message từ rejectWithValue trong thunk
+                setFormError(String(err) || "Thêm danh mục thất bại!");
+            }
+
+            return;
         } else {
-            // TODO: Gọi API hoặc dispatch Redux action để thêm mới
-            console.log("Thêm danh mục:", data)
+            // TODO: Gọi API hoặc dispatch Redux action để sửa danh mục
+            console.log("Cập nhật danh mục:")
         }
 
         // Reset form & đóng dialog
@@ -87,6 +122,13 @@ const AddCategoryDialog = ({ open, onOpenChange, mode = "add", category = null }
                     </DialogHeader>
 
                     <form onSubmit={handleSubmit}>
+                        {/* Hiển thị lỗi validate / submit */}
+                        {formError && (
+                            <FailedAlert title="Thêm danh mục thất bại" description={formError}/>
+                            /* <div className="rounded-md border border-rose-200 bg-rose-50 text-rose-700 px-3 py-2 text-sm">
+                                {formError}
+                            </div> */
+                        )}
                         <div className="grid gap-5 py-4">
                             {/* Tên danh mục */}
                             <div className="grid grid-cols-4 items-center gap-4">
@@ -96,10 +138,12 @@ const AddCategoryDialog = ({ open, onOpenChange, mode = "add", category = null }
                                 <Input
                                     id="categoryName"
                                     value={categoryName}
-                                    onChange={(e) => setCategoryName(e.target.value)}
+                                    onChange={(e) => {
+                                        setCategoryName(e.target.value);
+                                        if (formError) setFormError("");
+                                    }}
                                     className="col-span-3"
                                     placeholder="Ví dụ: Ăn uống, Lương, ..."
-                                    required
                                 />
                             </div>
 
@@ -142,14 +186,16 @@ const AddCategoryDialog = ({ open, onOpenChange, mode = "add", category = null }
                                 type="button"
                                 variant="outline"
                                 onClick={() => onOpenChange(false)}
+                                disabled={createStatus === 'loading'}
                             >
                                 Hủy
                             </Button>
                             <Button
                                 type="submit"
                                 className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                                disabled={createStatus === 'loading'}
                             >
-                                {isEditMode ? "Lưu thay đổi" : "Thêm"}
+                                {createStatus === 'loading' ? "Đang lưu..." : isEditMode ? "Lưu thay đổi" : "Thêm"}
                             </Button>
                         </DialogFooter>
                     </form>
@@ -160,7 +206,10 @@ const AddCategoryDialog = ({ open, onOpenChange, mode = "add", category = null }
             <IconPicker
                 open={isIconPickerOpen}
                 onOpenChange={setIsIconPickerOpen}
-                onSelectIcon={setSelectedIcon}
+                onSelectIcon={(icon) => {
+                    setSelectedIcon(icon);
+                    if (formError) setFormError("");
+                }}
                 selectedIcon={selectedIcon}
             />
         </>

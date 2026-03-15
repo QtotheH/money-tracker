@@ -1,7 +1,4 @@
-/**
- * Danh sách icon Font Awesome phổ biến cho ứng dụng thu chi.
- * Tổng: 500+ icon
- */
+// TODO: Sửa lại thư viện icon
 const iconList = [
     // =============================================
     // --- ĂN UỐNG & ĐỒ UỐNG (40 icon) ---
