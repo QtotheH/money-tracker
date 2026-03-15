@@ -5,7 +5,8 @@ import BudgetList from "@/features/budgets/components/BudgetList.jsx"
 import {nanoid} from "@reduxjs/toolkit";
 import {useMemo} from "react";
 import { useNavigate } from "react-router";
-import {buildCategoryById, getUsedPercent, withCategory} from "@/lib/budgetUtils.js";
+import {getUsedPercent} from "@/lib/budgetUtils.js";
+import {buildCategoryById, withCategory} from "@/lib/helpers.js";
 
 // TODO: delete mock data
 const categories = [

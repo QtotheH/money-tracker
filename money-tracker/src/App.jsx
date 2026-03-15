@@ -26,7 +26,7 @@ function App() {
                 </Button>
             }
 
-            <div className={`flex-1 overflow-auto transition-all ease-out duration-200 ${isSidebarOpen ? "ml-72" : ""}`}>
+            <div className={`flex-1 overflow-auto transition-all ease-out duration-200 ${isSidebarOpen ? "md:ml-72" : ""}`}>
                 <Routes>
                     <Route path="/categories" element={<CategoryPage/>}/>
                     <Route path="/login" element={<LoginPage/>}/>
