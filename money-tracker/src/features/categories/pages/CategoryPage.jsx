@@ -7,74 +7,34 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { PlusIcon } from "lucide-react";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import CategoryList from "@/features/categories/components/CategoryList.jsx";
 import AddCategoryDialog from "@/features/categories/components/AddCategoryDialog.jsx";
-
-const categories = [
-  {
-    id: "1",
-    categoryName: "Ăn uống",
-    iconClass: "fa-regular fa-utensils",
-    iconName: "utensils",
-  },
-  {
-    id: "2",
-    categoryName: "Lương",
-    iconClass: "fa-regular fa-dollar-sign",
-    iconName: "dollar-sign",
-  },
-  {
-    id: "3",
-    categoryName: "Thuê nhà",
-    iconClass: "fa-regular fa-house",
-    iconName: "house",
-  },
-  {
-    id: "4",
-    categoryName: "Học phí",
-    iconClass: "fa-regular fa-graduation-cap",
-    iconName: "graduation-cap",
-  },
-  {
-    id: "5",
-    categoryName: "Quà sinh nhật",
-    iconClass: "fa-regular fa-gift",
-    iconName: "gift",
-  },
-  {
-    id: "6",
-    categoryName: "Gói đăng ký Youtube",
-    iconClass: "fa-brands fa-youtube",
-    iconName: "youtube",
-  },
-  {
-    id: "7",
-    categoryName: "Gói đăng ký Spotify",
-    iconClass: "fa-brands fa-spotify",
-    iconName: "spotify",
-  },
-  {
-    id: "8",
-    categoryName: "Vé xem phim",
-    iconClass: "fa-regular fa-film",
-    iconName: "film",
-  },
-  {
-    id: "9",
-    categoryName: "Đổ xăng",
-    iconClass: "fa-regular fa-gas-pump",
-    iconName: "gas-pump",
-  },
-  {
-    id: "10",
-    categoryName: "Bảo dưỡng xe",
-    iconClass: "fa-regular fa-screwdriver-wrench",
-    iconName: "screwdriver-wrench",
-  },
-]
+import {useDispatch, useSelector} from "react-redux";
+import {fetchCategories, selectAllCategoriesState} from "@/store/slices/categorySlice.js";
+import Loading from "@/components/common/Loading.jsx";
+import FailedAlert from "@/components/common/alert/FailedAlert.jsx";
 
 const CategoryPage = () => {
+  const dispatch = useDispatch();
+  const { items, fetchStatus, error } = useSelector(selectAllCategoriesState);
+
+  useEffect(() => {
+      /* const run = async () => {
+        try {
+          const data = await dispatch(fetchCategories()).unwrap();
+        } catch (err) {
+          console.error("Xảy ra lỗi: ", err);
+        }
+      }
+      run(); */
+    if (fetchStatus === 'idle') {
+      console.log("→ Dispatching fetchCategories");
+      dispatch(fetchCategories())
+    }
+  }, [fetchStatus, dispatch]);
+
+
   // State cho dialog
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogMode, setDialogMode] = useState("add"); // "add" hoặc "edit"
@@ -126,7 +86,10 @@ const CategoryPage = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <CategoryList categories={categories} onEdit={handleEdit} />
+              { fetchStatus === 'loading' ? <Loading /> :
+                  error ? <FailedAlert title="Lấy danh mục thất bại" description="Có lỗi xảy ra trong quá trình lấy danh sách, vui lòng thử lại sau!" /> :
+                  <CategoryList categories={items} onEdit={handleEdit} />
+              }
             </CardContent>
           </Card>
 
