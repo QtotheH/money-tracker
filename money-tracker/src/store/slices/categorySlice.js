@@ -58,7 +58,6 @@ const categorySlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchCategories.fulfilled, (state, action) => {
-                console.log("fetchCategories.fulfilled, items =", action.payload.length);
                 state.fetchStatus = "succeeded";
                 state.items = action.payload;
             })

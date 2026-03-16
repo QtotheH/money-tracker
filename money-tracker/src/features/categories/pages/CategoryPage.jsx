@@ -29,7 +29,6 @@ const CategoryPage = () => {
       }
       run(); */
     if (fetchStatus === 'idle') {
-      console.log("→ Dispatching fetchCategories");
       dispatch(fetchCategories())
     }
   }, [fetchStatus, dispatch]);
