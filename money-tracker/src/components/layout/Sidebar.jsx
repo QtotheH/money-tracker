@@ -9,19 +9,20 @@ import {
   LogOutIcon, Minimize2,
 } from "lucide-react";
 import { Link, useLocation } from "react-router";
+import { useContext } from "react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Toggle } from "@/components/ui/toggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-regular-svg-icons";
-import { useTheme } from "@/hooks/useTheme";
+import { ThemeContext } from "@/contexts/ThemeContext.jsx";
 
 
 function Sidebar({ className, onCloseSidebar, isOpen = true }) {
   const location = useLocation();
   const pathname = location.pathname;
-  const { isDark, toggleTheme } = useTheme();
+  const { isDark, toggleTheme } = useContext(ThemeContext);
 
   const routes = [
     {
