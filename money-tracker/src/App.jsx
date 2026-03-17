@@ -18,10 +18,8 @@ function App() {
     return (
         <ThemeProvider>
             <div className="flex min-h-screen">
-                {/* Topbar - Mobile & Tablet */}
                 <TopBar onMenuClick={() => setIsSidebarOpen(true)} />
 
-                {/* Sidebar - Desktop & Tablet visible, Mobile as overlay */}
                 <Sidebar 
                   className="w-72 border-r"
                   onCloseSidebar={setIsSidebarOpen}

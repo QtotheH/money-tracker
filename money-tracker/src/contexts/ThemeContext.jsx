@@ -1,14 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react';
 
-// Export Context để components có thể dùng trực tiếp
 export const ThemeContext = createContext();
 
-// Provider component
 export function ThemeProvider({ children }) {
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // BƯỚC 1: Khi app start - Load từ localStorage
   useEffect(() => {
     setMounted(true);
     
@@ -27,7 +24,6 @@ export function ThemeProvider({ children }) {
     }
   }, []);
 
-  // BƯỚC 3: Khi thay đổi - Update Context + localStorage
   const toggleTheme = () => {
     setIsDark(prev => {
       const newDarkState = !prev;
