@@ -7,26 +7,27 @@ import DashboardPage from "@/features/dashboard/pages/DashboardPage.jsx";
 import BudgetPage from "@/features/budgets/pages/BudgetPage.jsx";
 import TransactionPage from "@/features/transactions/pages/TransactionPage.jsx";
 import Sidebar from "@/components/layout/Sidebar.jsx";
+import TopBar from "@/components/layout/TopBar.jsx";
 import GoalPage from "./features/goals/pages/GoalPage";
 import SettingPage from "./features/settings/pages/SettingPage.jsx";
 import {useState} from "react";
-import {Button} from "@/components/ui/button.jsx";
-
-import {Menu} from 'lucide-react';
 
 function App() {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     return (
         <div className="flex min-h-screen">
-            {isSidebarOpen ?
-                <Sidebar className="hidden fixed md:block w-72 border-r" onCloseSidebar={setIsSidebarOpen}/>
-                :
-                <Button className="fixed top-4 left-4" variant="outline" onClick={() => setIsSidebarOpen(true)}>
-                    <Menu/>
-                </Button>
-            }
+            {/* Topbar - Mobile & Tablet */}
+            <TopBar onMenuClick={() => setIsSidebarOpen(true)} />
 
-            <div className={`flex-1 overflow-auto transition-all ease-out duration-200 ${isSidebarOpen ? "md:ml-72" : ""}`}>
+            {/* Sidebar - Desktop & Tablet visible, Mobile as overlay */}
+            <Sidebar 
+              className="w-72 border-r"
+              onCloseSidebar={setIsSidebarOpen}
+              isOpen={isSidebarOpen}
+            />
+
+            {/* Main Content */}
+            <div className="flex-1 overflow-auto transition-all ease-out duration-200 pt-16 md:pt-0">
                 <Routes>
                     <Route path="/categories" element={<CategoryPage/>}/>
                     <Route path="/login" element={<LoginPage/>}/>

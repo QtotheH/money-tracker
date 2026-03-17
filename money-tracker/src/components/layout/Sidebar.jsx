@@ -14,12 +14,14 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Toggle } from "@/components/ui/toggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSun } from "@fortawesome/free-regular-svg-icons";
+import { faSun, faMoon } from "@fortawesome/free-regular-svg-icons";
+import { useTheme } from "@/hooks/useTheme";
 
 
-function Sidebar({ className, onCloseSidebar }) {
+function Sidebar({ className, onCloseSidebar, isOpen = true }) {
   const location = useLocation();
   const pathname = location.pathname;
+  const { isDark, toggleTheme } = useTheme();
 
   const routes = [
     {
@@ -60,9 +62,25 @@ function Sidebar({ className, onCloseSidebar }) {
   ];
 
   return (
-    <div
-      className={cn("h-full bg-white dark:bg-slate-950 shadow-sm", className)}
-    >
+    <>
+      {/* Overlay - Mobile/Tablet */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-30 md:hidden"
+          onClick={() => onCloseSidebar(false)}
+        />
+      )}
+      
+      {/* Sidebar */}
+      <div
+        className={cn(
+          "h-full bg-white dark:bg-slate-950 shadow-sm transition-transform duration-200",
+          "fixed z-40 md:relative md:z-auto",
+          "md:translate-x-0",
+          isOpen ? "translate-x-0" : "-translate-x-full",
+          className
+        )}
+      >
       <div className="flex flex-col h-full w-72">
         <div className="p-6">
           <div className="flex justify-between items-center mb-8">
@@ -72,7 +90,7 @@ function Sidebar({ className, onCloseSidebar }) {
               </div>
               <h1 className="text-lg font-bold">Money Tracker</h1>
             </div>
-            <Button size="sm" variant="ghost" onClick={() => onCloseSidebar(false)}>
+            <Button size="sm" variant="ghost" onClick={() => onCloseSidebar(false)} className="md:hidden">
               <Minimize2 />
             </Button>
           </div>
@@ -96,8 +114,12 @@ function Sidebar({ className, onCloseSidebar }) {
         <div className="mt-auto p-6 border-t">
           <div className="flex items-center justify-between mb-6">
             <span className="text-lg font-medium">Theme</span>
-            <Toggle className="border-1">
-              <FontAwesomeIcon icon={faSun} />
+            <Toggle 
+              pressed={isDark}
+              onPressedChange={toggleTheme}
+              className="border-1"
+            >
+              <FontAwesomeIcon icon={isDark ? faMoon : faSun} />
             </Toggle>
           </div>
           <div className="flex items-center gap-3">
@@ -113,7 +135,8 @@ function Sidebar({ className, onCloseSidebar }) {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
 

@@ -105,28 +105,30 @@ const FinancialOverviewChart = () => {
   }
 
   return (
-    <Card className="py-6 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
-        <CardHeader className="pb-0">
-            <div className="flex items-start justify-between">
+    <Card className="py-4 sm:py-6 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
+        <CardHeader className="pb-2 sm:pb-4 px-4 sm:px-6">
+            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-3 md:gap-4 lg:gap-4">
                 
                 {/* Bên trái */}
-                <div className="space-y-1">
-                <CardTitle className="text-2xl font-semibold tracking-tight">
+                <div className="space-y-1 flex-1 min-w-0">
+                <CardTitle className="text-lg sm:text-2xl font-semibold tracking-tight">
                     Tổng quan tài chính
                 </CardTitle>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">
                     Thu nhập và chi tiêu các tháng gần đây
                 </p>
                 </div>
 
                 {/*  Filter */}
-                <FinancialChartFilter />
+                <div className="flex-shrink-0">
+                  <FinancialChartFilter />
+                </div>
 
             </div>
         </CardHeader>
 
     {/* Phần biểu đồ */}
-      <CardContent className="h-[320px] pt-4">
+      <CardContent className="h-[250px] sm:h-[320px] pt-2 sm:pt-4 px-2 sm:px-6">
         {/* Render biểu đồ cột Bar -> Nếu muốn đổi biểu đồ đường thì Line */}
         <Bar data={data} options={options} />
       </CardContent>

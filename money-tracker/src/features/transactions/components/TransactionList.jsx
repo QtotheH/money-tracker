@@ -344,15 +344,15 @@ function TransactionList({ limit, showAll = false }) {
   return (
     <div className="space-y-4">
       {showAll && (
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
           <Input
             placeholder="Tìm giao dịch..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="sm:max-w-[250px]"
+            className="w-full sm:flex-1 sm:max-w-[250px] text-xs sm:text-sm"
           />
           <Select value={filterType} onValueChange={setFilterType}>
-            <SelectTrigger className="sm:max-w-[180px]">
+            <SelectTrigger className="w-full sm:w-auto sm:max-w-[180px] text-xs sm:text-sm">
               <SelectValue placeholder="Lọc theo loại" />
             </SelectTrigger>
             <SelectContent
@@ -368,15 +368,15 @@ function TransactionList({ limit, showAll = false }) {
         </div>
       )}
 
-      <div className={`space-y-3.5 ${showAll && 'max-h-[600px] md:max-h-[500px]'} overflow-y-auto pr-2 custom-scrollbar`}>
+      <div className={`space-y-2 sm:space-y-3 ${showAll && 'max-h-[600px] md:max-h-[500px]'} overflow-y-auto pr-2 custom-scrollbar`}>
         {limitedTransactions.map(transaction =>
           <TransactionItem key={transaction.id} transaction={transaction} />
         )}
       </div>
 
       {limit && transactionsWithCategory.length > limit && (
-        <div className="flex justify-center mt-10">
-          <Button onClick={() => navigate("/transactions")} variant="outline">Xem tất cả giao dịch</Button>
+        <div className="flex justify-center mt-8 sm:mt-10">
+          <Button onClick={() => navigate("/transactions")} variant="outline" className="w-full sm:w-auto">Xem tất cả giao dịch</Button>
         </div>
       )}
     </div>

@@ -9,7 +9,7 @@ import {
 const FinancialChartFilter = () => {
   return (
      <Select defaultValue="6months">
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-full sm:w-[180px] lg:w-[200px] text-xs sm:text-sm">
             <SelectValue placeholder="Chọn thời gian" />
         </SelectTrigger>
 

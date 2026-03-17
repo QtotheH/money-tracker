@@ -14,25 +14,25 @@ const GoalItem = ({goal, isDashboard = false}) => {
     return (
         <div className="space-y-1">
             {/* Dòng 1 */}
-            <div className="flex items-center justify-between">
-                <div className="flex items-stretch gap-2">
-                    <div className="p-1.5 bg-slate-100 rounded-md text-slate-600">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-3">
+                <div className="flex items-start gap-2 min-w-0 flex-1">
+                    <div className="p-1.5 bg-slate-100 dark:bg-slate-700 rounded-md text-slate-600 dark:text-slate-300 flex-shrink-0">
                         {/* Render icon từ iconClass  */}
                         {goal?.iconClass ? <i className={goal.iconClass} /> : null}
                     </div>
-                    <div>
-                        <h4 className="font-semibold text-[16px] text-slate-900 leading-none mb-1">
+                    <div className="min-w-0">
+                        <h4 className="font-semibold text-sm sm:text-base text-slate-900 dark:text-white leading-none mb-1 truncate">
                             {goal.name}
                         </h4>
 
-                        <p className="text-xs text-slate-400 font-medium">
+                        <p className="text-xs text-slate-400 dark:text-slate-500 font-medium truncate">
                             Ngày mục tiêu: {formatDateToVNDate(goal.targetDate)}
                         </p>
                     </div>
 
                 </div>
 
-                <div className="text-right">
+                <div className="text-right flex-shrink-0">
                     {!isDashboard ? (
                             <>
                                 <Button
@@ -41,23 +41,24 @@ const GoalItem = ({goal, isDashboard = false}) => {
                                     }}
                                     variant="outline"
                                     size="sm"
+                                    className="text-xs sm:text-sm w-full sm:w-auto"
                                 >
                                     Thêm tiền
                                 </Button>
                                 <AddFundDialog open={isAddFundOpen} setOpenChange={setIsAddFundOpen}/>
                             </>
                         ) :
-                        <p className="text-xs text-slate-400 font-medium mb-1">
+                        <p className="text-xs text-slate-400 dark:text-slate-500 font-medium mb-1">
                             Còn lại {daysLeft} ngày
                         </p>
                     }
 
-                    <div className="text-sm font-medium">
-                        <span className="text-slate-900">
+                    <div className="text-xs sm:text-sm font-medium">
+                        <span className="text-slate-900 dark:text-white">
                           ₫{goal.current.toLocaleString()}
                         </span>
 
-                        <span className="text-muted-foreground">
+                        <span className="text-muted-foreground dark:text-slate-400">
                           {" "} / ₫{goal.target.toLocaleString()}
                         </span>
                     </div>
@@ -65,20 +66,14 @@ const GoalItem = ({goal, isDashboard = false}) => {
             </div>
 
             {/* Progress */}
-            {/* <div className="w-full bg-slate-100 h-3 rounded-full overflow-hidden mb-2">
-                <div
-                    className="bg-emerald-500 h-full rounded-full transition-all duration-700 ease-out"
-                    style={{width: `${percentage}%`}}
-                />
-            </div> */}
             <GoalProgressBar value={progress}/>
 
             {/* Footer */}
             <div className="flex justify-between text-xs font-medium">
-                <span className="text-muted-foreground">
+                <span className="text-muted-foreground dark:text-slate-400">
                   {progress}% đã đạt
                 </span>
-                <span className="text-slate-500">
+                <span className="text-slate-500 dark:text-slate-400 text-right">
                   {remaining.toLocaleString()} VNĐ còn lại
                 </span>
             </div>

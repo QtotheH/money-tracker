@@ -126,16 +126,16 @@ const BudgetProgress = () => {
   }, [budgets, categoryById])
 
   return (
-    <Card className="py-6 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
+    <Card className="h-full py-4 sm:py-6 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
 
-      <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+      <CardHeader className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4 space-y-0 pb-2 px-4 sm:px-6">
 
-        <div className="space-y-1">
-          <CardTitle className="text-2xl font-bold tracking-tight">
+        <div className="space-y-1 min-w-0 flex-1">
+          <CardTitle className="text-lg sm:text-2xl font-bold tracking-tight">
             Tiến độ ngân sách
           </CardTitle>
 
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">
             Chi tiêu của bạn so với ngân sách hàng tháng
           </p>
         </div>
@@ -143,14 +143,14 @@ const BudgetProgress = () => {
         <button
           title="Xem tất cả ngân sách"
           onClick={() => navigate("/budgets")}
-          className="text-slate-400 hover:text-slate-600 transition-colors"
+          className="text-slate-400 hover:text-slate-600 transition-colors flex-shrink-0"
         >
-          <Eye size={24} />
+          <Eye size={20} />
         </button>
 
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="px-4 sm:px-6">
         <BudgetList budgets={topBudgets} />
       </CardContent>
 

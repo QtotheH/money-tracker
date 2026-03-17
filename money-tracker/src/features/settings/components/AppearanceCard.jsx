@@ -9,9 +9,12 @@ import React from "react";
 import CurrencySelect from "@/features/settings/components/CurrencySelect";
 import { Toggle } from "@/components/ui/toggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSun } from "@fortawesome/free-regular-svg-icons";
+import { faSun, faMoon } from "@fortawesome/free-regular-svg-icons";
+import { useTheme } from "@/hooks/useTheme";
+
 
 const AppearanceCard = () => {
+  const { isDark, toggleTheme } = useTheme();
   return (
     <Card className="p-4">
       <CardHeader>
@@ -29,8 +32,12 @@ const AppearanceCard = () => {
           </div>
 
           <div>
-            <Toggle className="border-1">
-              <FontAwesomeIcon icon={faSun} />
+            <Toggle 
+              pressed={isDark}
+              onPressedChange={toggleTheme}
+              className="border-1"
+            >
+              <FontAwesomeIcon icon={isDark ? faMoon : faSun} />
             </Toggle>
           </div>
         </div>
