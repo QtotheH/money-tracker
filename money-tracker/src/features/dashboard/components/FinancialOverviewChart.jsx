@@ -107,7 +107,7 @@ const FinancialOverviewChart = () => {
   return (
     <Card className="py-4 sm:py-6 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
         <CardHeader className="pb-2 sm:pb-4 px-4 sm:px-6">
-            <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-3 md:gap-4 lg:gap-4">
+            <div className="flex flex-col lg:flex-row lg:items- lg:justify-between gap-3 md:gap-4 lg:gap-4">
                 
                 {/* Bên trái */}
                 <div className="space-y-1 flex-1 min-w-0">

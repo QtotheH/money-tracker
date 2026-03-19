@@ -7,24 +7,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { PlusIcon } from "lucide-react";
-import {useEffect, useState} from "react";
 import CategoryList from "@/features/categories/components/CategoryList.jsx";
 import AddCategoryDialog from "@/features/categories/components/AddCategoryDialog.jsx";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchCategories, selectAllCategoriesState} from "@/store/slices/categorySlice.js";
+import {useSelector} from "react-redux";
+import {selectAllCategoriesState} from "@/store/slices/categorySlice.js";
 import Loading from "@/components/common/Loading.jsx";
 import FailedAlert from "@/components/common/alert/FailedAlert.jsx";
+import {useState} from "react";
 
 const CategoryPage = () => {
-  const dispatch = useDispatch();
-  const { items, status, error } = useSelector(selectAllCategoriesState);
-
-  useEffect(() => {
-    if (status === 'idle') {
-      dispatch(fetchCategories())
-    }
-  }, [status, dispatch]);
-
+  const { categories, status, error } = useSelector(selectAllCategoriesState);
 
   // State cho dialog
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -79,7 +71,7 @@ const CategoryPage = () => {
             <CardContent>
               { status === 'loading' ? <Loading /> :
                   error ? <FailedAlert title="Lấy danh mục thất bại" description="Có lỗi xảy ra trong quá trình lấy danh sách, vui lòng thử lại sau!" /> :
-                  <CategoryList categories={items} onEdit={handleEdit} />
+                  <CategoryList categories={categories} onEdit={handleEdit} />
               }
             </CardContent>
           </Card>

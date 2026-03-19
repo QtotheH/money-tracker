@@ -48,7 +48,7 @@ const AddGoalDialog = ({open, setOpenChange}) => {
                     {/* Phần thông tin */}
                     <div className="space-y-5 mt-3">
 
-                        <div className="grid grid-cols-4 items-center gap-4">
+                        <div className="grid grid-cols-4 items-r gap-4">
                             <Label htmlFor="goalName" className="text-right font-medium">Tên mục tiêu:</Label>
                             <Input
                                 id="goalName"

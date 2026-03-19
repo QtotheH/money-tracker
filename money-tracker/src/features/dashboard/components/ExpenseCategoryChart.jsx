@@ -82,7 +82,7 @@ const ExpenseCategoryChart = () => {
 
   return (
     <Card className="py-4 sm:py-6 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
-        <CardHeader className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-2 md:gap-3 lg:gap-4 space-y-0 pb-2 md:pb-3 lg:pb-4 px-4 sm:px-6">
+        <CardHeader className="flex flex-col lg:flex-row lg:items- lg:justify-between gap-2 md:gap-3 lg:gap-4 space-y-0 pb-2 md:pb-3 lg:pb-4 px-4 sm:px-6">
             <div className="space-y-1 min-w-0 flex-1">
                 <CardTitle className="text-lg sm:text-2xl font-semibold tracking-tight">
                     Chi tiêu theo hạng mục
