@@ -1,13 +1,27 @@
-import {createAsyncThunk, createSlice, nanoid} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSelector, createSlice, nanoid} from "@reduxjs/toolkit";
 import {categoryService} from "@/api/services/categoryService.js";
 
 const initialState = {
-    items: [],
+    categories: [],
     status: 'idle',   //'idle' | 'loading' | 'succeeded' | 'failed'
     error: null
 };
 
 export const selectAllCategoriesState = (state) => state.categories;
+export const selectCategoriesItems = (state) => state.categories.categories;
+
+// Selector tạo bảng tra cứu (Chỉ tính toán lại khi mảng categories thay đổi)
+// biến mảng categories thành một object (bảng tra cứu theo ID), để các file khác có thể sử dụng (useSelector)
+export const selectCategoryDictionary = createSelector(
+    [selectCategoriesItems],
+    (items) => {
+        const dict = {};
+        items.forEach(category => {
+            dict[category.id] = category;
+        });
+        return dict;
+    }
+);
 
 // THUNK
 // 1. Get All
@@ -51,7 +65,7 @@ export const updateCategory = createAsyncThunk(
     async ({id, categoryName, selectedIcon}, {getState, rejectWithValue}) => {
         try {
             const state = getState();
-            const current = state.categories.items.find(c => String(c.id) === String(id));
+            const current = state.categories.categories.find(c => String(c.id) === String(id));
 
             const updatedCategory = {
                 ...(current || {}),
@@ -83,7 +97,12 @@ const categorySlice = createSlice({
             })
             .addCase(fetchCategories.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                state.items = action.payload;
+                // Sắp xếp A-Z ngay khi tải xong
+                // so sánh hai chuỗi và trả về giá trị -1, 1 hoặc 0 để hàm sort() biết từ nào đứng trước trong từ điển
+                const sortedData = action.payload.sort((a, b) =>
+                    a.categoryName.localeCompare(b.categoryName)
+                );
+                state.categories = sortedData;
             })
             .addCase(fetchCategories.rejected, (state, action) => {
                 state.status = "failed";
@@ -99,7 +118,10 @@ const categorySlice = createSlice({
             .addCase(createCategory.fulfilled, (state, action) => {
                 state.status = "succeeded";
                 // cập nhật state -> UI render lại
-                state.items.unshift(action.payload);
+                state.categories.push(action.payload);
+                state.categories.sort((a, b) =>
+                    a.categoryName.localeCompare(b.categoryName)
+                );
             })
             .addCase(createCategory.rejected, (state, action) => {
                 state.status = "failed";
@@ -117,9 +139,13 @@ const categorySlice = createSlice({
                 const updated = action.payload;
 
                 // cập nhật state -> UI render lại (cập nhật đúng phần tử trong items, không thay cả mảng
-                const index = state.items.findIndex(c => String(c.id) === String(updated.id));
+                const index = state.categories.findIndex(c => String(c.id) === String(updated.id));
                 if (index !== -1) {
-                    state.items[index] = updated;
+                    state.categories[index] = updated;
+                    // Tên danh mục có thể đã bị thay đổi, cần sắp xếp lại mảng
+                    state.categories.sort((a, b) =>
+                        a.categoryName.localeCompare(b.categoryName)
+                    );
                 }
             })
             .addCase(updateCategory.rejected, (state, action) => {

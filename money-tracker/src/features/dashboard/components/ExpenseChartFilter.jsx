@@ -3,7 +3,7 @@ import { ArrowDownToLine, ArrowUpFromLine } from "lucide-react"// Đăng ký cá
 
 const ExpenseChartFilter = () => {
   return (
-    <div className="flex items-center border rounded-full p-0.5 sm:p-1 bg-white shadow-sm gap-0.5 sm:gap-0">
+    <div className="flex items-r border rounded-full p-0.5 sm:p-1 bg-white shadow-sm gap-0.5 sm:gap-0">
         {/* Nút Thu nhập */}
         <button title="Xem Thu Nhập" className="flex items-center justify-center w-8 h-7 sm:w-10 sm:h-8 rounded-full bg-emerald-50 text-emerald-600 transition-colors hover:bg-emerald-100">
             <ArrowDownToLine size={16} className="sm:w-[18px] sm:h-[18px]" strokeWidth={2.5} />

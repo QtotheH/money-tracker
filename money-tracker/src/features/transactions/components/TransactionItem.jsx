@@ -2,10 +2,18 @@ import { Badge } from "@/components/ui/badge.jsx"
 import { cn } from "@/lib/utils.js"
 import {formatDateToVNDate} from "@/lib/helpers.js";
 
-const TransactionItem = ({ transaction }) => {
+const TransactionItem = ({ transaction, onEdit }) => {
   const category = transaction.category;
+
+  const handleOnEdit = (transaction) => {
+    if (onEdit) {
+      onEdit(transaction);
+    }
+  }
+
   return (
     <div
+        onClick={() => handleOnEdit(transaction)}
       className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 p-3 sm:p-4 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors duration-300 ease-in-out hover:shadow-lg"
     >
       <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">

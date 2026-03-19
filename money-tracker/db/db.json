@@ -50,7 +50,7 @@
     },
     {
       "id": "R_MqfTJDM18ncC_nXP71C",
-      "categoryName": "Quần áo",
+      "categoryName": "Áo mặc",
       "iconName": "money-bill-transfer",
       "iconClass": "fa-regular fa-money-bill-transfer"
     },
@@ -89,6 +89,24 @@
       "categoryName": "Lương freelancer",
       "iconName": "money-bill-1-wave",
       "iconClass": "fa-regular fa-money-bill-1-wave"
+    },
+    {
+      "id": "zzdqK8zmHzheSSRgpW2KH",
+      "categoryName": "Vé xem phim",
+      "iconName": "ticket",
+      "iconClass": "fa-regular fa-ticket"
+    },
+    {
+      "id": "nPtkrArtoE1MHFpOvpfJG",
+      "categoryName": "Đăng ký học Bartender",
+      "iconName": "beer-mug-empty",
+      "iconClass": "fa-regular fa-beer-mug-empty"
+    },
+    {
+      "id": "mXajNYa47xbWlsAch6jG7",
+      "categoryName": "Quần áo",
+      "iconName": "shirt",
+      "iconClass": "fa-regular fa-shirt"
     }
   ],
   "transactions": [
@@ -107,6 +125,14 @@
       "type": "income",
       "date": "2026-03-01",
       "categoryId": "2"
+    },
+    {
+      "id": "MqxyWKycXSfbS5114A_sV",
+      "amount": 100000,
+      "description": "Mua 2 vé xem phim \"Song Hỷ Lâm Nguy\"",
+      "categoryId": "zzdqK8zmHzheSSRgpW2KH",
+      "date": "2026-03-27T00:00:00.000Z",
+      "type": "expense"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
