@@ -9,7 +9,6 @@ const BudgetItem = ({ budget }) => {
 
   return (
     <div className="space-y-2">
-      
       {/* Tiêu đề */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
