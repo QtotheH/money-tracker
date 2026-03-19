@@ -11,7 +11,7 @@ const CategoryList = ({categories, onEdit}) => {
     )
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-6">
             {/*   Search   */}
             <CategoryFilter searchTerm={searchTerm} onSearchChange={setSearchTerm}/>
 

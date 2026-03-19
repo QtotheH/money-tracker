@@ -17,21 +17,13 @@ import FailedAlert from "@/components/common/alert/FailedAlert.jsx";
 
 const CategoryPage = () => {
   const dispatch = useDispatch();
-  const { items, fetchStatus, error } = useSelector(selectAllCategoriesState);
+  const { items, status, error } = useSelector(selectAllCategoriesState);
 
   useEffect(() => {
-      /* const run = async () => {
-        try {
-          const data = await dispatch(fetchCategories()).unwrap();
-        } catch (err) {
-          console.error("Xảy ra lỗi: ", err);
-        }
-      }
-      run(); */
-    if (fetchStatus === 'idle') {
+    if (status === 'idle') {
       dispatch(fetchCategories())
     }
-  }, [fetchStatus, dispatch]);
+  }, [status, dispatch]);
 
 
   // State cho dialog
@@ -85,7 +77,7 @@ const CategoryPage = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              { fetchStatus === 'loading' ? <Loading /> :
+              { status === 'loading' ? <Loading /> :
                   error ? <FailedAlert title="Lấy danh mục thất bại" description="Có lỗi xảy ra trong quá trình lấy danh sách, vui lòng thử lại sau!" /> :
                   <CategoryList categories={items} onEdit={handleEdit} />
               }
