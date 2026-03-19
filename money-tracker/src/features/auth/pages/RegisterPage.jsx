@@ -1,6 +1,8 @@
 import RegisterForm from "../components/RegisterForm"
+import {useNavigate} from "react-router";
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-100 via-white to-emerald-200 p-6">
       
@@ -19,9 +21,10 @@ const RegisterPage = () => {
           </p>
 
           <div className="flex gap-3 mt-6">
+            <div title="Trang Đăng nhập"
+                 onClick={() => navigate("/login")}
+                 className="cursor-pointer w-3 h-3 bg-white/40 rounded-full"></div>
             <div className="w-3 h-3 bg-white/70 rounded-full"></div>
-            <div className="w-3 h-3 bg-white/40 rounded-full"></div>
-            <div className="w-3 h-3 bg-white/40 rounded-full"></div>
           </div>
 
         </div>
