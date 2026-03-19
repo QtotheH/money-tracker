@@ -8,7 +8,6 @@ import {
   Legend
 } from "chart.js"
 import { Doughnut } from "react-chartjs-2"
-import { ArrowDownToLine, ArrowUpFromLine } from "lucide-react"// Đăng ký các thành phần cần thiết cho biểu đồ hình tròn
 ChartJS.register(
   ArcElement,
   Tooltip,

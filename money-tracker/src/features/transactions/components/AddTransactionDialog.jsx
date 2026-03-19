@@ -14,7 +14,7 @@ import {Label} from "@/components/ui/label"
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
 import {useDispatch, useSelector} from "react-redux";
-import {fetchCategories, selectAllCategoriesState, selectCategoriesItems} from "@/store/slices/categorySlice.js";
+import {selectCategoriesItems} from "@/store/slices/categorySlice.js";
 
 import {toast} from "sonner"
 import {createTransaction, updateTransaction} from "@/store/slices/transactionSlice.js";

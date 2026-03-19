@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSelector, createSlice, nanoid} from "@reduxjs/toolkit";
 import {transactionService} from "@/api/services/transactionService.js";
 import {selectCategoryDictionary} from "@/store/slices/categorySlice.js";
-import {categoryService} from "@/api/services/categoryService.js";
 
 const initialState = {
     transactions: [],
