@@ -1,23 +1,11 @@
-import {useEffect, useState} from "react"
+import {useState} from "react"
 import {PlusIcon} from "lucide-react"
 
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card"
 import {Button} from "@/components/ui/button"
 import TransactionList from "@/features/transactions/components/TransactionList.jsx"
 import AddTransactionDialog from "@/features/transactions/components/AddTransactionDialog"
-import {useDispatch, useSelector} from "react-redux";
-import {fetchAllTransactions, getTransactionsStatus} from "@/store/slices/transactionSlice.js";
 
-/* const transactions = [
-  {
-    id: nanoid(), // string
-    description: "Mô tả cho giao dịch", //string
-    amount: 0, // number
-    type: "loại giao dịch", // income | expense: string
-    date: "ngày tạo gdich", // Date()
-    categoryId: "mã danh mục", // string
-  },
-] */
 
 const TransactionPage = () => {
     const [dialogMode, setDialogMode] = useState("add"); // "add" hoặc "edit"
