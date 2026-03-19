@@ -13,7 +13,7 @@ import {Label} from "@/components/ui/label.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import IconPicker from "@/features/categories/components/IconPicker.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {createCategory, selectAllCategoriesState} from "@/store/slices/categorySlice.js";
+import {createCategory, selectAllCategoriesState, updateCategory} from "@/store/slices/categorySlice.js";
 import FailedAlert from "@/components/common/alert/FailedAlert.jsx";
 
 /**
@@ -28,7 +28,7 @@ import FailedAlert from "@/components/common/alert/FailedAlert.jsx";
  */
 const AddCategoryDialog = ({open, onOpenChange, mode = "add", category = null}) => {
     const dispatch = useDispatch();
-    const {createStatus} = useSelector(selectAllCategoriesState);
+    const {status} = useSelector(selectAllCategoriesState);
 
     const [categoryName, setCategoryName] = useState("");
     const [selectedIcon, setSelectedIcon] = useState(null); // { name, className }
@@ -75,7 +75,29 @@ const AddCategoryDialog = ({open, onOpenChange, mode = "add", category = null}) 
         }
 
         // Submit
-        if (!isEditMode) {
+        try {
+            // Mở dialog ở chế độ Thêm
+            if (!isEditMode) {
+                await dispatch(createCategory({ categoryName, selectedIcon })).unwrap();
+            } else {
+                await dispatch(
+                    updateCategory({
+                        id: category?.id,
+                        categoryName,
+                        selectedIcon,
+                    })
+                ).unwrap();
+            }
+
+            // success -> reset + close
+            setCategoryName("");
+            setSelectedIcon(null);
+            setFormError("");
+            onOpenChange(false);
+        } catch (err) {
+            setFormError(String(err) || (isEditMode ? "Cập nhật danh mục thất bại!" : "Thêm danh mục thất bại!"));
+        }
+        /* if (!isEditMode) {
             try {
                 await dispatch(
                     createCategory({
@@ -96,14 +118,13 @@ const AddCategoryDialog = ({open, onOpenChange, mode = "add", category = null}) 
 
             return;
         } else {
-            // TODO: Gọi API hoặc dispatch Redux action để sửa danh mục
             console.log("Cập nhật danh mục:")
         }
 
         // Reset form & đóng dialog
         setCategoryName("")
         setSelectedIcon(null)
-        onOpenChange(false)
+        onOpenChange(false) */
     }
 
     return (
@@ -124,7 +145,7 @@ const AddCategoryDialog = ({open, onOpenChange, mode = "add", category = null}) 
                     <form onSubmit={handleSubmit}>
                         {/* Hiển thị lỗi validate / submit */}
                         {formError && (
-                            <FailedAlert title="Thêm danh mục thất bại" description={formError}/>
+                            <FailedAlert title="Thất bại" description={formError}/>
                             /* <div className="rounded-md border border-rose-200 bg-rose-50 text-rose-700 px-3 py-2 text-sm">
                                 {formError}
                             </div> */
@@ -186,16 +207,16 @@ const AddCategoryDialog = ({open, onOpenChange, mode = "add", category = null}) 
                                 type="button"
                                 variant="outline"
                                 onClick={() => onOpenChange(false)}
-                                disabled={createStatus === 'loading'}
+                                disabled={status === 'loading'}
                             >
                                 Hủy
                             </Button>
                             <Button
                                 type="submit"
                                 className="bg-emerald-600 hover:bg-emerald-700 text-white"
-                                disabled={createStatus === 'loading'}
+                                disabled={status === 'loading'}
                             >
-                                {createStatus === 'loading' ? "Đang lưu..." : isEditMode ? "Lưu thay đổi" : "Thêm"}
+                                {status === 'loading' ? "Đang lưu..." : isEditMode ? "Lưu thay đổi" : "Thêm"}
                             </Button>
                         </DialogFooter>
                     </form>
