@@ -19,7 +19,7 @@ import { faSun, faMoon } from "@fortawesome/free-regular-svg-icons";
 import { ThemeContext } from "@/contexts/ThemeContext.jsx";
 
 
-function Sidebar({ className, onCloseSidebar, isOpen = true }) {
+function Sidebar({ className, onCloseSidebar, isOpen = true, isMobileOpen = false }) {
   const location = useLocation();
   const pathname = location.pathname;
   const { isDark, toggleTheme } = useContext(ThemeContext);
@@ -65,7 +65,7 @@ function Sidebar({ className, onCloseSidebar, isOpen = true }) {
   return (
     <>
       {/* Overlay - Mobile/Tablet */}
-      {isOpen && (
+      {isMobileOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-30 md:hidden"
           onClick={() => onCloseSidebar(false)}
@@ -75,10 +75,12 @@ function Sidebar({ className, onCloseSidebar, isOpen = true }) {
       {/* Sidebar */}
       <div
         className={cn(
-          "h-full bg-white dark:bg-slate-950 shadow-sm transition-transform duration-200",
+          "h-full bg-white dark:bg-slate-950 shadow-sm transition-all duration-300",
           "fixed z-40 md:relative md:z-auto",
+          "w-72",
+          isMobileOpen ? "translate-x-0" : "-translate-x-full",
           "md:translate-x-0",
-          isOpen ? "translate-x-0" : "-translate-x-full",
+          !isOpen && "md:opacity-0 md:pointer-events-none md:w-0",
           className
         )}
       >
@@ -91,7 +93,7 @@ function Sidebar({ className, onCloseSidebar, isOpen = true }) {
               </div>
               <h1 className="text-lg font-bold">Money Tracker</h1>
             </div>
-            <Button size="sm" variant="ghost" onClick={() => onCloseSidebar(false)} className="md:hidden">
+            <Button size="sm" variant="ghost" onClick={() => onCloseSidebar(false)}>
               <Minimize2 />
             </Button>
           </div>
