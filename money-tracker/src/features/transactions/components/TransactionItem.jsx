@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils.js"
 import {formatDateToVNDate} from "@/lib/helpers.js";
 
 const TransactionItem = ({ transaction }) => {
-  console.log(transaction)
   const category = transaction.category;
   return (
     <div
@@ -26,7 +25,6 @@ const TransactionItem = ({ transaction }) => {
             {formatDateToVNDate(transaction.date)} • {category.categoryName}
           </p>
         </div>
-
       </div>
 
       <div className="flex items-center justify-between gap-2 sm:gap-4 flex-shrink-0">
@@ -42,7 +40,6 @@ const TransactionItem = ({ transaction }) => {
           {transaction.type === "income" ? '+' : '-'}
           ₫{transaction.amount.toLocaleString()}
         </span>
-
         <Badge
           variant="secondary"
           className={cn(
@@ -54,7 +51,6 @@ const TransactionItem = ({ transaction }) => {
         >
           {transaction.type === "income" ? "Thu nhập" : "Chi tiêu"}
         </Badge>
-
       </div>
     </div>
   )
