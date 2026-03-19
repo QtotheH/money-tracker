@@ -205,5 +205,16 @@
       "createdAt": "2026-03-19T11:58:43.748Z"
     }
   ],
+  "goals": [
+    {
+      "id": "1",
+      "iconClass": "",
+      "iconName": "",
+      "name": "",
+      "current": 0,
+      "target": 0,
+      "targetDate": "2026-03-27T11:58:43.748Z"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

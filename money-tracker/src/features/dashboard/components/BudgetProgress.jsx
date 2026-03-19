@@ -28,7 +28,7 @@ const BudgetProgress = () => {
   return (
     <Card className="h-full py-4 sm:py-6 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
 
-      <CardHeader className="flex flex-row items-start justify-between gap-2 sm:gap-4 space-y-0 pb-2 px-4 sm:px-6">
+      <CardHeader className="flex flex-row items-center justify-between gap-2 sm:gap-4 space-y-0 pb-2 px-4 sm:px-6">
 
         <div className="space-y-1 min-w-0 flex-1">
           <CardTitle className="text-lg sm:text-2xl font-bold tracking-tight">
