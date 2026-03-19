@@ -81,23 +81,25 @@ const ExpenseCategoryChart = () => {
   }
 
   return (
-    <Card className="py-6 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
-        <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-">
-            <div className="space-y-1.5">
-                <CardTitle className="text-2xl font-semibold tracking-tight">
+    <Card className="py-4 sm:py-6 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
+        <CardHeader className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-2 md:gap-3 lg:gap-4 space-y-0 pb-2 md:pb-3 lg:pb-4 px-4 sm:px-6">
+            <div className="space-y-1 min-w-0 flex-1">
+                <CardTitle className="text-lg sm:text-2xl font-semibold tracking-tight">
                     Chi tiêu theo hạng mục
                 </CardTitle>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">
                     Phân bổ ngân sách của bạn trong tháng này
                 </p>
             </div>
             
             {/* Thanh lọc */}
-            <ExpenseChartFilter />  
+            <div className="flex-shrink-0">
+              <ExpenseChartFilter />  
+            </div>
            
         </CardHeader>
         {/* Phần biểu đồ */}
-        <CardContent className="h-[320px] pt-4">
+        <CardContent className="h-[250px] sm:h-[320px] pt-2 sm:pt-4 px-2 sm:px-6">
             <Doughnut data={data} options={options} />
         </CardContent>
     </Card>

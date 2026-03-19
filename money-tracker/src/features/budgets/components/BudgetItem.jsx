@@ -11,23 +11,23 @@ const BudgetItem = ({ budget }) => {
     <div className="space-y-2">
       
       {/* Tiêu đề */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-slate-100 rounded-md text-slate-600">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="p-1.5 bg-slate-100 dark:bg-slate-700 rounded-md text-slate-600 dark:text-slate-300 flex-shrink-0">
             {/* Render icon từ iconClass  */}
             {category?.iconClass ? <i className={category.iconClass} /> : null}
           </div>
 
-          <span className="font-semibold text-slate-900 text-[16px]">
+          <span className="font-semibold text-slate-900 dark:text-white text-sm sm:text-base truncate">
             {category?.categoryName ?? "Không rõ danh mục"}
           </span>
         </div>
 
-        <div className="text-sm font-medium">
-          <span className="text-slate-900">
+        <div className="text-xs sm:text-sm font-medium flex-shrink-0">
+          <span className="text-slate-900 dark:text-white">
             ₫{budget.spent.toLocaleString()}
           </span>
-          <span className="text-muted-foreground">
+          <span className="text-muted-foreground dark:text-slate-400">
             {" "}
             / ₫{budget.total.toLocaleString()}
           </span>
@@ -39,10 +39,10 @@ const BudgetItem = ({ budget }) => {
 
       {/* Footer */}
       <div className="flex justify-between text-xs font-medium">
-        <span className="text-muted-foreground">
+        <span className="text-muted-foreground dark:text-slate-400">
           {percentage}% đã dùng
         </span>
-        <span className="text-slate-500">
+        <span className="text-slate-500 dark:text-slate-400">
           ₫{remaining.toLocaleString()} còn lại
         </span>
       </div>

@@ -7,39 +7,41 @@ import DashboardPage from "@/features/dashboard/pages/DashboardPage.jsx";
 import BudgetPage from "@/features/budgets/pages/BudgetPage.jsx";
 import TransactionPage from "@/features/transactions/pages/TransactionPage.jsx";
 import Sidebar from "@/components/layout/Sidebar.jsx";
+import TopBar from "@/components/layout/TopBar.jsx";
 import GoalPage from "./features/goals/pages/GoalPage";
 import SettingPage from "./features/settings/pages/SettingPage.jsx";
 import {useState} from "react";
-import {Button} from "@/components/ui/button.jsx";
-
-import {Menu} from 'lucide-react';
+import { ThemeProvider } from "@/contexts/ThemeContext.jsx";
 
 function App() {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     return (
-        <div className="flex min-h-screen">
-            {isSidebarOpen ?
-                <Sidebar className="hidden fixed md:block w-72 border-r" onCloseSidebar={setIsSidebarOpen}/>
-                :
-                <Button className="fixed top-4 left-4" variant="outline" onClick={() => setIsSidebarOpen(true)}>
-                    <Menu/>
-                </Button>
-            }
+        <ThemeProvider>
+            <div className="flex min-h-screen">
+                <TopBar onMenuClick={() => setIsSidebarOpen(true)} />
 
-            <div className={`flex-1 overflow-auto transition-all ease-out duration-200 ${isSidebarOpen ? "md:ml-72" : ""}`}>
-                <Routes>
-                    <Route path="/categories" element={<CategoryPage/>}/>
-                    <Route path="/login" element={<LoginPage/>}/>
-                    <Route path="/register" element={<RegisterPage/>}/>
-                    <Route path="/profile" element={<ProfilePage/>}/>
-                    <Route path="/dashboard" element={<DashboardPage/>}/>
-                    <Route path="/goals" element={<GoalPage/>}/>
-                    <Route path="/settings" element={<SettingPage/>}/>
-                    <Route path="/budgets" element={<BudgetPage/>}/>
-                    <Route path="/transactions" element={<TransactionPage/>}/>
-                </Routes>
+                <Sidebar 
+                  className="w-72 border-r"
+                  onCloseSidebar={setIsSidebarOpen}
+                  isOpen={isSidebarOpen}
+                />
+
+                {/* Main Content */}
+                <div className="flex-1 overflow-auto transition-all ease-out duration-200 pt-16 md:pt-0">
+                    <Routes>
+                        <Route path="/categories" element={<CategoryPage/>}/>
+                        <Route path="/login" element={<LoginPage/>}/>
+                        <Route path="/register" element={<RegisterPage/>}/>
+                        <Route path="/profile" element={<ProfilePage/>}/>
+                        <Route path="/dashboard" element={<DashboardPage/>}/>
+                        <Route path="/goals" element={<GoalPage/>}/>
+                        <Route path="/settings" element={<SettingPage/>}/>
+                        <Route path="/budgets" element={<BudgetPage/>}/>
+                        <Route path="/transactions" element={<TransactionPage/>}/>
+                    </Routes>
+                </div>
             </div>
-        </div>
+        </ThemeProvider>
     );
 }
 

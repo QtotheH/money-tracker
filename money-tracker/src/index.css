@@ -41,7 +41,7 @@
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
+    --background: oklch(13.63% 0.0364 259.2);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.205 0 0);
     --card-foreground: oklch(0.985 0 0);
@@ -150,4 +150,9 @@
 
 .dark .custom-scrollbar::-webkit-scrollbar-thumb {
     @apply bg-slate-400;
+}
+
+/* Dark mode cho toàn bộ date picker */
+.dark input[type="date"] {
+    color-scheme: dark;
 }

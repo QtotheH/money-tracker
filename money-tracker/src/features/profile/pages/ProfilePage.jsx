@@ -33,13 +33,13 @@ const ProfilePage = () => {
                 {/* orientation="vertical"  -> Đặt tab theo trục dọc*/}
                 <Tabs defaultValue="personal" className="">
                     {/* variant="line"  -> Đặt tab theo trục dọc*/}
-                    <TabsList className="mb-4 bg-gray-100 rounded-lg p-1">
+                    <TabsList className="mb-4 bg-slate-100 dark:bg-slate-800 rounded-lg p-1">
 
-                        <TabsTrigger value="personal">
+                        <TabsTrigger value="personal" className="p-2 data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-slate-950">
                             Thông tin cá nhân
                         </TabsTrigger>
 
-                        <TabsTrigger value="security">
+                        <TabsTrigger value="security" className="p-2 data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-slate-950">
                             Bảo mật
                         </TabsTrigger>
 

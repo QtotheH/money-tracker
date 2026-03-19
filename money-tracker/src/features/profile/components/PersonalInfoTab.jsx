@@ -54,7 +54,7 @@ const PersonalInfoTab = () => {
 
         </div>
 
-       <Button className="bg-emerald-600 hover:bg-emerald-700 flex items-center gap-2">
+       <Button className="bg-emerald-600 hover:bg-emerald-700 flex items-center gap-2 dark:text-white">
             <Save className="h-4 w-4" />
             Lưu thay đổi
         </Button>
