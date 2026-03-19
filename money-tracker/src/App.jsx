@@ -13,21 +13,39 @@ import SettingPage from "./features/settings/pages/SettingPage.jsx";
 import {useState} from "react";
 import { ThemeProvider } from "@/contexts/ThemeContext.jsx";
 
+import { Menu } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
 function App() {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState(true);
     return (
         <ThemeProvider>
-            <div className="flex min-h-screen">
+            <div className="flex h-screen overflow-hidden">
                 <TopBar onMenuClick={() => setIsSidebarOpen(true)} />
 
                 <Sidebar 
                   className="w-72 border-r"
-                  onCloseSidebar={setIsSidebarOpen}
-                  isOpen={isSidebarOpen}
+                  onCloseSidebar={(value) => {
+                    setIsSidebarOpen(value);
+                    setIsDesktopSidebarOpen(value);
+                  }}
+                  isOpen={isDesktopSidebarOpen}
+                  isMobileOpen={isSidebarOpen}
                 />
 
                 {/* Main Content */}
-                <div className="flex-1 overflow-auto transition-all ease-out duration-200 pt-16 md:pt-0">
+                <div className="flex-1 overflow-auto transition-all ease-out duration-200 pt-16 md:pt-0 relative">
+                  {!isDesktopSidebarOpen && (
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setIsDesktopSidebarOpen(true)}
+                      className="hidden md:flex fixed top-4 left-4 z-30"
+                    >
+                      <Menu className="h-5 w-5" />
+                    </Button>
+                  )}
                     <Routes>
                         <Route path="/categories" element={<CategoryPage/>}/>
                         <Route path="/login" element={<LoginPage/>}/>
