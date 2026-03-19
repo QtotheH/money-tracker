@@ -6,15 +6,18 @@ import BudgetProgress from "@/features/dashboard/components/BudgetProgress.jsx";
 import GoalProgress from "@/features/dashboard/components/GoalProgress.jsx";
 import {Button} from "@/components/ui/button"
 import {Plus} from "lucide-react"
+import {useState} from "react";
+import AddTransactionDialog from "@/features/transactions/components/AddTransactionDialog.jsx";
 
 const DashboardPage = () => {
+    const [isAddTransactionOpen, setIsAddTransactionOpen] = useState(false);
     return (
         <main
             className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
                 <div className="flex flex-col space-y-6 sm:space-y-8">
                     {/* Header */}
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-6">
+                    <div className="flex flex-col sm:flex-row justify-between items- sm:items-center gap-4 sm:gap-6">
                         <div className="flex-1">
                             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-emerald-800 dark:text-emerald-400">
                                 Bảng điều khiển tài chính
@@ -25,7 +28,10 @@ const DashboardPage = () => {
                             </p>
                         </div>
 
-                        <Button className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 dark:text-white">
+                        <Button
+                            className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 dark:text-white"
+                            onClick={() => setIsAddTransactionOpen(true)}
+                        >
                             <Plus className="mr-2 h-4 w-4"/>
                             Thêm giao dịch
                         </Button>
@@ -58,6 +64,10 @@ const DashboardPage = () => {
                     </div>
                 </div>
             </div>
+            <AddTransactionDialog
+                open={isAddTransactionOpen}
+                onOpenChange={setIsAddTransactionOpen}
+            />
         </main>
 
     )

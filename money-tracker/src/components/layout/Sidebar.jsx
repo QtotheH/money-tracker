@@ -26,7 +26,7 @@ function Sidebar({ className, onCloseSidebar, isOpen = true, isMobileOpen = fals
 
   const routes = [
     {
-      href: "/dashboard",
+      href: "/",
       icon: <HomeIcon className="h-5 w-5" />,
       label: "Tổng quan",
     },

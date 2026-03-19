@@ -14,7 +14,7 @@ const ProfileAvatar = () => {
         </p>
       </div>
 
-      <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center text-lg font-medium">
+      <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center text-lg font-medium dark:bg-emerald-800 dark:text-white">
         RS
       </div>
 

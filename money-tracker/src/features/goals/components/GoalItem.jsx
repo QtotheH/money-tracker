@@ -41,7 +41,7 @@ const GoalItem = ({goal, isDashboard = false}) => {
                                     }}
                                     variant="outline"
                                     size="sm"
-                                    className="text-xs sm:text-sm w-full sm:w-auto"
+                                    className="text-xs sm:text-sm w-full sm:w-auto mb-2"
                                 >
                                     Thêm tiền
                                 </Button>

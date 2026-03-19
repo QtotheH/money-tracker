@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router";
+import {Routes, Route} from "react-router";
 import CategoryPage from "@/features/categories/pages/CategoryPage.jsx";
 import LoginPage from "@/features/auth/pages/LoginPage.jsx";
 import RegisterPage from "@/features/auth/pages/RegisterPage.jsx";
@@ -11,7 +11,8 @@ import TopBar from "@/components/layout/TopBar.jsx";
 import GoalPage from "./features/goals/pages/GoalPage";
 import SettingPage from "./features/settings/pages/SettingPage.jsx";
 import {useState} from "react";
-import { ThemeProvider } from "@/contexts/ThemeContext.jsx";
+import {ThemeProvider} from "@/contexts/ThemeContext.jsx";
+import { Toaster } from "@/components/ui/sonner"
 
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -58,9 +59,11 @@ function App() {
                         <Route path="/transactions" element={<TransactionPage/>}/>
                     </Routes>
                 </div>
-            </div>
-        </ThemeProvider>
-    );
+            </ThemeProvider>
+            <Toaster/>
+        </>
+    )
+        ;
 }
 
 export default App;

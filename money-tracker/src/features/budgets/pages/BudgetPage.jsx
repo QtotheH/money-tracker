@@ -1,164 +1,17 @@
 
-import {useMemo, useState} from "react"
+import {useState} from "react"
 import { Plus, Utensils, Car, Heart, Home, ShoppingCart, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import BudgetList from "@/features/budgets/components/BudgetList"
 import AddBudgetDialog from "@/features/budgets/components/AddBudgetDialog"
-import {nanoid} from "@reduxjs/toolkit";
-import {buildCategoryById, withCategory} from "@/lib/helpers.js";
-
-// TODO: delete mock data
-const categories = [
-  {
-    id: "1",
-    categoryName: "Ăn uống",
-    iconClass: "fa-regular fa-utensils",
-    iconName: "utensils",
-    icon: <i className="fa-regular fa-utensils"></i>,
-  },
-  {
-    id: "2",
-    categoryName: "Lương",
-    iconClass: "fa-regular fa-dollar-sign",
-    iconName: "dollar-sign",
-    icon: <i className="fa-regular fa-dollar-sign"></i>,
-  },
-  {
-    id: "3",
-    categoryName: "Thuê nhà",
-    iconClass: "fa-regular fa-house",
-    iconName: "house",
-    icon: <i className="fa-regular fa-house"></i>,
-  },
-  {
-    id: "4",
-    categoryName: "Học phí",
-    iconClass: "fa-regular fa-graduation-cap",
-    iconName: "graduation-cap",
-    icon: <i className="fa-regular fa-graduation-cap"></i>,
-  },
-  {
-    id: "5",
-    categoryName: "Quà sinh nhật",
-    iconClass: "fa-regular fa-gift",
-    iconName: "gift",
-    icon: <i className="fa-regular fa-gift"></i>,
-  },
-  {
-    id: "6",
-    categoryName: "Gói đăng ký Youtube",
-    iconClass: "fa-brands fa-youtube",
-    iconName: "youtube",
-    icon: <i className="fa-brands fa-youtube"></i>,
-  },
-  {
-    id: "7",
-    categoryName: "Gói đăng ký Spotify",
-    iconClass: "fa-brands fa-spotify",
-    iconName: "spotify",
-    icon: <i className="fa-brands fa-spotify"></i>,
-  },
-  {
-    id: "8",
-    categoryName: "Vé xem phim",
-    iconClass: "fa-regular fa-film",
-    iconName: "film",
-    icon: <i className="fa-regular fa-film"></i>,
-  },
-  {
-    id: "9",
-    categoryName: "Đổ xăng",
-    iconClass: "fa-regular fa-gas-pump",
-    iconName: "gas-pump",
-    icon: <i className="fa-regular fa-gas-pump"></i>,
-  },
-  {
-    id: "10",
-    categoryName: "Bảo dưỡng xe",
-    iconClass: "fa-regular fa-screwdriver-wrench",
-    iconName: "screwdriver-wrench",
-    icon: <i className="fa-regular fa-screwdriver-wrench"></i>,
-  },
-]
-const initialBudgets = [
-  {
-    id: nanoid(),
-    categoryId: "1",
-    spent: 45000,
-    total: 90000,
-  },
-  {
-    id: nanoid(),
-    categoryId: "2",
-    spent: 30000,
-    total: 300000,
-  },
-  {
-    id: nanoid(),
-    categoryId: "10",
-    spent: 300000,
-    total: 300000,
-  },
-  {
-    id: nanoid(),
-    categoryId: "8",
-    spent: 1500000,
-    total: 1000000,
-  },
-  {
-    id: nanoid(),
-    categoryId: "6",
-    spent: 131204,
-    total: 19980817,
-  },
-  {
-    id: nanoid(),
-    categoryId: "7",
-    spent: 150000,
-    total: 600000,
-  },
-]
+import {useBudgetsData} from "@/features/budgets/hooks/useBudgetData.jsx";
 
 const BudgetPage = () => {
-  const [budgets, setBudgets] = useState(initialBudgets)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-  // Tạo 1 bảng tra cứu category theo id
-  // chỉ thay đổi (tính toán lại) khi mảng categories thay đổi (useMemo)
-  const categoryById = useMemo(() => buildCategoryById(categories), [categories]);
-
-  // hàm này chỉ tính toán lại khi budgets và categoryById thay đổi
-  const budgetsWithCategory = useMemo(
-      () => withCategory(budgets, categoryById),
-      [budgets, categoryById]
-  )
-
-  // danh sách categoryId đã có budget (để chặn duplicate)
-  // useMemo(..) tránh tính toán lại khi component re-render trừ khi một trong các dependencies có thay đổi
-  const existingCategoryIds = useMemo(
-      () => budgets.map((b) => String(b.categoryId)),
-      [budgets]
-  );
-
-  const handleAdd = ({ categoryId, total }) => {
-    const normalizedCategoryId = String(categoryId);
-
-    // chặn trùng categoryId
-    if (existingCategoryIds.includes(normalizedCategoryId)) {
-      return;
-    }
-
-    setBudgets((prev) => [
-      ...prev,
-      {
-        id: nanoid(), // mock id; sau này backend sẽ trả id
-        categoryId: normalizedCategoryId,
-        spent: 0,
-        total,
-      },
-    ])
-  }
+  // GỌI CUSTOM HOOK
+  const { budgetsWithCategory, categories, isLoading } = useBudgetsData();
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
@@ -189,7 +42,11 @@ const BudgetPage = () => {
             <CardDescription>Theo dõi chi tiêu theo từng danh mục</CardDescription>
           </CardHeader>
           <CardContent>
-            <BudgetList budgets={budgetsWithCategory} />
+            {isLoading ? (
+                <p>Đang tải dữ liệu...</p>
+            ) : (
+                <BudgetList budgets={budgetsWithCategory} />
+            )}
           </CardContent>
         </Card>
 
@@ -198,9 +55,8 @@ const BudgetPage = () => {
       <AddBudgetDialog
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
-        onAdd={handleAdd}
         categories={categories}
-        existingCategories={budgets.map((budget) => budget.categoryId)}
+        existingCategoryIds={budgetsWithCategory.map((budget) => budget.categoryId)}
       />
     </main>
   )
