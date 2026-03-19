@@ -1,4 +1,4 @@
-import { useState } from "react"
+import {useEffect, useState} from "react"
 
 import {
   Dialog,
@@ -13,13 +13,24 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {useDispatch, useSelector} from "react-redux";
+import {fetchCategories, selectAllCategoriesState} from "@/store/slices/categorySlice.js";
 
 function AddTransactionDialog({ open, onOpenChange }) {
+  const dispatch = useDispatch();
+  const { items, status, error } = useSelector(selectAllCategoriesState);
+
   const [transactionType, setTransactionType] = useState("expense")
   const [amount, setAmount] = useState("")
   const [description, setDescription] = useState("")
   const [category, setCategory] = useState("")
   const [date, setDate] = useState(new Date().toISOString().split("T")[0])
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchCategories());
+    }
+  }, [status, dispatch])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -102,22 +113,21 @@ function AddTransactionDialog({ open, onOpenChange }) {
                 Danh mục
               </Label>
               <Select value={category} onValueChange={setCategory} required>
-                <SelectTrigger id="category" className="col-span-3">
+                <SelectTrigger id="category" className="col-span-3 max-w-full">
                   <SelectValue placeholder="Chọn danh mục" />
                 </SelectTrigger>
                 <SelectContent
                     position="popper"
                     align="start"
-                    className="w-[var(--radix-select-trigger-width)]"
+                    className="max-w-full"
                 >
-                  <SelectItem value="housing">Nhà ở</SelectItem>
-                  <SelectItem value="food">Ăn uống</SelectItem>
-                  <SelectItem value="transportation">Di chuyển</SelectItem>
-                  <SelectItem value="entertainment">Giải trí</SelectItem>
-                  <SelectItem value="utilities">Tiện ích</SelectItem>
-                  <SelectItem value="shopping">Mua sắm</SelectItem>
-                  <SelectItem value="income">Thu nhập</SelectItem>
-                  <SelectItem value="other">Khác</SelectItem>
+                  {items.length > 0 &&
+                      items.map(c => (
+                          <SelectItem key={c.id} value={c.id}>
+                            {c.categoryName}
+                          </SelectItem>
+                      ))
+                  }
                 </SelectContent>
               </Select>
             </div>
