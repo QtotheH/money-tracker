@@ -2,128 +2,28 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eye} from "lucide-react"
 
 import BudgetList from "@/features/budgets/components/BudgetList.jsx"
-import {nanoid} from "@reduxjs/toolkit";
 import {useMemo} from "react";
 import { useNavigate } from "react-router";
 import {getUsedPercent} from "@/lib/budgetUtils.js";
-import {buildCategoryById, withCategory} from "@/lib/helpers.js";
-
-// TODO: delete mock data
-const categories = [
-  {
-    id: "1",
-    categoryName: "Ăn uống",
-    iconClass: "fa-regular fa-utensils",
-    iconName: "utensils",
-  },
-  {
-    id: "2",
-    categoryName: "Lương",
-    iconClass: "fa-regular fa-dollar-sign",
-    iconName: "dollar-sign",
-  },
-  {
-    id: "3",
-    categoryName: "Thuê nhà",
-    iconClass: "fa-regular fa-house",
-    iconName: "house",
-  },
-  {
-    id: "4",
-    categoryName: "Học phí",
-    iconClass: "fa-regular fa-graduation-cap",
-    iconName: "graduation-cap",
-  },
-  {
-    id: "5",
-    categoryName: "Quà sinh nhật",
-    iconClass: "fa-regular fa-gift",
-    iconName: "gift",
-  },
-  {
-    id: "6",
-    categoryName: "Gói đăng ký Youtube",
-    iconClass: "fa-brands fa-youtube",
-    iconName: "youtube",
-  },
-  {
-    id: "7",
-    categoryName: "Gói đăng ký Spotify",
-    iconClass: "fa-brands fa-spotify",
-    iconName: "spotify",
-  },
-  {
-    id: "8",
-    categoryName: "Vé xem phim",
-    iconClass: "fa-regular fa-film",
-    iconName: "film",
-  },
-  {
-    id: "9",
-    categoryName: "Đổ xăng",
-    iconClass: "fa-regular fa-gas-pump",
-    iconName: "gas-pump",
-  },
-  {
-    id: "10",
-    categoryName: "Bảo dưỡng xe",
-    iconClass: "fa-regular fa-screwdriver-wrench",
-    iconName: "screwdriver-wrench",
-  },
-]
-const budgets = [
-  {
-    id: nanoid(),
-    categoryId: "1",
-    spent: 45000,
-    total: 90000,
-  },
-  {
-    id: nanoid(),
-    categoryId: "2",
-    spent: 30000,
-    total: 300000,
-  },
-  {
-    id: nanoid(),
-    categoryId: "10",
-    spent: 300000,
-    total: 300000,
-  },
-  {
-    id: nanoid(),
-    categoryId: "8",
-    spent: 1500000,
-    total: 1000000,
-  },
-  {
-    id: nanoid(),
-    categoryId: "6",
-    spent: 131204,
-    total: 19980817,
-  },
-  {
-    id: nanoid(),
-    categoryId: "7",
-    spent: 150000,
-    total: 600000,
-  },
-]
+import {useBudgetsData} from "@/features/budgets/hooks/useBudgetData.jsx";
 
 const BudgetProgress = () => {
   const navigate = useNavigate();
 
-  const categoryById = useMemo(() => buildCategoryById(categories), [categories]);
+  // Lấy dữ liệu budgets từ custom hook
+  const { budgetsWithCategory, isLoading } = useBudgetsData();
 
+  // Xử lý sắp xếp và lấy Top 3 ngân sách tiêu nhiều nhất
   const topBudgets = useMemo(() => {
-    const enriched = withCategory(budgets, categoryById)
+    // Clone mảng để không làm thay đổi trực tiếp (mutate) state gốc của Redux
+    const enriched = [...budgetsWithCategory];
 
-    // sort theo % used giảm dần
-    enriched.sort((a, b) => getUsedPercent(b) - getUsedPercent(a))
+    // sort theo % used giảm dần (Ngân sách sắp hết/vượt mức sẽ nằm trên cùng)
+    enriched.sort((a, b) => getUsedPercent(b) - getUsedPercent(a));
 
-    // lấy tối đa 5
-    return enriched.slice(0, 3)
-  }, [budgets, categoryById])
+    // Lấy tối đa 3 phần tử đầu tiên
+    return enriched.slice(0, 3);
+  }, [budgetsWithCategory]);
 
   return (
     <Card className="h-full py-4 sm:py-6 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
@@ -151,7 +51,13 @@ const BudgetProgress = () => {
       </CardHeader>
 
       <CardContent className="px-4 sm:px-6">
-        <BudgetList budgets={topBudgets} />
+        {isLoading ? (
+            <p className="text-center py-4 text-sm text-muted-foreground">Đang tải dữ liệu...</p>
+        ) : budgetsWithCategory.length === 0 ? (
+            <p className="text-center py-4 text-sm text-muted-foreground">Chưa có ngân sách nào.</p>
+        ) : (
+            <BudgetList budgets={topBudgets} />
+        )}
       </CardContent>
 
     </Card>

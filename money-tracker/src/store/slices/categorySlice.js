@@ -8,6 +8,7 @@ const initialState = {
 };
 
 export const selectAllCategoriesState = (state) => state.categories;
+export const getCategoriesStatus = (state) => state.categories.status;
 export const selectCategoriesItems = (state) => state.categories.categories;
 
 // Selector tạo bảng tra cứu (Chỉ tính toán lại khi mảng categories thay đổi)

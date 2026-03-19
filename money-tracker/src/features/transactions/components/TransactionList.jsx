@@ -19,15 +19,6 @@ function TransactionList({ limit, showAll = false, onEdit }) {
   const [searchTerm, setSearchTerm] = useState("")
   const [filterType, setFilterType] = useState("all")
 
-/*   // Tạo 1 bảng tra cứu category theo id
-  // chỉ thay đổi (tính toán lại) khi mảng categories thay đổi (useMemo)
-  const categoryById = useMemo(() => buildCategoryById(categories), [categories]);
-
-  // hàm này chỉ tính toán lại khi budgets và categoryById thay đổi
-  const transactionsWithCategory = useMemo(
-      () => withCategory(transactions, categoryById),
-      [transactions, categoryById]
-  ); */
   const transactionsStatus = useSelector(getTransactionsStatus);
 
   useEffect(() => {
