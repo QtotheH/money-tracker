@@ -40,7 +40,7 @@ const SecurityTab = () => {
           <Input  className="mt-1" type="password"/>
         </div>
 
-        <Button className="bg-emerald-600 hover:bg-emerald-700">
+        <Button className="bg-emerald-600 hover:bg-emerald-700 dark:text-white">
           Cập nhật mật khẩu
         </Button>
 

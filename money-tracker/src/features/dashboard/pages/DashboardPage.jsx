@@ -6,8 +6,11 @@ import BudgetProgress from "@/features/dashboard/components/BudgetProgress.jsx";
 import GoalProgress from "@/features/dashboard/components/GoalProgress.jsx";
 import {Button} from "@/components/ui/button"
 import {Plus} from "lucide-react"
+import {useState} from "react";
+import AddTransactionDialog from "@/features/transactions/components/AddTransactionDialog.jsx";
 
 const DashboardPage = () => {
+    const [isAddTransactionOpen, setIsAddTransactionOpen] = useState(false);
     return (
         <main
             className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
@@ -25,7 +28,10 @@ const DashboardPage = () => {
                             </p>
                         </div>
 
-                        <Button className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 dark:text-white">
+                        <Button
+                            className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 dark:text-white"
+                            onClick={() => setIsAddTransactionOpen(true)}
+                        >
                             <Plus className="mr-2 h-4 w-4"/>
                             Thêm giao dịch
                         </Button>
@@ -58,6 +64,7 @@ const DashboardPage = () => {
                     </div>
                 </div>
             </div>
+            <AddTransactionDialog open={isAddTransactionOpen} onOpenChange={setIsAddTransactionOpen} />
         </main>
 
     )

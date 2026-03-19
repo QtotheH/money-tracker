@@ -14,7 +14,7 @@ const GoalItem = ({goal, isDashboard = false}) => {
     return (
         <div className="space-y-1">
             {/* Dòng 1 */}
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-3">
+            <div className="flex flex-row items-center justify-between gap-2 sm:gap-3">
                 <div className="flex items-start gap-2 min-w-0 flex-1">
                     <div className="p-1.5 bg-slate-100 dark:bg-slate-700 rounded-md text-slate-600 dark:text-slate-300 flex-shrink-0">
                         {/* Render icon từ iconClass  */}
@@ -41,7 +41,7 @@ const GoalItem = ({goal, isDashboard = false}) => {
                                     }}
                                     variant="outline"
                                     size="sm"
-                                    className="text-xs sm:text-sm w-full sm:w-auto"
+                                    className="text-xs sm:text-sm w-full sm:w-auto mb-2"
                                 >
                                     Thêm tiền
                                 </Button>
