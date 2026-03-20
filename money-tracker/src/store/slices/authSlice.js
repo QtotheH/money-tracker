@@ -31,10 +31,7 @@ export const register = createAsyncThunk(
                 avatar: "",
                 settings: {
                     theme: "light",
-                    currency: {
-                        code: "vnd",
-                        symbol: "₫"
-                    },
+                    currency: "vnd",
                     budgetsAlert: false,
                     goalsAlert: false
                 }
