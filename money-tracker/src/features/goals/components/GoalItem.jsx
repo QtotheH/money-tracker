@@ -4,12 +4,13 @@ import GoalProgressBar from "@/features/goals/components/GoalProgressBar.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AddFundDialog from "@/features/goals/components/AddFundDialog";
 import {getDaysLeft} from "@/lib/goalUtils.js";
-import {formatDateToVNDate} from "@/lib/helpers.js";
+import {calculatePercent, formatDateToVNDate} from "@/lib/helpers.js";
 
 const GoalItem = ({goal, isDashboard = false}) => {
     const [isAddFundOpen, setIsAddFundOpen] = useState(false);
     const remaining = goal.target - goal.current;
-    const progress = Math.round((goal.current / goal.target) * 100);
+    // Làm tròn đến 2 chữ số thập phân, nhưng .toFixed trả về String nên cần chuyển về lại Number
+    const progress = Number(calculatePercent(goal.current, goal.target).toFixed(2));
     const daysLeft = getDaysLeft(goal.targetDate);
     return (
         <div className="space-y-1">
@@ -45,7 +46,7 @@ const GoalItem = ({goal, isDashboard = false}) => {
                                 >
                                     Thêm tiền
                                 </Button>
-                                <AddFundDialog open={isAddFundOpen} setOpenChange={setIsAddFundOpen}/>
+                                <AddFundDialog open={isAddFundOpen} setOpenChange={setIsAddFundOpen} goalId={goal.id} />
                             </>
                         ) :
                         <p className="text-xs text-slate-400 dark:text-slate-500 font-medium mb-1">

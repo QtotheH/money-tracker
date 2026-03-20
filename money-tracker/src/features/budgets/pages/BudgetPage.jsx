@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import BudgetList from "@/features/budgets/components/BudgetList"
 import AddBudgetDialog from "@/features/budgets/components/AddBudgetDialog"
 import {useBudgetsData} from "@/features/budgets/hooks/useBudgetData.jsx";
+import Loading from "@/components/common/Loading.jsx";
 
 const BudgetPage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -43,7 +44,7 @@ const BudgetPage = () => {
           </CardHeader>
           <CardContent>
             {isLoading ? (
-                <p>Đang tải dữ liệu...</p>
+                <Loading />
             ) : (
                 <BudgetList budgets={budgetsWithCategory} />
             )}

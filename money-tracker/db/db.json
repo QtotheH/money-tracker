@@ -207,13 +207,31 @@
   ],
   "goals": [
     {
-      "id": "1",
-      "iconClass": "",
-      "iconName": "",
-      "name": "",
-      "current": 0,
-      "target": 0,
-      "targetDate": "2026-03-27T11:58:43.748Z"
+      "id": "xDeKkP4dON0G0ORgfvK7O",
+      "name": "Mua nhà",
+      "iconClass": "fa-regular fa-house",
+      "iconName": "house",
+      "current": 1206000000,
+      "target": 10000000000,
+      "targetDate": "2026-12-13T00:00:00.000Z"
+    },
+    {
+      "id": "xL7SGfy-uPtEVPwv2ams-",
+      "name": "Du lịch Hàn Quốc",
+      "iconClass": "fa-regular fa-campground",
+      "iconName": "campground",
+      "current": 4200000,
+      "target": 20000000,
+      "targetDate": "2026-08-17T00:00:00.000Z"
+    },
+    {
+      "id": "1mmKW1Dc0xQbWGoVqJbq5",
+      "name": "Mua xe VF3",
+      "iconClass": "fa-regular fa-rocket",
+      "iconName": "rocket",
+      "current": 20140000,
+      "target": 300000000,
+      "targetDate": "2027-12-13T00:00:00.000Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -13,8 +13,10 @@ import {PlusIcon} from "lucide-react";
 import AddGoalDialog from "@/features/goals/components/AddGoalDialog.jsx";
 import {nanoid} from "@reduxjs/toolkit";
 import GoalList from "@/features/goals/components/GoalList.jsx";
+import {useGoalData} from "@/features/goals/hooks/useGoalData.js";
+import Loading from "@/components/common/Loading.jsx";
 
-const initialGoals = [
+/* const initialGoals = [
     {
         id: nanoid(),
         name: "Quỹ khẩn cấp",
@@ -60,16 +62,13 @@ const initialGoals = [
         iconClass: "fa-regular fa-house",
         iconName: "house",
     },
-];
+]; */
 
 const GoalsPage = () => {
-
-    const [goals, setGoals] = useState(initialGoals);
     const [isAddGoalDialogOpen, setIsAddGoalDialogOpen] = useState(false);
 
-    // const addGoal = (goal) => {
-    //     setGoals([...goals, goal]);
-    // };
+    const {goals, isLoading} = useGoalData();
+
     return (
         <main
             className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
@@ -101,7 +100,11 @@ const GoalsPage = () => {
                     </CardHeader>
 
                     <CardContent>
-                        <GoalList goals={goals} />
+                        {isLoading ? <Loading/> :
+                            goals.length === 0 ?
+                                <p className="text-center">Không có dữ liệu</p> :
+                            <GoalList goals={goals}/>
+                        }
                     </CardContent>
                 </Card>
             </div>

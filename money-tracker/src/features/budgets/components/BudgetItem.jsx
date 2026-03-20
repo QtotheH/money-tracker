@@ -1,8 +1,8 @@
-import {getUsedPercent} from "@/lib/budgetUtils.js";
 import BudgetProgressBar from "@/features/budgets/components/BudgetProgressBar.jsx";
+import {calculatePercent} from "@/lib/helpers.js";
 
 const BudgetItem = ({ budget }) => {
-  const percentage = budget.total > 0 ? Math.round(getUsedPercent(budget) * 100) : 0
+  const percentage = budget.total > 0 ? Number(calculatePercent(budget.spent, budget.total).toFixed(2)) : 0
   const remaining = budget.total - budget.spent
 
   const category = budget.category

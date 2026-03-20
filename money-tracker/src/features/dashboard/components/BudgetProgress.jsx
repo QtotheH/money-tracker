@@ -4,8 +4,8 @@ import { Eye} from "lucide-react"
 import BudgetList from "@/features/budgets/components/BudgetList.jsx"
 import {useMemo} from "react";
 import { useNavigate } from "react-router";
-import {getUsedPercent} from "@/lib/budgetUtils.js";
 import {useBudgetsData} from "@/features/budgets/hooks/useBudgetData.jsx";
+import {calculatePercent} from "@/lib/helpers.js";
 
 const BudgetProgress = () => {
   const navigate = useNavigate();
@@ -19,7 +19,9 @@ const BudgetProgress = () => {
     const enriched = [...budgetsWithCategory];
 
     // sort theo % used giảm dần (Ngân sách sắp hết/vượt mức sẽ nằm trên cùng)
-    enriched.sort((a, b) => getUsedPercent(b) - getUsedPercent(a));
+    enriched.sort((a, b) =>
+        calculatePercent(b.spent, b.total) - calculatePercent(a.spent, a.total)
+    );
 
     // Lấy tối đa 3 phần tử đầu tiên
     return enriched.slice(0, 3);
