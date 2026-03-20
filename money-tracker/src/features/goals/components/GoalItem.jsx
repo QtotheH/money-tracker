@@ -1,7 +1,6 @@
 import {Button} from "@/components/ui/button";
 import React, {useState} from "react";
 import GoalProgressBar from "@/features/goals/components/GoalProgressBar.jsx";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AddFundDialog from "@/features/goals/components/AddFundDialog";
 import {getDaysLeft} from "@/lib/goalUtils.js";
 import {calculatePercent, formatDateToVNDate} from "@/lib/helpers.js";
@@ -17,7 +16,7 @@ const GoalItem = ({goal, isDashboard = false}) => {
             {/* Dòng 1 */}
             <div className="flex flex-row items-center justify-between gap-2 sm:gap-3">
                 <div className="flex items-start gap-2 min-w-0 flex-1">
-                    <div className="p-1.5 bg-slate-100 dark:bg-slate-700 rounded-md text-slate-600 dark:text-slate-300 flex-shrink-0">
+                    <div className="p-1.5 bg-slate-100 dark:bg-slate-700 rounded-md text-slate-600 dark:text-slate-300 shrink-0">
                         {/* Render icon từ iconClass  */}
                         {goal?.iconClass ? <i className={goal.iconClass} /> : null}
                     </div>
@@ -33,7 +32,7 @@ const GoalItem = ({goal, isDashboard = false}) => {
 
                 </div>
 
-                <div className="text-right flex-shrink-0">
+                <div className="text-right shrink-0">
                     {!isDashboard ? (
                             <>
                                 <Button

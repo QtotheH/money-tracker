@@ -45,7 +45,7 @@ const BudgetProgress = () => {
         <button
           title="Xem tất cả ngân sách"
           onClick={() => navigate("/budgets")}
-          className="text-slate-400 hover:text-slate-600 transition-colors flex-shrink-0"
+          className="text-slate-400 hover:text-slate-600 transition-colors shrink-0"
         >
           <Eye size={20} />
         </button>
