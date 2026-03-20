@@ -18,10 +18,12 @@ import {selectCategoriesItems} from "@/store/slices/categorySlice.js";
 
 import {toast} from "sonner"
 import {createTransaction, updateTransaction} from "@/store/slices/transactionSlice.js";
+import {useCurrency} from "@/hooks/useCurrency.js";
 
 function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = null}) {
     const dispatch = useDispatch();
     const categories = useSelector(selectCategoriesItems);
+    const {symbol} = useCurrency();
 
     const [transactionType, setTransactionType] = useState("expense")
     const [amount, setAmount] = useState("")
@@ -56,12 +58,6 @@ function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = n
             setErrors({});
         }
     }, [open, isEditMode, transaction])
-
-    /* useEffect(() => {
-        if (status === 'idle') {
-            dispatch(fetchCategories());
-        }
-    }, [status, dispatch]) */
 
     // Xóa lỗi khi dialog đóng/mở
     useEffect(() => {
@@ -200,7 +196,9 @@ function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = n
                             </Label>
                             <div className="col-span-3">
                                 <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2">₫</span>
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2">
+                                        {symbol}
+                                    </span>
                                     <Input
                                         id="amount"
                                         value={amount}

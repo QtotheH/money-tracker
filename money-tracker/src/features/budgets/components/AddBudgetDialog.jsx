@@ -13,6 +13,7 @@ import {
 import {createBudget} from "@/store/slices/budgetSlice.js";
 import {useDispatch} from "react-redux";
 import {toast} from "sonner";
+import {useCurrency} from "@/hooks/useCurrency.js";
 
 const AddBudgetDialog = ({
                              isOpen,
@@ -21,6 +22,8 @@ const AddBudgetDialog = ({
                              existingCategoryIds = [],
                          }) => {
     const dispatch = useDispatch();
+
+    const { symbol } = useCurrency();
 
     const [categoryId, setCategoryId] = useState("")
     const [amount, setAmount] = useState("")
@@ -147,7 +150,9 @@ const AddBudgetDialog = ({
                             <Label htmlFor="amount">Số tiền</Label>
                             <div className="col-span-3">
                                 <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">₫</span>
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm">
+                                        {symbol}
+                                    </span>
                                     <Input
                                         id="amount"
                                         className={`pl-7 ${errors.amount ? "border-rose-500 focus-visible:ring-rose-500" : ""}`}

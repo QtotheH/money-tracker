@@ -8,7 +8,7 @@ import {
   SettingsIcon,
   LogOutIcon, Minimize2,
 } from "lucide-react";
-import { Link, useLocation } from "react-router";
+import {Link, useLocation, useNavigate} from "react-router";
 import { useContext } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -17,12 +17,23 @@ import { Toggle } from "@/components/ui/toggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-regular-svg-icons";
 import { ThemeContext } from "@/contexts/ThemeContext.jsx";
+import {logout, selectCurrentUser} from "@/store/slices/authSlice.js";
+import {useDispatch, useSelector} from "react-redux";
 
 
 function Sidebar({ className, onCloseSidebar, isOpen = true, isMobileOpen = false }) {
   const location = useLocation();
   const pathname = location.pathname;
   const { isDark, toggleTheme } = useContext(ThemeContext);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector(selectCurrentUser); // Lấy thông tin user hiện tại
+
+  const handleLogout = () => {
+    dispatch(logout()); // Xóa state và localStorage
+    navigate("/login"); // Đá ra trang đăng nhập
+  };
 
   const routes = [
     {
@@ -125,14 +136,27 @@ function Sidebar({ className, onCloseSidebar, isOpen = true, isMobileOpen = fals
               <FontAwesomeIcon icon={isDark ? faMoon : faSun} />
             </Toggle>
           </div>
+
+          {/* Thông tin user và Logout */}
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
-              <UserIcon className="h-4 w-4 text-emerald-600" />
+              {/* Hiện Avatar nếu có, không thì hiện Icon */}
+              {user?.avatar ? (
+                  <img src={user.avatar} alt="avatar" className="w-full h-full object-cover" />
+              ) : (
+                  <UserIcon className="h-4 w-4 text-emerald-600" />
+              )}
             </div>
             <div>
-              <p className="text-lg font-medium">Q to the H</p>
+              <p className="text-lg font-medium">{user?.fullname || "Người dùng chưa có tên"}</p>
             </div>
-            <Button variant="ghost" size="icon" className="ml-auto">
+            <Button
+                variant="ghost"
+                size="icon"
+                className="ml-auto"
+                onClick={handleLogout}
+                title="Đăng xuất"
+            >
               <LogOutIcon className="h-4 w-4" />
             </Button>
           </div>

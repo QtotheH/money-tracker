@@ -1,4 +1,65 @@
 {
+  "currencies": [
+    {
+      "id": "1",
+      "code": "vnd",
+      "name": "Việt Nam Đồng",
+      "symbol": "₫"
+    },
+    {
+      "id": "2",
+      "code": "usd",
+      "name": "Đô La Mỹ",
+      "symbol": "$"
+    },
+    {
+      "id": "3",
+      "code": "eur",
+      "name": "Euro",
+      "symbol": "€"
+    },
+    {
+      "id": "4",
+      "code": "gbp",
+      "name": "Bảng Anh",
+      "symbol": "£"
+    },
+    {
+      "id": "5",
+      "code": "kwr",
+      "name": "Won Hàn Quốc",
+      "symbol": "₩"
+    },
+    {
+      "id": "6",
+      "code": "jpy",
+      "name": "Yên Nhật",
+      "symbol": "¥"
+    },
+    {
+      "id": "7",
+      "code": "cny",
+      "name": "Nhân Dân Tệ",
+      "symbol": "CN¥"
+    }
+  ],
+  "users": [
+    {
+      "id": "b2mh8ims-xjHYiRzMvFGy",
+      "fullname": "Quỳnh Hương",
+      "email": "quynhhuong.qh13@gmail.com",
+      "dob": "2004-12-13",
+      "password": "$2b$12$nZ80KbvEextGkbCz//R1neW/ZA11EDRQK4s4Ejhih0STC7sKmnaNq",
+      "phone": "0963852741",
+      "avatar": "",
+      "settings": {
+        "theme": "light",
+        "currency": "kwr",
+        "budgetsAlert": false,
+        "goalsAlert": false
+      }
+    }
+  ],
   "categories": [
     {
       "id": "1",

@@ -4,7 +4,7 @@ import { Eye} from "lucide-react"
 import BudgetList from "@/features/budgets/components/BudgetList.jsx"
 import {useMemo} from "react";
 import { useNavigate } from "react-router";
-import {useBudgetsData} from "@/features/budgets/hooks/useBudgetData.jsx";
+import {useBudgetsData} from "@/hooks/useBudgetData.js";
 import {calculatePercent} from "@/lib/helpers.js";
 
 const BudgetProgress = () => {

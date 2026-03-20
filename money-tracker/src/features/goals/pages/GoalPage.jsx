@@ -10,7 +10,7 @@ import {Button} from "@/components/ui/button";
 import {PlusIcon} from "lucide-react";
 import AddGoalDialog from "@/features/goals/components/AddGoalDialog.jsx";
 import GoalList from "@/features/goals/components/GoalList.jsx";
-import {useGoalData} from "@/features/goals/hooks/useGoalData.js";
+import {useGoalData} from "@/hooks/useGoalData.js";
 import Loading from "@/components/common/Loading.jsx";
 
 const GoalsPage = () => {

@@ -14,9 +14,12 @@ import IconPicker from "@/features/categories/components/IconPicker.jsx";
 import {useDispatch} from "react-redux";
 import {createGoal} from "@/store/slices/goalSlice.js";
 import {toast} from "sonner";
+import {useCurrency} from "@/hooks/useCurrency.js";
 
 const AddGoalDialog = ({open, setOpenChange}) => {
     const dispatch = useDispatch();
+
+    const { symbol } = useCurrency();
 
     const [goalName, setGoalName] = useState("");
     const [targetAmount, setTargetAmount] = useState("");
@@ -152,8 +155,8 @@ const AddGoalDialog = ({open, setOpenChange}) => {
                                 <div className="col-span-3">
                                     <div className="relative">
                                         <span
-                                        className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
-                                            ₫
+                                        className="absolute left-3 top-1/2 -translate-y-1/2 text-sm">
+                                            {symbol}
                                         </span>
                                         <Input
                                             id="current-amount"
@@ -181,8 +184,8 @@ const AddGoalDialog = ({open, setOpenChange}) => {
                                 <div className="col-span-3">
                                     <div className="relative">
                                         <span
-                                            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
-                                            ₫
+                                            className="absolute left-3 top-1/2 -translate-y-1/2 text-sm">
+                                            {symbol}
                                         </span>
                                         <Input
                                             id="target-amount"

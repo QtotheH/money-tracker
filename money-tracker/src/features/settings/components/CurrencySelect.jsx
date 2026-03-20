@@ -7,7 +7,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select.jsx";
+import {useDispatch} from "react-redux";
+import {useCurrency} from "@/hooks/useCurrency.js";
+import {useCurrencies} from "@/hooks/useCurrencies.js";
+import {syncCurrencyToDB} from "@/store/slices/authSlice.js";
+import {toast} from "sonner";
 const CurrencySelect = () => {
+  const dispatch = useDispatch();
+
+  // Lấy currencyCode hiện tại của user
+  const { currencyCode } = useCurrency();
+
+  // Lấy danh sách currencies từ db
+  const { currencies, isLoading } = useCurrencies();
+
+  const handleCurrencyChange = async (newCode) => {
+    try {
+      await dispatch(syncCurrencyToDB(newCode)).unwrap();
+      toast.success("Cập nhật thành công!");
+    } catch (error) {
+      console.error("Có lỗi khi cập nhật đơn vị tiền tệ: ", error);
+      toast.error("Lỗi cập nhật!");
+    }
+  }
+
   return (
     <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
       <div>
@@ -16,21 +39,22 @@ const CurrencySelect = () => {
           Chọn loại tiền tệ bạn muốn sử dụng
         </p>
       </div>
-      <Select defaultValue="vnd">
+      <Select value={currencyCode} onValueChange={handleCurrencyChange} disabled={isLoading}>
         <SelectTrigger className="w-full md:max-w-65">
-          <SelectValue placeholder="VNĐ"></SelectValue>
+          <SelectValue
+              placeholder={isLoading ? "Đang tải..." : "Chọn tiền tệ"}>
+          </SelectValue>
         </SelectTrigger>
-
         <SelectContent>
           <SelectGroup>
-            <SelectItem value="vnd">Việt Nam Đồng (₫)</SelectItem>
-            <SelectItem value="usd">USD ($)</SelectItem>
-            <SelectItem value="eur">Euro (€)</SelectItem>
-            <SelectItem value="gbp">Bảng Anh (£)</SelectItem>
+            {currencies.map(currency =>
+              <SelectItem key={currency.id} value={currency.code}>
+                {currency.name} ({currency.symbol})
+              </SelectItem>
+            )}
           </SelectGroup>
         </SelectContent>
       </Select>
-      
     </div>
   );
 };

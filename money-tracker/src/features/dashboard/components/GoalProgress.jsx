@@ -3,7 +3,7 @@ import {Eye} from "lucide-react"
 import {useNavigate} from "react-router";
 
 import GoalList from "@/features/goals/components/GoalList.jsx";
-import {useGoalData} from "@/features/goals/hooks/useGoalData.js";
+import {useGoalData} from "@/hooks/useGoalData.js";
 import Loading from "@/components/common/Loading.jsx";
 import React from "react";
 const GoalProgress = () => {
