@@ -11,58 +11,9 @@ import {
 import {Button} from "@/components/ui/button";
 import {PlusIcon} from "lucide-react";
 import AddGoalDialog from "@/features/goals/components/AddGoalDialog.jsx";
-import {nanoid} from "@reduxjs/toolkit";
 import GoalList from "@/features/goals/components/GoalList.jsx";
 import {useGoalData} from "@/features/goals/hooks/useGoalData.js";
 import Loading from "@/components/common/Loading.jsx";
-
-/* const initialGoals = [
-    {
-        id: nanoid(),
-        name: "Quỹ khẩn cấp",
-        targetDate: "01/01/2026",
-        current: 6500,
-        target: 10000,
-        iconClass: "fa-regular fa-house",
-        iconName: "house",
-    },
-    {
-        id: nanoid(),
-        name: "Du lịch",
-        targetDate: "09/06/2026",
-        current: 6500,
-        target: 10000,
-        iconClass: "fa-regular fa-house",
-        iconName: "house",
-    },
-    {
-        id: nanoid(),
-        name: "Mua nhà",
-        targetDate: "08/17/2026",
-        current: 6500,
-        target: 10000,
-        iconClass: "fa-regular fa-house",
-        iconName: "house",
-    },
-    {
-        id: nanoid(),
-        name: "Học phí đại học",
-        targetDate: "09/05/2026",
-        current: 6500,
-        target: 10000,
-        iconClass: "fa-regular fa-house",
-        iconName: "house",
-    },
-    {
-        id: nanoid(),
-        name: "Mua xe máy",
-        targetDate: "04/30/2026",
-        current: 6500,
-        target: 10000,
-        iconClass: "fa-regular fa-house",
-        iconName: "house",
-    },
-]; */
 
 const GoalsPage = () => {
     const [isAddGoalDialogOpen, setIsAddGoalDialogOpen] = useState(false);
