@@ -4,6 +4,7 @@ import GoalProgressBar from "@/features/goals/components/GoalProgressBar.jsx";
 import AddFundDialog from "@/features/goals/components/AddFundDialog";
 import {getDaysLeft} from "@/lib/goalUtils.js";
 import {calculatePercent, formatDateToVNDate} from "@/lib/helpers.js";
+import {useCurrency} from "@/hooks/useCurrency.js";
 
 const GoalItem = ({goal, isDashboard = false}) => {
     const [isAddFundOpen, setIsAddFundOpen] = useState(false);
@@ -11,6 +12,9 @@ const GoalItem = ({goal, isDashboard = false}) => {
     // Làm tròn đến 2 chữ số thập phân, nhưng .toFixed trả về String nên cần chuyển về lại Number
     const progress = Number(calculatePercent(goal.current, goal.target).toFixed(2));
     const daysLeft = getDaysLeft(goal.targetDate);
+
+    const { formatMoney } = useCurrency();
+
     return (
         <div className="space-y-1">
             {/* Dòng 1 */}
@@ -55,11 +59,11 @@ const GoalItem = ({goal, isDashboard = false}) => {
 
                     <div className="text-xs sm:text-sm font-medium">
                         <span className="text-slate-900 dark:text-white">
-                          ₫{goal.current.toLocaleString()}
+                          {formatMoney(goal.current)}
                         </span>
 
                         <span className="text-muted-foreground dark:text-slate-400">
-                          {" "} / ₫{goal.target.toLocaleString()}
+                          {" "} / {formatMoney(goal.target)}
                         </span>
                     </div>
                 </div>
@@ -74,7 +78,7 @@ const GoalItem = ({goal, isDashboard = false}) => {
                   {progress}% đã đạt
                 </span>
                 <span className="text-slate-500 dark:text-slate-400 text-right">
-                  {remaining.toLocaleString()} VNĐ còn lại
+                  {formatMoney(remaining)} còn lại
                 </span>
             </div>
 

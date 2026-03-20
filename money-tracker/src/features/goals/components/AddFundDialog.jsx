@@ -13,9 +13,12 @@ import {useDispatch} from "react-redux";
 import {toast} from "sonner";
 import {addGoalFund} from "@/store/slices/goalSlice.js";
 import {Label} from "@/components/ui/label.jsx";
+import {useCurrency} from "@/hooks/useCurrency.js";
 
 const AddFundDialog = ({open, setOpenChange, goalId}) => {
     const dispatch = useDispatch();
+
+    const { symbol } = useCurrency();
 
     const [amount, setAmount] = useState("");
 
@@ -78,18 +81,6 @@ const AddFundDialog = ({open, setOpenChange, goalId}) => {
 
                 <form onSubmit={handleSubmit} noValidate>
                     <div className="space-y-6">
-                        {/* <div className="flex items-center gap-4">
-                            <Label htmlFor="amount" className="w-20 font-medium text-sm">Số tiền</Label>
-                            <div>
-                                <Input
-                                    id="amount"
-                                    type="number"
-                                    placeholder="VD: 10000"
-                                    className="w-65"
-                                ></Input>
-
-                            </div>
-                        </div> */}
                         <div className="grid grid-cols-4 items-start gap-4">
                             <Label htmlFor="amount" className="mt-3">
                                 Số tiền:
@@ -97,8 +88,8 @@ const AddFundDialog = ({open, setOpenChange, goalId}) => {
                             <div className="col-span-3">
                                 <div className="relative">
                                         <span
-                                            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
-                                            ₫
+                                            className="absolute left-3 top-1/2 -translate-y-1/2 text-sm">
+                                            {symbol}
                                         </span>
                                     <Input
                                         id="amount"

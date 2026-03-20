@@ -1,9 +1,12 @@
 import BudgetProgressBar from "@/features/budgets/components/BudgetProgressBar.jsx";
 import {calculatePercent} from "@/lib/helpers.js";
+import {useCurrency} from "@/hooks/useCurrency.js";
 
 const BudgetItem = ({ budget }) => {
   const percentage = budget.total > 0 ? Number(calculatePercent(budget.spent, budget.total).toFixed(2)) : 0
   const remaining = budget.total - budget.spent
+
+  const {formatMoney} = useCurrency();
 
   const category = budget.category
 
@@ -24,11 +27,11 @@ const BudgetItem = ({ budget }) => {
 
         <div className="text-xs sm:text-sm font-medium shrink-0">
           <span className="text-slate-900 dark:text-white">
-            ₫{budget.spent.toLocaleString()}
+            {formatMoney(budget.spent)}
           </span>
           <span className="text-muted-foreground dark:text-slate-400">
             {" "}
-            / ₫{budget.total.toLocaleString()}
+            / {formatMoney(budget.total)}
           </span>
         </div>
       </div>
@@ -42,7 +45,7 @@ const BudgetItem = ({ budget }) => {
           {percentage}% đã dùng
         </span>
         <span className="text-slate-500 dark:text-slate-400">
-          ₫{remaining.toLocaleString()} còn lại
+          {formatMoney(remaining)} còn lại
         </span>
       </div>
     </div>

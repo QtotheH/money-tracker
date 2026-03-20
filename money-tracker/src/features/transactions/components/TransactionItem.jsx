@@ -1,9 +1,12 @@
 import { Badge } from "@/components/ui/badge.jsx"
 import { cn } from "@/lib/utils.js"
 import {formatDateToVNDate} from "@/lib/helpers.js";
+import {useCurrency} from "@/hooks/useCurrency.js";
 
 const TransactionItem = ({ transaction, onEdit }) => {
   const category = transaction.category;
+
+  const { formatMoney } = useCurrency();
 
   const handleOnEdit = (transaction) => {
     if (onEdit) {
@@ -46,7 +49,7 @@ const TransactionItem = ({ transaction, onEdit }) => {
           )}
         >
           {transaction.type === "income" ? '+' : '-'}
-          ₫{transaction.amount.toLocaleString()}
+          {formatMoney(transaction.amount)}
         </span>
         <Badge
           variant="secondary"

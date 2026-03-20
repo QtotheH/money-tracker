@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import BudgetList from "@/features/budgets/components/BudgetList"
 import AddBudgetDialog from "@/features/budgets/components/AddBudgetDialog"
-import {useBudgetsData} from "@/features/budgets/hooks/useBudgetData.jsx";
+import {useBudgetsData} from "@/hooks/useBudgetData.js";
 import Loading from "@/components/common/Loading.jsx";
 
 const BudgetPage = () => {
