@@ -1,8 +1,8 @@
-import {getUsedPercent} from "@/lib/budgetUtils.js";
 import BudgetProgressBar from "@/features/budgets/components/BudgetProgressBar.jsx";
+import {calculatePercent} from "@/lib/helpers.js";
 
 const BudgetItem = ({ budget }) => {
-  const percentage = budget.total > 0 ? Math.round(getUsedPercent(budget) * 100) : 0
+  const percentage = budget.total > 0 ? Number(calculatePercent(budget.spent, budget.total).toFixed(2)) : 0
   const remaining = budget.total - budget.spent
 
   const category = budget.category
@@ -12,7 +12,7 @@ const BudgetItem = ({ budget }) => {
       {/* Tiêu đề */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
-          <div className="p-1.5 bg-slate-100 dark:bg-slate-700 rounded-md text-slate-600 dark:text-slate-300 flex-shrink-0">
+          <div className="p-1.5 bg-slate-100 dark:bg-slate-700 rounded-md text-slate-600 dark:text-slate-300 shrink-0">
             {/* Render icon từ iconClass  */}
             {category?.iconClass ? <i className={category.iconClass} /> : null}
           </div>
@@ -22,7 +22,7 @@ const BudgetItem = ({ budget }) => {
           </span>
         </div>
 
-        <div className="text-xs sm:text-sm font-medium flex-shrink-0">
+        <div className="text-xs sm:text-sm font-medium shrink-0">
           <span className="text-slate-900 dark:text-white">
             ₫{budget.spent.toLocaleString()}
           </span>

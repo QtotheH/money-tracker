@@ -4,8 +4,8 @@ import { Eye} from "lucide-react"
 import BudgetList from "@/features/budgets/components/BudgetList.jsx"
 import {useMemo} from "react";
 import { useNavigate } from "react-router";
-import {getUsedPercent} from "@/lib/budgetUtils.js";
 import {useBudgetsData} from "@/features/budgets/hooks/useBudgetData.jsx";
+import {calculatePercent} from "@/lib/helpers.js";
 
 const BudgetProgress = () => {
   const navigate = useNavigate();
@@ -19,7 +19,9 @@ const BudgetProgress = () => {
     const enriched = [...budgetsWithCategory];
 
     // sort theo % used giảm dần (Ngân sách sắp hết/vượt mức sẽ nằm trên cùng)
-    enriched.sort((a, b) => getUsedPercent(b) - getUsedPercent(a));
+    enriched.sort((a, b) =>
+        calculatePercent(b.spent, b.total) - calculatePercent(a.spent, a.total)
+    );
 
     // Lấy tối đa 3 phần tử đầu tiên
     return enriched.slice(0, 3);
@@ -28,7 +30,7 @@ const BudgetProgress = () => {
   return (
     <Card className="h-full py-4 sm:py-6 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
 
-      <CardHeader className="flex flex-row items-start justify-between gap-2 sm:gap-4 space-y-0 pb-2 px-4 sm:px-6">
+      <CardHeader className="flex flex-row items-center justify-between gap-2 sm:gap-4 space-y-0 pb-2 px-4 sm:px-6">
 
         <div className="space-y-1 min-w-0 flex-1">
           <CardTitle className="text-lg sm:text-2xl font-bold tracking-tight">
@@ -43,7 +45,7 @@ const BudgetProgress = () => {
         <button
           title="Xem tất cả ngân sách"
           onClick={() => navigate("/budgets")}
-          className="text-slate-400 hover:text-slate-600 transition-colors flex-shrink-0"
+          className="text-slate-400 hover:text-slate-600 transition-colors shrink-0"
         >
           <Eye size={20} />
         </button>

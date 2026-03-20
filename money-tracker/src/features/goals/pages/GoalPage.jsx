@@ -1,75 +1,23 @@
 import React, {useState} from "react";
 import {
     Card,
-    CardAction,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {PlusIcon} from "lucide-react";
 import AddGoalDialog from "@/features/goals/components/AddGoalDialog.jsx";
-import {nanoid} from "@reduxjs/toolkit";
 import GoalList from "@/features/goals/components/GoalList.jsx";
-
-const initialGoals = [
-    {
-        id: nanoid(),
-        name: "Quỹ khẩn cấp",
-        targetDate: "01/01/2026",
-        current: 6500,
-        target: 10000,
-        iconClass: "fa-regular fa-house",
-        iconName: "house",
-    },
-    {
-        id: nanoid(),
-        name: "Du lịch",
-        targetDate: "09/06/2026",
-        current: 6500,
-        target: 10000,
-        iconClass: "fa-regular fa-house",
-        iconName: "house",
-    },
-    {
-        id: nanoid(),
-        name: "Mua nhà",
-        targetDate: "08/17/2026",
-        current: 6500,
-        target: 10000,
-        iconClass: "fa-regular fa-house",
-        iconName: "house",
-    },
-    {
-        id: nanoid(),
-        name: "Học phí đại học",
-        targetDate: "09/05/2026",
-        current: 6500,
-        target: 10000,
-        iconClass: "fa-regular fa-house",
-        iconName: "house",
-    },
-    {
-        id: nanoid(),
-        name: "Mua xe máy",
-        targetDate: "04/30/2026",
-        current: 6500,
-        target: 10000,
-        iconClass: "fa-regular fa-house",
-        iconName: "house",
-    },
-];
+import {useGoalData} from "@/features/goals/hooks/useGoalData.js";
+import Loading from "@/components/common/Loading.jsx";
 
 const GoalsPage = () => {
-
-    const [goals, setGoals] = useState(initialGoals);
     const [isAddGoalDialogOpen, setIsAddGoalDialogOpen] = useState(false);
 
-    // const addGoal = (goal) => {
-    //     setGoals([...goals, goal]);
-    // };
+    const {goals, isLoading} = useGoalData();
+
     return (
         <main
             className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
@@ -101,7 +49,11 @@ const GoalsPage = () => {
                     </CardHeader>
 
                     <CardContent>
-                        <GoalList goals={goals} />
+                        {isLoading ? <Loading/> :
+                            goals.length === 0 ?
+                                <p className="text-center">Không có dữ liệu</p> :
+                            <GoalList goals={goals}/>
+                        }
                     </CardContent>
                 </Card>
             </div>

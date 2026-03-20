@@ -29,3 +29,8 @@ export const formatDateToVNDate = (dateStr) => {
 
     return `${day}/${month}/${year}`;
 };
+
+export const calculatePercent = (current, total) => {
+    if (!total || total <= 0) return 0;
+    return (current / total) * 100;
+}

@@ -1,22 +1,22 @@
 import {Button} from "@/components/ui/button";
 import React, {useState} from "react";
 import GoalProgressBar from "@/features/goals/components/GoalProgressBar.jsx";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AddFundDialog from "@/features/goals/components/AddFundDialog";
 import {getDaysLeft} from "@/lib/goalUtils.js";
-import {formatDateToVNDate} from "@/lib/helpers.js";
+import {calculatePercent, formatDateToVNDate} from "@/lib/helpers.js";
 
 const GoalItem = ({goal, isDashboard = false}) => {
     const [isAddFundOpen, setIsAddFundOpen] = useState(false);
     const remaining = goal.target - goal.current;
-    const progress = Math.round((goal.current / goal.target) * 100);
+    // Làm tròn đến 2 chữ số thập phân, nhưng .toFixed trả về String nên cần chuyển về lại Number
+    const progress = Number(calculatePercent(goal.current, goal.target).toFixed(2));
     const daysLeft = getDaysLeft(goal.targetDate);
     return (
         <div className="space-y-1">
             {/* Dòng 1 */}
             <div className="flex flex-row items-center justify-between gap-2 sm:gap-3">
                 <div className="flex items-start gap-2 min-w-0 flex-1">
-                    <div className="p-1.5 bg-slate-100 dark:bg-slate-700 rounded-md text-slate-600 dark:text-slate-300 flex-shrink-0">
+                    <div className="p-1.5 bg-slate-100 dark:bg-slate-700 rounded-md text-slate-600 dark:text-slate-300 shrink-0">
                         {/* Render icon từ iconClass  */}
                         {goal?.iconClass ? <i className={goal.iconClass} /> : null}
                     </div>
@@ -32,7 +32,7 @@ const GoalItem = ({goal, isDashboard = false}) => {
 
                 </div>
 
-                <div className="text-right flex-shrink-0">
+                <div className="text-right shrink-0">
                     {!isDashboard ? (
                             <>
                                 <Button
@@ -45,7 +45,7 @@ const GoalItem = ({goal, isDashboard = false}) => {
                                 >
                                     Thêm tiền
                                 </Button>
-                                <AddFundDialog open={isAddFundOpen} setOpenChange={setIsAddFundOpen}/>
+                                <AddFundDialog open={isAddFundOpen} setOpenChange={setIsAddFundOpen} goalId={goal.id} />
                             </>
                         ) :
                         <p className="text-xs text-slate-400 dark:text-slate-500 font-medium mb-1">
