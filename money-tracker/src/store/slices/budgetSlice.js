@@ -2,6 +2,7 @@ import {createAsyncThunk, createSelector, createSlice, nanoid} from "@reduxjs/to
 import {selectCategoryDictionary} from "@/store/slices/categorySlice.js";
 import {selectAllTransactions} from "@/store/slices/transactionSlice.js";
 import {budgetService} from "@/api/services/budgetService.js";
+import {selectCurrentUser} from "@/store/slices/authSlice.js";
 
 const initialState = {
     budgets: [],
@@ -19,10 +20,12 @@ export const fetchBudgets = createAsyncThunk(
 
 export const createBudget = createAsyncThunk(
     'budgets/create',
-    async ({ categoryId, total }, { rejectWithValue }) => {
+    async ({ categoryId, total }, { getState, rejectWithValue }) => {
         try {
+            const user = getState().auth.user;
             const newBudget = {
                 id: nanoid(),
+                userId: user.id,
                 categoryId: String(categoryId),
                 total: Number(total),
                 createdAt: new Date().toISOString() // Lưu thời gian tạo
@@ -62,9 +65,11 @@ export const getBudgetsStatus = (state) => state.budgets.status;
 export const selectAllBudgets = (state) => state.budgets.budgets;
 
 export const selectBudgetsWithCategories = createSelector(
-    [selectAllBudgets, selectCategoryDictionary, selectAllTransactions],
-    (budgets, categoryDict, transactions) => {
-        return budgets.map(budget => {
+    [selectAllBudgets, selectCategoryDictionary, selectAllTransactions, selectCurrentUser],
+    (budgets, categoryDict, transactions, currentUser) => {
+        return budgets
+            .filter(b => b.userId === currentUser.id)
+            .map(budget => {
             // thiết lập ngân sách cho toàn bộ tháng đó (không tính từ lúc tạo ngân sách mà tính từ đầu tháng -> cuối tháng)
             // Lấy ra tháng và năm của ngân sách
             const budgetDate = new Date(budget.createdAt);
@@ -76,6 +81,7 @@ export const selectBudgetsWithCategories = createSelector(
                 .filter(transaction => {
                     const transactionDate = new Date(transaction.date);
                     return (
+                        transaction.userId === budget.userId &&
                         transaction.categoryId === budget.categoryId &&
                         transaction.type === 'expense' &&
                         // So sánh xem giao dịch có cùng tháng và cùng năm với ngân sách không

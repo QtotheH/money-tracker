@@ -6,6 +6,7 @@ import {useMemo} from "react";
 import { useNavigate } from "react-router";
 import {useBudgetsData} from "@/hooks/useBudgetData.js";
 import {calculatePercent} from "@/lib/helpers.js";
+import Loading from "@/components/common/Loading.jsx";
 
 const BudgetProgress = () => {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ const BudgetProgress = () => {
 
       <CardContent className="px-4 sm:px-6">
         {isLoading ? (
-            <p className="text-center py-4 text-sm text-muted-foreground">Đang tải dữ liệu...</p>
+            <Loading />
         ) : budgetsWithCategory.length === 0 ? (
             <p className="text-center py-4 text-sm text-muted-foreground">Chưa có ngân sách nào.</p>
         ) : (

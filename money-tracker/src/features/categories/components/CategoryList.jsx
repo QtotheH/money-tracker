@@ -26,8 +26,8 @@ const CategoryList = ({categories, onEdit}) => {
                 ))}
 
                 {filteredCategories.length === 0 && (
-                    <p className="text-center text-muted-foreground py-8">
-                        Không tìm thấy danh mục nào
+                    <p className="text-center py-4 text-sm text-muted-foreground">
+                        Không có danh mục.
                     </p>
                 )}
             </div>

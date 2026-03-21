@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSelector, createSlice, nanoid} from "@reduxjs/toolkit";
 import {transactionService} from "@/api/services/transactionService.js";
 import {selectCategoryDictionary} from "@/store/slices/categorySlice.js";
+import {selectCurrentUser} from "@/store/slices/authSlice.js";
 
 const initialState = {
     transactions: [],
@@ -12,9 +13,11 @@ export const selectAllTransactions = (state) => state.transactions.transactions;
 
 // Selector: Nối Transaction với Category
 export const selectTransactionsWithCategories = createSelector(
-    [selectAllTransactions, selectCategoryDictionary],
-    (transactions, categoryDict) => {
-        return transactions.map(transaction => ({
+    [selectAllTransactions, selectCategoryDictionary, selectCurrentUser],
+    (transactions, categoryDict, currentUser) => {
+        return transactions
+            .filter(transaction => transaction.userId === currentUser.id)
+            .map(transaction => ({
             ...transaction,
             // Lấy object category từ bảng tra cứu đắp vào
             // Nếu không tìm thấy, trả về null hoặc object mặc định để tránh lỗi UI
@@ -38,9 +41,11 @@ export const fetchAllTransactions = createAsyncThunk(
 
 export const createTransaction = createAsyncThunk(
     'transactions/create',
-    async (initialTransaction) => {
+    async (initialTransaction, {getState}) => {
+        const user = getState().auth.user;
         const newTransaction = {
             id: nanoid(),
+            userId: user.id,
             amount: Number(initialTransaction.amount),
             description: initialTransaction.description.trim(),
             categoryId: initialTransaction.category,
@@ -146,5 +151,6 @@ const transactionSlice = createSlice({
             })
     }
 });
+
 
 export default transactionSlice.reducer;

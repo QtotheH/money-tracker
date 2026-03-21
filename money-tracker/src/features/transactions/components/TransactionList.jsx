@@ -29,6 +29,10 @@ function TransactionList({ limit, showAll = false, onEdit }) {
 
   const transactionsWithCategory = useSelector(selectTransactionsWithCategories) || [];
 
+  if(transactionsWithCategory.length === 0) {
+    return <p className="text-center py-4 text-sm text-muted-foreground">Chưa có giao dịch nào.</p>;
+  }
+
   const filteredTransactions = transactionsWithCategory
     .filter(
       (transaction) =>

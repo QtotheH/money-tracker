@@ -45,9 +45,10 @@ const BudgetPage = () => {
           <CardContent>
             {isLoading ? (
                 <Loading />
-            ) : (
+            ) : budgetsWithCategory.length === 0 ?
+                <p className="text-center py-4 text-sm text-muted-foreground">Chưa có ngân sách nào.</p> :
                 <BudgetList budgets={budgetsWithCategory} />
-            )}
+            }
           </CardContent>
         </Card>
 
