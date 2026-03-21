@@ -54,7 +54,22 @@
       "avatar": "",
       "settings": {
         "theme": "light",
-        "currency": "kwr",
+        "currency": "vnd",
+        "budgetsAlert": false,
+        "goalsAlert": false
+      }
+    },
+    {
+      "id": "xlCDS4zxAlKjAw_PoCC7H",
+      "fullname": "Ngô Đức",
+      "email": "trongngo.02092004@gmail.com",
+      "dob": "2026-03-21",
+      "password": "$2b$12$QzneBZJ4V8Z4fMp9hGZ95uedPl31RONDkevH5K6VKLxwaNn0QWTkS",
+      "phone": "0356590224",
+      "avatar": "",
+      "settings": {
+        "theme": "light",
+        "currency": "vnd",
         "budgetsAlert": false,
         "goalsAlert": false
       }
