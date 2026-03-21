@@ -126,6 +126,90 @@ export const syncCurrencyToDB = createAsyncThunk(
     }
 );
 
+
+// UPDATE: Cập nhật thông tin cá nhân
+export const updatePersonalInfo = createAsyncThunk(
+    'auth/profile/updatePersonalInfo',
+    async ({userId, fullname, email, phone, dob}, {getState,rejectWithValue}) => {
+        try{
+            const state = getState();
+            const currentInfo = state.auth.user;
+            // Lấy user từ DB để có thông tin đầy đủ (đặc biệt là password đã hash)
+            const resUser = await authService.getUserByEmail(currentInfo.email);
+            const dbUser = resUser.data[0];
+
+            const updatedPersonalInfo = {
+                ...dbUser,
+                fullname: fullname.trim(),
+                email: email.trim(),
+                phone: phone.trim(),
+                dob,
+            }
+
+            const res = await authService.updatePersonalInfo(userId, updatedPersonalInfo);
+            const user = res.data;
+
+            // bỏ password
+            const {password: _, ...userWithoutPassword} = user;
+
+            localStorage.setItem("MT_user", JSON.stringify(userWithoutPassword));    
+
+            return userWithoutPassword;
+        }catch (err){
+            const message = err?.response?.data?.message || err?.message || "Cập nhật thất bại!";
+            return rejectWithValue(message);
+        }
+    }
+)
+
+// Change Password
+export const changePassword = createAsyncThunk(
+    'auth/profile/changePassword',
+    async ({ currentPassword, newPassword }, { getState, rejectWithValue }) => {
+        try {
+            const state = getState();
+            const user = state.auth.user;
+
+            if (!user) {
+                return rejectWithValue("Chưa đăng nhập!");
+            }
+
+            // Lấy user 
+            const res = await authService.getUserByEmail(user.email);
+            const dbUser = res.data[0];
+
+            // So sánh mật khẩu hiện tại
+            const isMatch = bcrypt.compareSync(currentPassword, dbUser.password);
+            if (!isMatch) {
+                return rejectWithValue("Mật khẩu hiện tại không chính xác!");
+            }
+
+            // Hash mật khẩu mới
+            const salt = bcrypt.genSaltSync(12);
+            const hashedPassword = bcrypt.hashSync(newPassword, salt);
+
+            // Tạo user mới 
+            const updatedUser = {
+                ...dbUser,
+                password: hashedPassword
+            };
+
+            const updateRes = await authService.updatePersonalInfo(user.id, updatedUser);
+            const newUser = updateRes.data;
+
+            // bỏ password
+            const { password: _, ...userWithoutPassword } = newUser;
+
+            localStorage.setItem("MT_user", JSON.stringify(userWithoutPassword));
+            return userWithoutPassword;
+
+        } catch (error) {
+            const message = error?.response?.data?.message || error?.message || "Đổi mật khẩu thất bại!";
+            return rejectWithValue(message);
+        }
+    }
+);
+
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
@@ -171,6 +255,32 @@ const authSlice = createSlice({
                     // Cập nhật LocalStorage để đồng bộ hoàn toàn
                     localStorage.setItem("MT_user", JSON.stringify(state.user));
                 }
+            })
+            // UPDATE PERSONAL INFO SUCCESS
+            .addCase(updatePersonalInfo.pending, (state) => {
+                state.status = "loading";
+                state.error = null;
+            })
+            .addCase(updatePersonalInfo.fulfilled, (state, action) => {
+                state.status ="succeeded";
+                state.user = action.payload;   
+            })
+            .addCase(updatePersonalInfo.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.payload;
+            })
+            // CHANGE PASSWORD
+            .addCase(changePassword.pending, (state) => {
+                state.status = "loading";
+                state.error = null;
+            })
+            .addCase(changePassword.fulfilled, (state, action) => {
+                state.status = "succeeded";
+                state.user = action.payload;
+            })
+            .addCase(changePassword.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.payload;
             })
     }
 });

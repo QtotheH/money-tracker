@@ -9,4 +9,7 @@ export const authService = {
     updateSettings: (userId, newSettings) => axiosClient.patch(`/users/${userId}`, {
         settings: newSettings
     }),
+    // Cập nhật thông tin Profile User - Hàm này dùng luôn cho thay đổi password
+    updatePersonalInfo: (userId, payload) => axiosClient.put(`/users/${userId}`, payload),
+
 }
