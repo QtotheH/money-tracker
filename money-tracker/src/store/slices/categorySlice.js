@@ -1,6 +1,5 @@
 import {createAsyncThunk, createSelector, createSlice, nanoid} from "@reduxjs/toolkit";
 import {categoryService} from "@/api/services/categoryService.js";
-import {selectCurrentUser} from "@/store/slices/authSlice.js";
 
 const initialState = {
     categories: [],

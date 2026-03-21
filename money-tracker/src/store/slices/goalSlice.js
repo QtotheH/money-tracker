@@ -1,7 +1,5 @@
 import {createAsyncThunk, createSlice, nanoid} from "@reduxjs/toolkit";
 import {goalService} from "@/api/services/goalService.js";
-import {useSelector} from "react-redux";
-import {selectCurrentUser} from "@/store/slices/authSlice.js";
 
 export const fetchGoals = createAsyncThunk(
     'goals/fetchAll',
