@@ -31,6 +31,7 @@ export const fetchCategories = createAsyncThunk(
     async (_, { getState }) => {
         const user = getState().auth.user;
         const res = await categoryService.getAll();
+        console.log(res)
         return res.data.filter(c => c.userId === user.id);
     }
 )
@@ -41,6 +42,12 @@ export const createCategory = createAsyncThunk(
     async ({categoryName, selectedIcon}, {getState, rejectWithValue}) => {
         try {
             const user = getState().auth.user;
+
+            const existing = categoryService.getByNameAndUserId(categoryName, user.id);
+            if (existing) {
+                return rejectWithValue("Danh mục đã tồn tại!");
+            }
+
             const newCategory = {
                 id: nanoid(),
                 userId: user.id,
@@ -69,6 +76,8 @@ export const updateCategory = createAsyncThunk(
     async ({id, categoryName, selectedIcon}, {getState, rejectWithValue}) => {
         try {
             const state = getState();
+            const user = state.auth.user;
+
             const current = state.categories.categories.find(c => String(c.id) === String(id));
 
             const updatedCategory = {
@@ -113,10 +122,6 @@ const categorySlice = createSlice({
             })
 
             // CREATE
-            .addCase(createCategory.pending, (state) => {
-                state.status = "loading";
-                state.error = null;
-            })
             .addCase(createCategory.fulfilled, (state, action) => {
                 state.status = "succeeded";
                 // cập nhật state -> UI render lại
@@ -125,17 +130,7 @@ const categorySlice = createSlice({
                     a.categoryName.localeCompare(b.categoryName)
                 );
             })
-            .addCase(createCategory.rejected, (state, action) => {
-                state.status = "failed";
-                // action.payload có khi là message (rejectWithValue), có khi là error.message
-                state.error = action.payload || action.error?.message || "Lỗi không xác định!"
-            })
-
             // UPDATE
-            .addCase(updateCategory.pending, (state) => {
-                state.status = "loading";
-                state.error = null;
-            })
             .addCase(updateCategory.fulfilled, (state, action) => {
                 state.status = "succeeded";
                 const updated = action.payload;
@@ -149,11 +144,6 @@ const categorySlice = createSlice({
                         a.categoryName.localeCompare(b.categoryName)
                     );
                 }
-            })
-            .addCase(updateCategory.rejected, (state, action) => {
-                state.status = "failed";
-                // action.payload có khi là message (rejectWithValue), có khi là error.message
-                state.error = action.payload || action.error?.message || "Lỗi không xác định!"
             })
     }
 });
