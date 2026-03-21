@@ -58,6 +58,21 @@
         "budgetsAlert": false,
         "goalsAlert": false
       }
+    },
+    {
+      "id": "DMU7tM-c0LgaAw5vFFxxO",
+      "fullname": "Thanh",
+      "email": "thanhchi2332004@gmail.com",
+      "dob": "2026-03-20",
+      "password": "$2b$12$d0PHH0EWdOMhXQjTS5cA3.f80q/zjkBNB4aS9F6GhyXmrGpVgfKBi",
+      "phone": "0927 141 358",
+      "avatar": "",
+      "settings": {
+        "theme": "dark",
+        "currency": "vnd",
+        "budgetsAlert": false,
+        "goalsAlert": false
+      }
     }
   ],
   "categories": [
