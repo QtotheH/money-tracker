@@ -76,7 +76,6 @@ export const updateCategory = createAsyncThunk(
     async ({id, categoryName, selectedIcon}, {getState, rejectWithValue}) => {
         try {
             const state = getState();
-            const user = state.auth.user;
 
             const current = state.categories.categories.find(c => String(c.id) === String(id));
 

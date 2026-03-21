@@ -14,11 +14,14 @@ cd money-tracker/money-tracker
 ```shell
 npm install
 ```
-4. Sau khi cài đặt dependencies hoàn tất, khởi động (chạy) dự án bằng lệnh:
+4. Trong thư mục đồ án **`money-tracker`**, copy file `.env-example` và đổi tên file thành `.env`.
+
+
+5. Sau khi cài đặt dependencies hoàn tất, khởi động (chạy) dự án bằng lệnh:
 ```shell
 npm run dev:all 
 ```
-5. Truy cập vào đường dẫn ```http://localhost:5173/``` để sử dụng Money Tracker ^.^
+6. Truy cập vào đường dẫn `http://localhost:5173/` để sử dụng Money Tracker ^.^
 
 ## 1. GIẢI THÍCH CẤU TRÚC THƯ MỤC DỰ ÁN
 ### 1.1. Cấu trúc tổng quan
