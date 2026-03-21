@@ -51,7 +51,7 @@ const GoalsPage = () => {
                     <CardContent>
                         {isLoading ? <Loading/> :
                             goals.length === 0 ?
-                                <p className="text-center">Không có dữ liệu</p> :
+                                <p className="text-center py-4 text-sm text-muted-foreground">Chưa có mục tiêu tiết kiệm nào.</p> :
                             <GoalList goals={goals}/>
                         }
                     </CardContent>

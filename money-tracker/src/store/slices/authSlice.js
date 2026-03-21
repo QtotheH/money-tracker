@@ -39,7 +39,6 @@ export const register = createAsyncThunk(
 
             const res = await authService.register(newUser);
             return res.data;
-
         } catch (error) {
             console.error(error);
             return rejectWithValue("Đăng ký thất bại, vui lòng thử lại!");
@@ -67,6 +66,7 @@ export const login = createAsyncThunk(
             }
 
             // bỏ password trước khi lưu vào localStorage
+            // rest ...
             const {password: _, ...userWithoutPassword} = user;
             // Lưu phiên đăng nhập
             localStorage.setItem("MT_user", JSON.stringify(userWithoutPassword));

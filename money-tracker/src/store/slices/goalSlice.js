@@ -3,18 +3,21 @@ import {goalService} from "@/api/services/goalService.js";
 
 export const fetchGoals = createAsyncThunk(
     'goals/fetchAll',
-    async () => {
+    async (_, {getState}) => {
+        const user = getState().auth.user;
         const res = await goalService.getAll();
-        return res.data;
+        return res.data.filter(goal => goal.userId === user.id);
     }
 );
 
 export const createGoal = createAsyncThunk(
     'goals/create',
-    async (initialGoal, { rejectWithValue }) => {
+    async (initialGoal, { getState, rejectWithValue }) => {
         try {
+            const user = getState().auth.user;
             const newGoal = {
                 id: nanoid(),
+                userId: user.id,
                 name: initialGoal.name,
                 iconClass: initialGoal.iconClass,
                 iconName: initialGoal.iconName,

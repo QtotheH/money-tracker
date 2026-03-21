@@ -28,19 +28,22 @@ export const selectCategoryDictionary = createSelector(
 // 1. Get All
 export const fetchCategories = createAsyncThunk(
     'categories/fetchAll',
-    async () => {
+    async (_, { getState }) => {
+        const user = getState().auth.user;
         const res = await categoryService.getAll();
-        return res.data;
+        return res.data.filter(c => c.userId === user.id);
     }
 )
 
 // 2. CREATE
 export const createCategory = createAsyncThunk(
     'categories/create',
-    async ({categoryName, selectedIcon}, {rejectWithValue}) => {
+    async ({categoryName, selectedIcon}, {getState, rejectWithValue}) => {
         try {
+            const user = getState().auth.user;
             const newCategory = {
                 id: nanoid(),
+                userId: user.id,
                 categoryName: categoryName?.trim(),
                 iconName: selectedIcon?.name || "",
                 iconClass: selectedIcon?.className || "",
@@ -100,9 +103,7 @@ const categorySlice = createSlice({
                 state.status = "succeeded";
                 // Sắp xếp A-Z ngay khi tải xong
                 // so sánh hai chuỗi và trả về giá trị -1, 1 hoặc 0 để hàm sort() biết từ nào đứng trước trong từ điển
-                const sortedData = action.payload.sort((a, b) =>
-                    a.categoryName.localeCompare(b.categoryName)
-                );
+                const sortedData = action.payload.sort((a, b) => a.categoryName.localeCompare(b.categoryName));
                 state.categories = sortedData;
             })
             .addCase(fetchCategories.rejected, (state, action) => {
