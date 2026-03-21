@@ -39,14 +39,15 @@ export function ThemeProvider({ children }) {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
-    
+
+    // set theme mặc định khi chưa đăng nhập/ chưa có localStorage theme trước đó là 'light'
     try {
       const savedTheme = localStorage.getItem('theme');
       if (savedTheme) {
         setIsDark(savedTheme === 'dark');
         document.documentElement.classList.toggle('dark', savedTheme === 'dark');
       } else {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const prefersDark = window.matchMedia('(prefers-color-scheme: light)').matches;
         setIsDark(prefersDark);
         document.documentElement.classList.toggle('dark', prefersDark);
       }
