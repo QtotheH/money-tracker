@@ -193,7 +193,7 @@ const RegisterForm = () => {
                     {/* Nút đăng ký */}
                     <Button type="submit"
                             disabled={isSubmitting}
-                            className="w-full bg-emerald-600 hover:bg-emerald-700 mt-4">
+                            className="w-full bg-emerald-600 hover:bg-emerald-700 mt-4 text-white dark:bg-emerald-700 dark:hover:bg-emerald-800">
                         {isSubmitting ? "Đang xử lý..." : "Đăng ký"}
                     </Button>
                 </form>
