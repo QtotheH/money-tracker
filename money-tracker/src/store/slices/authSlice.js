@@ -134,6 +134,17 @@ export const updatePersonalInfo = createAsyncThunk(
         try{
             const state = getState();
             const currentInfo = state.auth.user;
+
+            // Check Email trùng
+            const resCheck = await authService.getUserByEmail(email);
+            const users = resCheck.data;
+
+            const isEmailTaken = users.some(u => u.id !== userId);
+
+            if (isEmailTaken) {
+                return rejectWithValue("Email đã được sử dụng!");
+            }
+
             // Lấy user từ DB để có thông tin đầy đủ (đặc biệt là password đã hash)
             const resUser = await authService.getUserByEmail(currentInfo.email);
             const dbUser = resUser.data[0];
