@@ -256,7 +256,7 @@ function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = n
                                         }}
                                     >
                                         <SelectTrigger id="category"
-                                                       className={`max-w-full ${errors.category ? "border-rose-500 focus:ring-rose-500" : ""}`}>
+                                                       className={`max-w-1/2 ${errors.category ? "border-rose-500 focus:ring-rose-500" : ""}`}>
                                             <SelectValue placeholder="Chọn danh mục"/>
                                         </SelectTrigger>
                                         <SelectContent
@@ -278,7 +278,7 @@ function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = n
                                     <Button
                                         onClick={() => setIsAddCategoryOpen(true)}
                                         type="button"
-                                        className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                                        className="shrink-0 bg-emerald-600 hover:bg-emerald-700 text-white"
                                     >
                                         <PlusIcon className="h-4 w-4"/>
                                         Thêm danh mục
