@@ -7,6 +7,8 @@ import {Outlet} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchCategories, getCategoriesStatus} from "@/store/slices/categorySlice.js";
 
+// TODO: CHỈNH SỬA LỖI 1 ACTION TYPE BỊ DISPATCH NHIỀU LẦN BỞI CÁC COMPONENT CON -> GOM CHUNG LẠI DISPATCH Ở COMPONENT CHA
+
 const MainLayout = () => {
     const dispatch = useDispatch();
     const categoryStatus = useSelector(getCategoriesStatus);

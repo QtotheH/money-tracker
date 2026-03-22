@@ -21,10 +21,17 @@ import {createTransaction, updateTransaction} from "@/store/slices/transactionSl
 import {useCurrency} from "@/hooks/useCurrency.js";
 import {PlusIcon} from "lucide-react";
 import AddCategoryDialog from "@/features/categories/components/AddCategoryDialog.jsx";
+import {selectBudgetsWithCategories} from "@/store/slices/budgetSlice.js";
+import {selectCurrentUser} from "@/store/slices/authSlice.js";
+import {checkThresholdAlert} from "@/lib/alertUtils.js";
 
 function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = null}) {
     const dispatch = useDispatch();
     const categories = useSelector(selectCategoriesItems);
+
+    const user = useSelector(selectCurrentUser); // Lấy User
+    const budgets = useSelector(selectBudgetsWithCategories); // Lấy danh sách ngân sách
+
     const {symbol} = useCurrency();
 
     const [transactionType, setTransactionType] = useState("expense")
@@ -116,6 +123,46 @@ function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = n
         setIsSubmitting(true);
 
         try {
+            // CHUẨN BỊ LOGIC ALERT TRƯỚC KHI DISPATCH
+            let alertMsg = null;
+            // nếu có on budget alert và loại transaction là "expense"
+            if (user?.settings?.budgetsAlert && transactionType === "expense") {
+                // lấy ra budget tương ứng vs transaction
+                // Lấy ngày của giao dịch đang được nhập trên form
+                const transactionDateObj = new Date(date);
+                const transMonth = transactionDateObj.getMonth();
+                const transYear = transactionDateObj.getFullYear();
+
+                // Tìm ngân sách có CÙNG DANH MỤC và CÙNG THÁNG/NĂM với giao dịch
+                const relatedBudget = budgets.find(b => {
+                    if (String(b.categoryId) !== String(category)) return false;
+
+                    const budgetDateObj = new Date(b.createdAt);
+                    return budgetDateObj.getMonth() === transMonth &&
+                        budgetDateObj.getFullYear() === transYear;
+                });
+                // cảnh báo nếu giao dịch này thuộc về một danh mục ĐÃ ĐƯỢC thiết lập Ngân sách trong tháng
+                if (relatedBudget) {
+                    // Nếu là sửa, chỉ tính số tiền chênh lệch tăng lên. Nếu thêm mới thì lấy toàn bộ amount, nếu là sửa thì lấy phần chênh lệnh so vs amount cũ của giao dịch đó
+                    const diff = isEditMode ?
+                        (Number(amount) - Number(transaction.amount)) :
+                        Number(amount);
+
+                    // chỉ chạy cảnh báo khi người dùng tiêu thêm tiền (diff mang số dương)
+                    if (diff > 0) {
+                        const oldSpent = relatedBudget.spent;
+                        const newSpent = relatedBudget.spent + diff;
+                        const hitThreshold = checkThresholdAlert(oldSpent, newSpent, relatedBudget.total);
+
+                        if (hitThreshold === 100) {
+                            alertMsg = `Cảnh báo: Bạn đã dùng HẾT (>=100%) ngân sách ${relatedBudget.category?.categoryName}!`;
+                        } else if (hitThreshold) {
+                            alertMsg = `Chú ý: Bạn đã chạm mức ${hitThreshold}% ngân sách ${relatedBudget.category?.categoryName}.`;
+                        }
+                    }
+                }
+            }
+
             if (!isEditMode) {
                 await dispatch(createTransaction({
                     type: transactionType,
@@ -153,6 +200,15 @@ function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = n
             setErrors({})
             onOpenChange(false)
 
+            // HIỆN TOAST ALERT NẾU CÓ CHẠM MỐC
+            if (alertMsg) {
+                setTimeout(() => {
+                    toast.warning("Cảnh báo Ngân sách", {
+                        description: alertMsg,
+                        duration: 6000
+                    });
+                }, 500);
+            }
         } catch (error) {
             toast.error("Lỗi hệ thống!", {
                 description: error || "Không thể thêm giao dịch lúc này. Vui lòng thử lại sau.",

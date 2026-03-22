@@ -9,14 +9,20 @@ import {
 } from "@/components/ui/dialog";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {toast} from "sonner";
 import {addGoalFund} from "@/store/slices/goalSlice.js";
 import {Label} from "@/components/ui/label.jsx";
 import {useCurrency} from "@/hooks/useCurrency.js";
+import {selectCurrentUser} from "@/store/slices/authSlice.js";
+import {checkThresholdAlert} from "@/lib/alertUtils.js";
 
 const AddFundDialog = ({open, setOpenChange, goalId}) => {
     const dispatch = useDispatch();
+
+    // Lấy User (để kiểm tra settings) và Goal (để lấy current, target)
+    const user = useSelector(selectCurrentUser);
+    const goal = useSelector(state => state.goals.goals.find(g => String(g.id) === String(goalId)));
 
     const { symbol } = useCurrency();
 
@@ -62,6 +68,27 @@ const AddFundDialog = ({open, setOpenChange, goalId}) => {
 
             toast.success("Thêm thành công!", {description: `Số tiền "${amount}" đã được thêm.`});
             setOpenChange(false);
+
+            // LOGIC BẮT ALERT
+            if (user?.settings?.goalsAlert && goal) {
+                const oldCurrent = goal.current;
+                const newCurrent = goal.current + Number(amount);
+                const hitThreshold = checkThresholdAlert(oldCurrent, newCurrent, goal.target);
+
+                if (hitThreshold) {
+                    setTimeout(() => {
+                        toast.info("Mục tiêu sắp hoàn thành!",
+                            {
+                                description: hitThreshold === 100
+                                    ? `Chúc mừng! Bạn đã đạt 100% mục tiêu "${goal.name}".`
+                                    : `Tuyệt vời! Bạn đã đạt ${hitThreshold}% mục tiêu "${goal.name}".`,
+                                duration: 5000
+                            }
+                        )
+                    }, 500);    // Delay 500ms để toast alert hiện sau toast success
+                }
+            }
+
         } catch (error) {
             toast.error("Lỗi hệ thống!", {description: error});
         } finally {

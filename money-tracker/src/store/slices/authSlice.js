@@ -126,6 +126,30 @@ export const syncCurrencyToDB = createAsyncThunk(
     }
 );
 
+// Cập nhật Alert của user
+export const syncAlertSettingsToDB = createAsyncThunk(
+    "auth/syncAlertSettings",
+    async ({ type, value }, { getState, rejectWithValue }) => {
+        try {
+            const user = getState().auth.user;
+            if (!user) {
+                return rejectWithValue("Chưa đăng nhập!");
+            }
+
+            // Tạo settings mới nhưng chỉ ghi đè key (budgetsAlert hoặc goalsAlert)
+            const newSettings = {
+                ...user.settings,
+                [type]: value
+            }
+
+            await authService.updateSettings(user.id, newSettings);
+            return { type, value };
+        } catch (error) {
+            console.error("Lỗi đồng bộ cài đặt thông báo: ", error);
+            return rejectWithValue("Lỗi đồng bộ cài đặt!");
+        }
+    }
+)
 
 // UPDATE: Cập nhật thông tin cá nhân
 export const updatePersonalInfo = createAsyncThunk(
@@ -273,6 +297,15 @@ const authSlice = createSlice({
                 if (state.user && state.user.settings) {
                     // cập nhật redux store
                     state.user.settings.currency = action.payload;
+                    // Cập nhật LocalStorage để đồng bộ hoàn toàn
+                    localStorage.setItem("MT_user", JSON.stringify(state.user));
+                }
+            })
+            // BẮT SỰ KIỆN SYNC ALERT THÀNH CÔNG
+            .addCase(syncAlertSettingsToDB.fulfilled, (state, action) => {
+                if (state.user && state.user.settings) {
+                    // cập nhật redux store
+                    state.user.settings[action.payload.type] = action.payload.value;
                     // Cập nhật LocalStorage để đồng bộ hoàn toàn
                     localStorage.setItem("MT_user", JSON.stringify(state.user));
                 }

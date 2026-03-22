@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react"
+import {useEffect, useMemo, useState} from "react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,6 +11,8 @@ import {
   getTransactionsStatus,
   selectTransactionsWithCategories
 } from "@/store/slices/transactionSlice.js";
+import {useInfiniteScroll} from "@/hooks/useInfiniteScroll.js";
+import LoadMore from "@/components/common/LoadMore.jsx";
 
 function TransactionList({ limit, showAll = false, onEdit }) {
   const navigate = useNavigate();
@@ -29,25 +31,31 @@ function TransactionList({ limit, showAll = false, onEdit }) {
 
   const transactionsWithCategory = useSelector(selectTransactionsWithCategories) || [];
 
+  // BỌC TOÀN BỘ LOGIC LỌC VÀO useMemo
+  const limitedTransactions = useMemo(() => {
+    // B1: Lọc
+    const filtered = transactionsWithCategory.filter((transaction) => {
+      const matchesSearch =
+          transaction.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          transaction.category.categoryName.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesType = filterType === "all" || transaction.type === filterType;
+
+      return matchesSearch && matchesType;
+    });
+
+    // B2: Cắt limit (nếu có)
+    return limit ? filtered.slice(0, limit) : filtered;
+
+  }, [transactionsWithCategory, searchTerm, filterType, limit]); // CHỈ TÍNH TOÁN LẠI KHI CÁC BIẾN NÀY THAY ĐỔI
+
+  // Custom hook infinite scroll
+  // mỗi lần cuộn sẽ tải thêm 10 items
+  const { visibleItems, hasMore, loadMoreRef } = useInfiniteScroll(limitedTransactions);
+
   if(transactionsWithCategory.length === 0) {
     return <p className="text-center py-4 text-sm text-muted-foreground">Chưa có giao dịch nào.</p>;
   }
-
-  const filteredTransactions = transactionsWithCategory
-    .filter(
-      (transaction) =>
-        transaction.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        transaction.category.categoryName.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter((transaction) =>
-      filterType === "all"
-        ? true
-        : filterType === "income"
-          ? transaction.type === "income"
-          : transaction.type === "expense"
-    )
-
-  const limitedTransactions = filteredTransactions.slice(0, limit || filteredTransactions.length)
 
   return (
     <div className="space-y-4">
@@ -76,9 +84,12 @@ function TransactionList({ limit, showAll = false, onEdit }) {
         </div>
       )}
 
-      <div className={`space-y-2 sm:space-y-3 ${showAll && 'max-h-[600px] md:max-h-[500px]'} overflow-y-auto pr-2 custom-scrollbar`}>
-        {limitedTransactions.map(transaction =>
+      <div className={`space-y-2 sm:space-y-3 ${showAll && 'max-h-[500px] md:max-h-[450px]'} overflow-y-auto pr-2 custom-scrollbar`}>
+        {visibleItems.map(transaction =>
           <TransactionItem key={transaction.id} transaction={transaction} onEdit={onEdit} />
+        )}
+        {hasMore && (
+            <LoadMore loadMoreRef={loadMoreRef} />
         )}
       </div>
 
