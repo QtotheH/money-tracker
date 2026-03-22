@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { selectTransactionsWithCategories } from "@/store/slices/transactionSlice";
 import { selectCategoriesItems } from "@/store/slices/categorySlice";
 import { useMemo,useState} from "react";
+import { useContext } from "react";
+import { ThemeContext } from "@/contexts/ThemeContext.jsx";
 
 import {
   Chart as ChartJS,
@@ -19,6 +21,21 @@ ChartJS.register(
 )
 
 const ExpenseCategoryChart = () => {
+  const { isDark } = useContext(ThemeContext);
+    const colors = {
+    light: {
+      gridColor: "#e5e7eb",
+      textColor: "#111827",
+      axisLabelColor: "#64748b"
+    },
+    dark: {
+      gridColor: "#334155",
+      textColor: "#f1f5f9",
+      axisLabelColor: "#cbd5e1"
+    }
+  };
+
+  const theme = isDark ? colors.dark : colors.light;  
   const [transactionType, setTransactionType] = useState('expense');
 
   // Lấy dữ liệu từ Redux
@@ -33,15 +50,26 @@ const ExpenseCategoryChart = () => {
     transactions
         .filter(t => t.type === transactionType)
         .forEach(t => {
-            const catName = t.category?.categoryName || 'Khác';
+            const catName = t.category?.categoryName;
             categoryAmounts[catName] = (categoryAmounts[catName] || 0) + t.amount;
             totalAmount += t.amount;
         });
-        
+    
+    // Sắp xếp theo giá trị giảm dần và lấy top 5
+    const sortedEntries = Object.entries(categoryAmounts).sort((a, b) => b[1] - a[1]);
+    const top5 = sortedEntries.slice(0, 5);
+    const remainingTotal = sortedEntries.slice(5).reduce((sum, [_, amount]) => sum + amount, 0);
+    
+    // Tạo object category cuối cùng
+    const finalCategoryAmounts = Object.fromEntries(top5);
+    if (remainingTotal > 0) {
+        finalCategoryAmounts['Khác'] = remainingTotal;
+    }
+    
     // Tính phần trăm
-    const labels = Object.keys(categoryAmounts);
+    const labels = Object.keys(finalCategoryAmounts);
     const percentages = labels.map(cat => 
-        Math.round((categoryAmounts[cat] / totalAmount) * 100)
+        Math.round((finalCategoryAmounts[cat] / totalAmount) * 100)
     );
     
     return {
@@ -73,13 +101,15 @@ const ExpenseCategoryChart = () => {
             size: 13,
             family: "'Inter', sans-serif"
           },
-          color: "#64748b" // Màu xám đen (slate-500)
+          color: theme.textColor
         }
       },
       tooltip: {
-        backgroundColor: "#111827",
+        backgroundColor: isDark ? "#1e293b" : "#111827",
         padding: 12,
         cornerRadius: 8,
+        titleColor: theme.textColor,
+        bodyColor: theme.textColor,
         callbacks: {
           // Hiển thị thêm ký hiệu % trong hộp thông tin
           label: (context) => {
