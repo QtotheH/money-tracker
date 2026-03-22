@@ -54,7 +54,7 @@
       "avatar": "",
       "settings": {
         "theme": "light",
-        "currency": "vnd",
+        "currency": "kwr",
         "budgetsAlert": false,
         "goalsAlert": false
       }
@@ -104,6 +104,13 @@
       "categoryName": "Ăn uống",
       "iconName": "utensils",
       "iconClass": "fa-regular fa-utensils"
+    },
+    {
+      "id": "yKV91aPf2qoO1rDBtrKFb",
+      "userId": "eo5FZMND84r47I8WHZg3w",
+      "categoryName": "Uống bia",
+      "iconName": "beer-mug-empty",
+      "iconClass": "fa-regular fa-beer-mug-empty"
     }
   ],
   "transactions": [

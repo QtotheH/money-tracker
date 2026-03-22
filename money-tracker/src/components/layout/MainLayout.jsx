@@ -1,11 +1,22 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import TopBar from "@/components/layout/TopBar.jsx";
 import Sidebar from "@/components/layout/Sidebar.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {Menu} from "lucide-react";
 import {Outlet} from "react-router";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchCategories, getCategoriesStatus} from "@/store/slices/categorySlice.js";
 
 const MainLayout = () => {
+    const dispatch = useDispatch();
+    const categoryStatus = useSelector(getCategoriesStatus);
+
+    useEffect(() => {
+        if(categoryStatus === "idle") {
+            dispatch(fetchCategories());
+        }
+    }, [categoryStatus, dispatch]);
+
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState(true);
     return (

@@ -90,7 +90,6 @@ export const selectBudgetsWithCategories = createSelector(
                     );
                 })
                 .reduce((total, t) => total + t.amount, 0);
-
             return {
                 ...budget,
                 spent: calculatedSpent,
