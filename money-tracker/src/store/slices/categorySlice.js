@@ -31,7 +31,6 @@ export const fetchCategories = createAsyncThunk(
     async (_, { getState }) => {
         const user = getState().auth.user;
         const res = await categoryService.getAll();
-        console.log(res)
         return res.data.filter(c => c.userId === user.id);
     }
 )
@@ -43,8 +42,8 @@ export const createCategory = createAsyncThunk(
         try {
             const user = getState().auth.user;
 
-            const existing = categoryService.getByNameAndUserId(categoryName, user.id);
-            if (existing) {
+            const existing = await categoryService.getByNameAndUserId(categoryName, user.id);
+            if (existing.data.length > 0) {
                 return rejectWithValue("Danh mục đã tồn tại!");
             }
 
