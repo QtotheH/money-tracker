@@ -71,6 +71,8 @@ const AddCategoryDialog = ({ open, onOpenChange, mode = "add", category = null }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        e.stopPropagation();
+
         if (!validateForm()) return;
         setIsSubmitting(true);
         try {
