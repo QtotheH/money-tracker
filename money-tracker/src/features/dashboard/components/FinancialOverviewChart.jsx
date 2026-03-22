@@ -1,5 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import FinancialChartFilter from "@/features/dashboard/components/FinancialChartFilter.jsx";
+import { useSelector } from "react-redux";
+import { selectTransactionsWithCategories } from "@/store/slices/transactionSlice";
+import { useMemo,useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,   // Trục X (tháng)
@@ -24,32 +27,72 @@ ChartJS.register(
 )
 
 const FinancialOverviewChart = () => {
+  const [filter, setFilter] = useState('6months');
+  const monthsToShow = {
+    '1month': 1,
+    '3months': 3,
+    '6months': 6,
+    '1year': 12
+  };
   // Dữ liệu biểu đồ
-  const data = {
-    labels: ["January", "February", "March", "April", "May", "June"],
-    datasets: [
-      {
-        label: "Thu nhập",
-        data: [3200, 3500, 3800, 4000, 4200, 4500],
-        backgroundColor: "#10b981", // Màu nền (cho cột) hoặc điểm (cho đường)
-        borderColor: "#10b981",     // Màu đường kẻ (cho Line Chart)
-        borderRadius: 6,           // Độ bo góc nếu quay lại dùng Bar Chart
-        tension: 0.4,              // Độ cong của đường kẻ (0 = thẳng, 0.4 = mượt)
-        pointRadius: 4,            // Kích thước điểm nút trên đường
-        pointHoverRadius: 6,       // Kích thước điểm nút khi di chuột vào
-      },
-      {
-        label: "Chi tiêu",
-        data: [2100, 2300, 2200, 2400, 2000, 2150],
-        backgroundColor: "#ef4444",
-        borderColor: "#ef4444",
-        borderRadius: 6,
-        tension: 0.4,
-        pointRadius: 4,
-        pointHoverRadius: 6,
+  const transactions = useSelector(selectTransactionsWithCategories);
+  // Tính toán dữ liệu theo tháng cho biểu đồ
+  const chartData = useMemo(() => {
+    const monthlyData = {};
+    const currentDate = new Date();
+    const monthsCount = monthsToShow[filter];
+    // Lấy dữ liệu N tháng gần nhất
+    for (let i = monthsCount - 1; i >= 0; i--) {
+      const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+      const key = `${date.getFullYear()}-${date.getMonth() + 1}`;
+      monthlyData[key] = { income: 0, expense: 0 };
+    }
+
+    // Nhóm giao dịch theo tháng và loại (thu nhập/chi tiêu)
+    transactions.forEach(t => {
+      const transactionDate = new Date(t.date);
+      const key = `${transactionDate.getFullYear()}-${transactionDate.getMonth() + 1}`;
+      if (monthlyData[key]) {
+        if (t.type === 'income') {
+          monthlyData[key].income += t.amount;
+        } else if (t.type === 'expense') {
+          monthlyData[key].expense += t.amount;
+        }
       }
-    ]
-  }
+    });
+
+    // Chuyển đổi dữ liệu thành định dạng cho Chart.js
+    const labels = Object.keys(monthlyData).map(key => {
+      const [year, month] = key.split("-");
+      return `${month}/${year}`;
+    });
+
+    const incomeData = Object.values(monthlyData).map(data => data.income);
+    const expenseData = Object.values(monthlyData).map(data => data.expense);
+    return {
+        labels,
+        datasets: [
+            {
+                label: "Thu nhập",
+                data: incomeData,
+                borderColor: "#10b981",
+                backgroundColor: "#10b981",
+                borderRadius: 6,
+                tension: 0.4,
+                pointRadius: 4
+            },
+            {
+                label: "Chi tiêu",
+                data: expenseData,
+                borderColor: "#ef4444",
+                backgroundColor: "#ef4444",
+                borderRadius: 6,
+                tension: 0.4,
+                pointRadius: 4
+            }
+        ]
+    };
+  }, [transactions, filter]);
 
   // Cấu hình hiển thị
   const options = {
@@ -121,7 +164,7 @@ const FinancialOverviewChart = () => {
 
                 {/*  Filter */}
                 <div className="flex-shrink-0">
-                  <FinancialChartFilter />
+                  <FinancialChartFilter filter={filter} setFilter={setFilter} />
                 </div>
 
             </div>
@@ -130,7 +173,7 @@ const FinancialOverviewChart = () => {
     {/* Phần biểu đồ */}
       <CardContent className="h-[250px] sm:h-[320px] pt-2 sm:pt-4 px-2 sm:px-6">
         {/* Render biểu đồ cột Bar -> Nếu muốn đổi biểu đồ đường thì Line */}
-        <Bar data={data} options={options} />
+        <Bar data={chartData} options={options} />
       </CardContent>
     </Card>
   )

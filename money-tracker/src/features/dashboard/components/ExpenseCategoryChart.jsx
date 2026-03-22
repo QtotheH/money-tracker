@@ -1,5 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import ExpenseChartFilter from "@/features/dashboard/components/ExpenseChartFilter.jsx";
+import { useSelector } from "react-redux";
+import { selectTransactionsWithCategories } from "@/store/slices/transactionSlice";
+import { selectCategoriesItems } from "@/store/slices/categorySlice";
+import { useMemo,useState} from "react";
 
 import {
   Chart as ChartJS,
@@ -15,33 +19,42 @@ ChartJS.register(
 )
 
 const ExpenseCategoryChart = () => {
-  // Dữ liệu biểu đồ (Đã Việt hóa nhãn và giá trị)
-  const data = {
-    labels: [
-      "Nhà ở", 
-      "Ăn uống", 
-      "Di chuyển", 
-      "Giải trí", 
-      "Tiền ích (Điện/Nước)", 
-      "Khác"
-    ],
-    datasets: [
-      {
-        data: [40, 20, 15, 10, 10, 5],
-        backgroundColor: [
-          "#3ecf8e", // Màu xanh lá (Nhà ở)
-          "#40a9ff", // Màu xanh dương (Ăn uống)
-          "#b37feb", // Màu tím (Di chuyển)
-          "#ffa940", // Màu cam (Giải trí)
-          "#ff7875", // Màu đỏ/hồng (Tiện ích)
-          "#bfbfbf"  // Màu xám (Khác)
-        ],
-        borderWidth: 2,
-        borderColor: "#ffffff", // Viền trắng giữa các miếng bánh để nhìn rõ hơn
-        hoverOffset: 8          // Hiệu ứng đẩy ra khi di chuột vào
-      }
-    ]
-  }
+  const [transactionType, setTransactionType] = useState('expense');
+
+  // Lấy dữ liệu từ Redux
+  const transactions = useSelector(selectTransactionsWithCategories);
+  
+  // Tính toán dữ liệu cho biểu đồ
+  const chartData = useMemo(() => {
+    const categoryAmounts = {};
+    let totalAmount = 0;
+    
+    // Lọc theo transactionType (expense hoặc income) và nhóm theo category
+    transactions
+        .filter(t => t.type === transactionType)
+        .forEach(t => {
+            const catName = t.category?.categoryName || 'Khác';
+            categoryAmounts[catName] = (categoryAmounts[catName] || 0) + t.amount;
+            totalAmount += t.amount;
+        });
+        
+    // Tính phần trăm
+    const labels = Object.keys(categoryAmounts);
+    const percentages = labels.map(cat => 
+        Math.round((categoryAmounts[cat] / totalAmount) * 100)
+    );
+    
+    return {
+        labels,
+        datasets: [{
+            data: percentages,
+            backgroundColor: ["#3ecf8e", "#40a9ff", "#b37feb", "#ffa940", "#ff7875", "#bfbfbf"],
+            borderWidth: 2,
+            borderColor: "#ffffff",
+            hoverOffset: 8
+        }]
+    };
+  }, [transactions, transactionType]);
 
   // Cấu hình hiển thị
   const options = {
@@ -77,29 +90,29 @@ const ExpenseCategoryChart = () => {
         }
       }
     }
-  }
+  };
 
   return (
     <Card className="py-4 sm:py-6 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
         <CardHeader className="flex flex-col lg:flex-row lg:items- lg:justify-between gap-2 md:gap-3 lg:gap-4 space-y-0 pb-2 md:pb-3 lg:pb-4 px-4 sm:px-6">
             <div className="space-y-1 min-w-0 flex-1">
                 <CardTitle className="text-lg sm:text-2xl font-semibold tracking-tight">
-                    Chi tiêu theo hạng mục
+                    {transactionType === 'expense' ? 'Chi tiêu' : 'Thu nhập'} theo hạng mục
                 </CardTitle>
                 <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">
-                    Phân bổ ngân sách của bạn trong tháng này
+                    Phân bổ {transactionType === 'expense' ? 'chi tiêu' : 'thu nhập'} của bạn trong tháng này
                 </p>
             </div>
             
             {/* Thanh lọc */}
             <div className="flex-shrink-0">
-              <ExpenseChartFilter />  
+              <ExpenseChartFilter transactionType={transactionType} onTypeChange={setTransactionType} />  
             </div>
            
         </CardHeader>
         {/* Phần biểu đồ */}
         <CardContent className="h-[250px] sm:h-[320px] pt-2 sm:pt-4 px-2 sm:px-6">
-            <Doughnut data={data} options={options} />
+            <Doughnut data={chartData} options={options} />
         </CardContent>
     </Card>
   )

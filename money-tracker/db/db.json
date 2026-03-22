@@ -88,6 +88,21 @@
         "budgetsAlert": false,
         "goalsAlert": false
       }
+    },
+    {
+      "id": "o4lr_MfJWJC-lwwZIG8yi",
+      "fullname": "Chí Thanh",
+      "email": "thanhchi2332004@gmail.com",
+      "dob": "2026-03-22",
+      "password": "$2b$12$DwREJDQt2aRabwNsALTLy.cInYJy3.RHK8godayVrPmrrAGNI.4ie",
+      "phone": "0927 141 358",
+      "avatar": "",
+      "settings": {
+        "theme": "dark",
+        "currency": "vnd",
+        "budgetsAlert": false,
+        "goalsAlert": false
+      }
     }
   ],
   "categories": [
@@ -111,6 +126,27 @@
       "categoryName": "Uống bia",
       "iconName": "beer-mug-empty",
       "iconClass": "fa-regular fa-beer-mug-empty"
+    },
+    {
+      "id": "dyk3Sq-vhxERsdNsw6T4x",
+      "userId": "o4lr_MfJWJC-lwwZIG8yi",
+      "categoryName": "Ăn ún",
+      "iconName": "fish",
+      "iconClass": "fa-regular fa-fish"
+    },
+    {
+      "id": "CowKu1ilWVmReg-8Y-Vu5",
+      "userId": "o4lr_MfJWJC-lwwZIG8yi",
+      "categoryName": "lương",
+      "iconName": "mug-saucer",
+      "iconClass": "fa-regular fa-mug-saucer"
+    },
+    {
+      "id": "aULzjgewDJU2SHflV3Yqv",
+      "userId": "o4lr_MfJWJC-lwwZIG8yi",
+      "categoryName": "xăng",
+      "iconName": "glass-water",
+      "iconClass": "fa-regular fa-glass-water"
     }
   ],
   "transactions": [
@@ -122,6 +158,69 @@
       "categoryId": "TvRorweozfKxAmfJTK8Kb",
       "date": "2026-03-19T00:00:00.000Z",
       "type": "expense"
+    },
+    {
+      "id": "-DHxDU7j52_3AkWLV_ocd",
+      "userId": "o4lr_MfJWJC-lwwZIG8yi",
+      "amount": 10000,
+      "description": "ăn ún",
+      "categoryId": "dyk3Sq-vhxERsdNsw6T4x",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "rBrkj2JWug-w5X6wpXA1i",
+      "userId": "o4lr_MfJWJC-lwwZIG8yi",
+      "amount": 1000000000,
+      "description": "lưn",
+      "categoryId": "CowKu1ilWVmReg-8Y-Vu5",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "income"
+    },
+    {
+      "id": "eO9oF1RgnYdmzpctvhJCe",
+      "userId": "o4lr_MfJWJC-lwwZIG8yi",
+      "amount": 100000,
+      "description": "ăn ún",
+      "categoryId": "dyk3Sq-vhxERsdNsw6T4x",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "E2uQwE1QBQjie4-rsa4Bn",
+      "userId": "o4lr_MfJWJC-lwwZIG8yi",
+      "amount": 1000000,
+      "description": "đổ xăng",
+      "categoryId": "aULzjgewDJU2SHflV3Yqv",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "uvFED1uoqjZYDenur32Nc",
+      "userId": "o4lr_MfJWJC-lwwZIG8yi",
+      "amount": 10000000,
+      "description": "ăn",
+      "categoryId": "dyk3Sq-vhxERsdNsw6T4x",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "aFXDFhhzwwmZk97EkZs5y",
+      "userId": "o4lr_MfJWJC-lwwZIG8yi",
+      "amount": 1000000000,
+      "description": "ăn ún",
+      "categoryId": "dyk3Sq-vhxERsdNsw6T4x",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "a7V5sho32cNKKvuzyjil7",
+      "userId": "o4lr_MfJWJC-lwwZIG8yi",
+      "amount": 300000000,
+      "description": "đổ xăng",
+      "categoryId": "aULzjgewDJU2SHflV3Yqv",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "expense"
     }
   ],
   "budgets": [
@@ -131,6 +230,13 @@
       "categoryId": "TvRorweozfKxAmfJTK8Kb",
       "total": 400000,
       "createdAt": "2026-03-21T01:31:22.891Z"
+    },
+    {
+      "id": "6Sfg9ZGnMtzWUG9L6cqEg",
+      "userId": "o4lr_MfJWJC-lwwZIG8yi",
+      "categoryId": "dyk3Sq-vhxERsdNsw6T4x",
+      "total": 100000,
+      "createdAt": "2026-03-22T07:57:53.232Z"
     }
   ],
   "goals": [
