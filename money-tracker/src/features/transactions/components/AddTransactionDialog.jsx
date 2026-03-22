@@ -19,6 +19,8 @@ import {selectCategoriesItems} from "@/store/slices/categorySlice.js";
 import {toast} from "sonner"
 import {createTransaction, updateTransaction} from "@/store/slices/transactionSlice.js";
 import {useCurrency} from "@/hooks/useCurrency.js";
+import {PlusIcon} from "lucide-react";
+import AddCategoryDialog from "@/features/categories/components/AddCategoryDialog.jsx";
 
 function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = null}) {
     const dispatch = useDispatch();
@@ -33,6 +35,9 @@ function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = n
 
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false)
+
+    // quản lý đóng mở dialog thêm category
+    const [isAddCategoryOpen, setIsAddCategoryOpen] = useState(false);
 
     const isEditMode = mode === "edit";
 
@@ -158,6 +163,7 @@ function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = n
     }
 
     return (
+    <>
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
@@ -196,9 +202,9 @@ function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = n
                             </Label>
                             <div className="col-span-3">
                                 <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2">
-                                        {symbol}
-                                    </span>
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2">
+                                    {symbol}
+                                </span>
                                     <Input
                                         id="amount"
                                         value={amount}
@@ -241,34 +247,43 @@ function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = n
                                 Danh mục
                             </Label>
                             <div className="col-span-3">
-
-                                <Select
-                                    value={category}
-                                    onValueChange={(val) => {
-                                        setCategory(val)
-                                        if (errors.category) setErrors({...errors, category: null})
-                                    }}
-                                >
-                                    <SelectTrigger id="category"
-                                                   className={`max-w-full ${errors.category ? "border-rose-500 focus:ring-rose-500" : ""}`}>
-                                        <SelectValue placeholder="Chọn danh mục"/>
-                                    </SelectTrigger>
-                                    <SelectContent
-                                        position="popper"
-                                        align="start"
-                                        className="max-w-full"
+                                <div className="flex gap-1">
+                                    <Select
+                                        value={category}
+                                        onValueChange={(val) => {
+                                            setCategory(val)
+                                            if (errors.category) setErrors({...errors, category: null})
+                                        }}
                                     >
-                                        {categories && categories.length > 0 ? (
-                                            categories.map(c => (
-                                                <SelectItem key={c.id} value={c.id}>
-                                                    {c.categoryName}
-                                                </SelectItem>
-                                            ))
-                                        ) : (
-                                            <SelectItem value="none" disabled>Không có danh mục nào</SelectItem>
-                                        )}
-                                    </SelectContent>
-                                </Select>
+                                        <SelectTrigger id="category"
+                                                       className={`max-w-1/2 ${errors.category ? "border-rose-500 focus:ring-rose-500" : ""}`}>
+                                            <SelectValue placeholder="Chọn danh mục"/>
+                                        </SelectTrigger>
+                                        <SelectContent
+                                            position="popper"
+                                            align="start"
+                                            className="max-w-full"
+                                        >
+                                            {categories && categories.length > 0 ? (
+                                                categories.map(c => (
+                                                    <SelectItem key={c.id} value={c.id}>
+                                                        {c.categoryName}
+                                                    </SelectItem>
+                                                ))
+                                            ) : (
+                                                <SelectItem value="none" disabled>Không có danh mục nào</SelectItem>
+                                            )}
+                                        </SelectContent>
+                                    </Select>
+                                    <Button
+                                        onClick={() => setIsAddCategoryOpen(true)}
+                                        type="button"
+                                        className="shrink-0 bg-emerald-600 hover:bg-emerald-700 text-white"
+                                    >
+                                        <PlusIcon className="h-4 w-4"/>
+                                        Thêm danh mục
+                                    </Button>
+                                </div>
                                 {errors.category && <p className="text-rose-500 text-xs mt-1">{errors.category}</p>}
                             </div>
                         </div>
@@ -312,6 +327,13 @@ function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = n
                 </form>
             </DialogContent>
         </Dialog>
+
+        {/* Dialog Thêm / Sửa */}
+        <AddCategoryDialog
+            open={isAddCategoryOpen}
+            onOpenChange={setIsAddCategoryOpen}
+        />
+    </>
     )
 }
 

@@ -142,7 +142,7 @@ function Sidebar({ className, onCloseSidebar, isOpen = true, isMobileOpen = fals
             <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
               {/* Hiện Avatar nếu có, không thì hiện Icon */}
               {user?.avatar ? (
-                  <img src={user.avatar} alt="avatar" className="w-full h-full object-cover" />
+                  <img src={user.avatar} alt="avatar" className="w-full h-full object-cover rounded-full" />
               ) : (
                   <UserIcon className="h-4 w-4 text-emerald-600" />
               )}

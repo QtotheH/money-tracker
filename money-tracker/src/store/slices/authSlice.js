@@ -210,6 +210,27 @@ export const changePassword = createAsyncThunk(
     }
 );
 
+// UPDATE AVATAR
+export const updateAvatar = createAsyncThunk(
+  "auth/profile/updateAvatar",
+  async ({ userId, avatar }, { rejectWithValue }) => {
+    try {
+      const res = await authService.updateAvatar(userId, avatar);
+      const updatedUser = res.data;
+
+      const { password: _, ...userWithoutPassword } = updatedUser;
+
+      localStorage.setItem("MT_user", JSON.stringify(userWithoutPassword));
+
+      return userWithoutPassword;
+
+    } catch (error) {
+      console.error("Lỗi cập nhật ảnh đại diện:", error);
+      return rejectWithValue("Cập nhật avatar thất bại");
+    }
+  }
+);
+
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
@@ -281,6 +302,20 @@ const authSlice = createSlice({
             .addCase(changePassword.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.payload;
+            })
+            // UPDATE AVATAR
+            .addCase(updateAvatar.pending, (state) => {
+              state.status = "loading";
+                state.error = null;
+            })
+            .addCase(updateAvatar.fulfilled, (state, action) => {
+              state.status = "succeeded";
+              // Chỉ cập nhật field avatar, giữ nguyên phần còn lại
+              state.user = action.payload;              
+            })
+            .addCase(updateAvatar.rejected, (state, action) => {
+              state.status = "failed";
+              state.error = action.payload;
             })
     }
 });
