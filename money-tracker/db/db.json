@@ -154,6 +154,13 @@
       "categoryName": "Trả góp điện thoại",
       "iconName": "mobile-screen",
       "iconClass": "fa-regular fa-mobile-screen"
+    },
+    {
+      "id": "qnKUaVdm-_pv8By7P7Kf9",
+      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
+      "categoryName": "Làm ăn chân chính không phạm luật",
+      "iconName": "drumstick-bite",
+      "iconClass": "fa-regular fa-drumstick-bite"
     }
   ],
   "transactions": [
