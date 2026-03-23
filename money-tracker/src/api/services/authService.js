@@ -11,5 +11,7 @@ export const authService = {
     }),
     // Cập nhật thông tin Profile User - Hàm này dùng luôn cho thay đổi password
     updatePersonalInfo: (userId, payload) => axiosClient.put(`/users/${userId}`, payload),
+     // Cập nhật avatar 
+    updateAvatar: (userId, avatar) => axiosClient.patch(`/users/${userId}`, { avatar }),
 
 }

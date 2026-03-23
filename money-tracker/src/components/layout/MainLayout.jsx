@@ -1,14 +1,54 @@
+<<<<<<< HEAD
 import {useState,useEffect} from "react";
+=======
+import {useEffect, useState} from "react";
+>>>>>>> main
 import TopBar from "@/components/layout/TopBar.jsx";
 import Sidebar from "@/components/layout/Sidebar.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {Menu} from "lucide-react";
 import {Outlet} from "react-router";
+<<<<<<< HEAD
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories, getCategoriesStatus } from "@/store/slices/categorySlice";
 
 
+=======
+import {useDispatch, useSelector} from "react-redux";
+import {fetchCategories, getCategoriesStatus} from "@/store/slices/categorySlice.js";
+import {fetchBudgets, getBudgetsStatus} from "@/store/slices/budgetSlice.js";
+import {fetchAllTransactions, getTransactionsStatus} from "@/store/slices/transactionSlice.js";
+import {fetchGoals, getGoalsStatus} from "@/store/slices/goalSlice.js";
+>>>>>>> main
 const MainLayout = () => {
+    const dispatch = useDispatch();
+
+    const categoryStatus = useSelector(getCategoriesStatus);
+    const budgetStatus = useSelector(getBudgetsStatus);
+    const transactionStatus = useSelector(getTransactionsStatus);
+    const goalStatus = useSelector(getGoalsStatus);
+
+    // Không gọi fetch riêng lẻ ở từng component con (vì có thể bị dispatch 1 action nhiều lần) -> gom nhóm và chạy song song
+    useEffect(() => {
+        // Hàm gom nhóm và chạy song song tất cả API
+        const fetchInitialData = async () => {
+            const promises = [];
+
+            // Kiểm tra: Cái nào đang 'idle' thì mới nhét vào mảng để gọi
+            if (categoryStatus === "idle") promises.push(dispatch(fetchCategories()));
+            if (transactionStatus === "idle") promises.push(dispatch(fetchAllTransactions()));
+            if (budgetStatus === "idle") promises.push(dispatch(fetchBudgets()));
+            if (goalStatus === "idle") promises.push(dispatch(fetchGoals()));
+
+            // Nếu có API cần gọi, dùng Promise.all để bắt chúng chạy SONG SONG cùng 1 lúc
+            if (promises.length > 0) {
+                await Promise.all(promises);
+            }
+        };
+
+        fetchInitialData();
+    }, [categoryStatus, budgetStatus, transactionStatus, goalStatus, dispatch]);
+
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const dispatch = useDispatch();
     const categoryStatus = useSelector(getCategoriesStatus);

@@ -32,14 +32,13 @@ export const selectCategoryDictionary = createSelector(
 // THUNK
 // 1. Get All
 export const fetchCategories = createAsyncThunk(
-  "categories/fetchAll",
-  async (_, { getState }) => {
-    const user = getState().auth.user;
-    const res = await categoryService.getAll();
-    console.log(res);
-    return res.data.filter((c) => c.userId === user.id);
-  },
-);
+    'categories/fetchAll',
+    async (_, { getState }) => {
+        const user = getState().auth.user;
+        const res = await categoryService.getAll();
+        return res.data.filter(c => c.userId === user.id);
+    }
+)
 
 // 2. CREATE
 export const createCategory = createAsyncThunk(
@@ -48,13 +47,10 @@ export const createCategory = createAsyncThunk(
     try {
       const user = getState().auth.user;
 
-      const existing = await categoryService.getByNameAndUserId(
-        categoryName,
-        user.id,
-      );
-      if (existing.data.length > 0) {
-        return rejectWithValue("Danh mục đã tồn tại!");
-      }
+            const existing = await categoryService.getByNameAndUserId(categoryName, user.id);
+            if (existing.data.length > 0) {
+                return rejectWithValue("Danh mục đã tồn tại!");
+            }
 
       const newCategory = {
         id: nanoid(),

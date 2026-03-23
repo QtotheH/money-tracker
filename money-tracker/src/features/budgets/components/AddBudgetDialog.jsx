@@ -27,6 +27,7 @@ const AddBudgetDialog = ({
 
     const [categoryId, setCategoryId] = useState("")
     const [amount, setAmount] = useState("")
+
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
 

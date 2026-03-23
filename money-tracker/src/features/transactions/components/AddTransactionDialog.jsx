@@ -28,8 +28,11 @@ import {
   updateTransaction,
 } from "@/store/slices/transactionSlice.js";
 import { useCurrency } from "@/hooks/useCurrency.js";
-import { selectCurrentUser } from "@/store/slices/authSlice";
-import { fetchDashboardCards } from "@/store/slices/dashboardSlice";
+import { PlusIcon } from "lucide-react";
+import AddCategoryDialog from "@/features/categories/components/AddCategoryDialog.jsx";
+import { selectBudgetsWithCategories } from "@/store/slices/budgetSlice.js";
+import { selectCurrentUser } from "@/store/slices/authSlice.js";
+import { checkThresholdAlert } from "@/lib/alertUtils.js";
 
 function AddTransactionDialog({
   open,
@@ -38,10 +41,12 @@ function AddTransactionDialog({
   transaction = null,
 }) {
   const dispatch = useDispatch();
-
   const categories = useSelector(selectCategoriesItems);
+
+  const user = useSelector(selectCurrentUser);
+  const budgets = useSelector(selectBudgetsWithCategories);
+
   const { symbol } = useCurrency();
-  const currentUser = useSelector(selectCurrentUser);
   const [transactionType, setTransactionType] = useState("expense");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
@@ -50,6 +55,9 @@ function AddTransactionDialog({
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // quản lý đóng mở dialog thêm category
+  const [isAddCategoryOpen, setIsAddCategoryOpen] = useState(false);
 
   const isEditMode = mode === "edit";
 
@@ -64,6 +72,7 @@ function AddTransactionDialog({
 
       setErrors({});
     }
+
     // Khi mở dialog ở chế độ thêm → reset form
     if (open && !isEditMode) {
       setTransactionType("expense");
@@ -87,33 +96,32 @@ function AddTransactionDialog({
   const validateForm = () => {
     const newErrors = {};
 
-    // Validate Số tiền: Không được rỗng, phải là số và lớn hơn 0
+    // Validate Số tiền
     if (!amount) {
       newErrors.amount = "Vui lòng nhập số tiền.";
     } else if (isNaN(amount) || Number(amount) <= 0) {
       newErrors.amount = "Số tiền phải lớn hơn 0.";
     }
 
-    // Validate Mô tả: Không được rỗng hoặc chỉ chứa khoảng trắng
+    // Validate Mô tả
     if (!description || description.trim() === "") {
       newErrors.description = "Vui lòng nhập mô tả giao dịch.";
     } else if (description.trim().length > 200) {
       newErrors.description = "Mô tả không được vượt quá 200 ký tự.";
     }
 
-    // Validate Danh mục: Phải được chọn
+    // Validate Danh mục
     if (!category) {
       newErrors.category = "Vui lòng chọn danh mục.";
     }
 
-    // Validate Ngày: Phải hợp lệ
+    // Validate Ngày
     if (!date) {
       newErrors.date = "Vui lòng chọn ngày.";
     }
 
     setErrors(newErrors);
 
-    // Nếu object newErrors không có key nào (length === 0) => Form hợp lệ (true)
     return Object.keys(newErrors).length === 0;
   };
 
@@ -128,6 +136,53 @@ function AddTransactionDialog({
     setIsSubmitting(true);
 
     try {
+      // CHUẨN BỊ LOGIC ALERT TRƯỚC KHI DISPATCH
+      let alertMsg = null;
+
+      // nếu có on budget alert và loại transaction là "expense"
+      if (user?.settings?.budgetsAlert && transactionType === "expense") {
+        // Lấy ngày của giao dịch đang được nhập trên form
+        const transactionDateObj = new Date(date);
+        const transMonth = transactionDateObj.getMonth();
+        const transYear = transactionDateObj.getFullYear();
+
+        // Tìm ngân sách có CÙNG DANH MỤC và CÙNG THÁNG/NĂM với giao dịch
+        const relatedBudget = budgets.find((b) => {
+          if (String(b.categoryId) !== String(category)) return false;
+
+          const budgetDateObj = new Date(b.createdAt);
+          return (
+            budgetDateObj.getMonth() === transMonth &&
+            budgetDateObj.getFullYear() === transYear
+          );
+        });
+
+        // cảnh báo nếu giao dịch này thuộc về một danh mục ĐÃ ĐƯỢC thiết lập Ngân sách trong tháng
+        if (relatedBudget) {
+          // Nếu là sửa, chỉ tính số tiền chênh lệch tăng lên
+          const diff = isEditMode
+            ? Number(amount) - Number(transaction.amount)
+            : Number(amount);
+
+          // chỉ chạy cảnh báo khi người dùng tiêu thêm tiền
+          if (diff > 0) {
+            const oldSpent = relatedBudget.spent;
+            const newSpent = relatedBudget.spent + diff;
+            const hitThreshold = checkThresholdAlert(
+              oldSpent,
+              newSpent,
+              relatedBudget.total,
+            );
+
+            if (hitThreshold === 100) {
+              alertMsg = `Cảnh báo: Bạn đã dùng HẾT (>=100%) ngân sách ${relatedBudget.category?.categoryName}!`;
+            } else if (hitThreshold) {
+              alertMsg = `Chú ý: Bạn đã chạm mức ${hitThreshold}% ngân sách ${relatedBudget.category?.categoryName}.`;
+            }
+          }
+        }
+      }
+
       if (!isEditMode) {
         await dispatch(
           createTransaction({
@@ -160,15 +215,23 @@ function AddTransactionDialog({
           description: `Giao dịch ${description} đã được cập nhật.`,
         });
       }
-    if (currentUser?.id) {
-        dispatch(fetchDashboardCards(currentUser.id));
-      }
+
       setAmount("");
       setDescription("");
       setCategory("");
       setDate(new Date().toISOString().split("T")[0]);
       setErrors({});
       onOpenChange(false);
+
+      // HIỆN TOAST ALERT NẾU CÓ CHẠM MỐC
+      if (alertMsg) {
+        setTimeout(() => {
+          toast.warning("Cảnh báo Ngân sách", {
+            description: alertMsg,
+            duration: 6000,
+          });
+        }, 500);
+      }
     } catch (error) {
       toast.error("Lỗi hệ thống!", {
         description:
@@ -180,199 +243,220 @@ function AddTransactionDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>
-            {isEditMode ? "Sửa giao dịch" : "Thêm giao dịch mới"}
-          </DialogTitle>
-          <DialogDescription>
-            {isEditMode
-              ? "Chỉnh sửa thông tin giao dịch bên dưới."
-              : "Nhập thông tin để tạo giao dịch mới."}
-          </DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleSubmit} noValidate>
-          {" "}
-          {/* noValidate để tắt tooltip mặc định của HTML */}
-          <div className="grid gap-4 py-4">
-            <RadioGroup
-              value={transactionType}
-              onValueChange={setTransactionType}
-              className="grid grid-cols-2 gap-4"
-            >
-              <div className="flex items-center space-x-2 rounded-md border p-3">
-                <RadioGroupItem
-                  value="expense"
-                  id="expense"
-                  className="border-emerald-600 text-emerald-600"
-                />
-                <Label htmlFor="expense" className="flex-1">
-                  Chi tiêu
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2 rounded-md border p-3">
-                <RadioGroupItem
-                  value="income"
-                  id="income"
-                  className="border-emerald-600 text-emerald-600"
-                />
-                <Label htmlFor="income" className="flex-1">
-                  Thu nhập
-                </Label>
-              </div>
-            </RadioGroup>
+    <>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>
+              {isEditMode ? "Sửa giao dịch" : "Thêm giao dịch mới"}
+            </DialogTitle>
+            <DialogDescription>
+              {isEditMode
+                ? "Chỉnh sửa thông tin giao dịch bên dưới."
+                : "Nhập thông tin để tạo giao dịch mới."}
+            </DialogDescription>
+          </DialogHeader>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="amount" className="text-right">
-                Số tiền
-              </Label>
-              <div className="col-span-3">
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2">
-                    {symbol}
-                  </span>
-                  <Input
-                    id="amount"
-                    value={amount}
-                    onChange={(e) => {
-                      setAmount(e.target.value);
-                      if (errors.amount) setErrors({ ...errors, amount: null }); // Xóa lỗi khi người dùng bắt đầu nhập
-                    }}
-                    className={`pl-7 ${errors.amount ? "border-rose-500 focus-visible:ring-rose-500" : ""}`}
-                    placeholder="0"
-                    type="number"
-                    step="0.01"
+          <form onSubmit={handleSubmit} noValidate>
+            <div className="grid gap-4 py-4">
+              <RadioGroup
+                value={transactionType}
+                onValueChange={setTransactionType}
+                className="grid grid-cols-2 gap-4"
+              >
+                <div className="flex items-center space-x-2 rounded-md border p-3">
+                  <RadioGroupItem
+                    value="expense"
+                    id="expense"
+                    className="border-emerald-600 text-emerald-600"
                   />
+                  <Label htmlFor="expense" className="flex-1">
+                    Chi tiêu
+                  </Label>
                 </div>
-                {errors.amount && (
-                  <p className="text-rose-500 text-xs mt-1">{errors.amount}</p>
-                )}
+                <div className="flex items-center space-x-2 rounded-md border p-3">
+                  <RadioGroupItem
+                    value="income"
+                    id="income"
+                    className="border-emerald-600 text-emerald-600"
+                  />
+                  <Label htmlFor="income" className="flex-1">
+                    Thu nhập
+                  </Label>
+                </div>
+              </RadioGroup>
+
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="amount" className="text-right">
+                  Số tiền
+                </Label>
+                <div className="col-span-3">
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2">
+                      {symbol}
+                    </span>
+                    <Input
+                      id="amount"
+                      value={amount}
+                      onChange={(e) => {
+                        setAmount(e.target.value);
+                        if (errors.amount) setErrors({ ...errors, amount: null });
+                      }}
+                      className={`pl-7 ${errors.amount ? "border-rose-500 focus-visible:ring-rose-500" : ""}`}
+                      placeholder="0"
+                      type="number"
+                      step="0.01"
+                    />
+                  </div>
+                  {errors.amount && (
+                    <p className="mt-1 text-xs text-rose-500">{errors.amount}</p>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="description" className="text-right">
+                  Mô tả
+                </Label>
+                <div className="col-span-3">
+                  <Input
+                    id="description"
+                    value={description}
+                    onChange={(e) => {
+                      setDescription(e.target.value);
+                      if (errors.description) {
+                        setErrors({ ...errors, description: null });
+                      }
+                    }}
+                    className={
+                      errors.description
+                        ? "border-rose-500 focus-visible:ring-rose-500"
+                        : ""
+                    }
+                    placeholder="Giao dịch này dùng cho việc gì?"
+                  />
+                  {errors.description && (
+                    <p className="mt-1 text-xs text-rose-500">
+                      {errors.description}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="category" className="text-right">
+                  Danh mục
+                </Label>
+                <div className="col-span-3">
+                  <div className="flex gap-1">
+                    <Select
+                      value={category}
+                      onValueChange={(val) => {
+                        setCategory(val);
+                        if (errors.category) {
+                          setErrors({ ...errors, category: null });
+                        }
+                      }}
+                    >
+                      <SelectTrigger
+                        id="category"
+                        className={`max-w-1/2 ${errors.category ? "border-rose-500 focus:ring-rose-500" : ""}`}
+                      >
+                        <SelectValue placeholder="Chọn danh mục" />
+                      </SelectTrigger>
+                      <SelectContent
+                        position="popper"
+                        align="start"
+                        className="max-w-full"
+                      >
+                        {categories && categories.length > 0 ? (
+                          categories.map((c) => (
+                            <SelectItem key={c.id} value={c.id}>
+                              {c.categoryName}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <SelectItem value="none" disabled>
+                            Không có danh mục nào
+                          </SelectItem>
+                        )}
+                      </SelectContent>
+                    </Select>
+
+                    <Button
+                      onClick={() => setIsAddCategoryOpen(true)}
+                      type="button"
+                      className="shrink-0 bg-emerald-600 text-white hover:bg-emerald-700"
+                    >
+                      <PlusIcon className="h-4 w-4" />
+                      Thêm danh mục
+                    </Button>
+                  </div>
+
+                  {errors.category && (
+                    <p className="mt-1 text-xs text-rose-500">
+                      {errors.category}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="date" className="text-right">
+                  Ngày
+                </Label>
+                <div className="col-span-3">
+                  <Input
+                    id="date"
+                    type="date"
+                    value={date}
+                    onChange={(e) => {
+                      setDate(e.target.value);
+                      if (errors.date) setErrors({ ...errors, date: null });
+                    }}
+                    className={
+                      errors.date
+                        ? "border-rose-500 focus-visible:ring-rose-500"
+                        : ""
+                    }
+                  />
+                  {errors.date && (
+                    <p className="mt-1 text-xs text-rose-500">{errors.date}</p>
+                  )}
+                </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="description" className="text-right">
-                Mô tả
-              </Label>
-              <div className="col-span-3">
-                <Input
-                  id="description"
-                  value={description}
-                  onChange={(e) => {
-                    setDescription(e.target.value);
-                    if (errors.description)
-                      setErrors({ ...errors, description: null });
-                  }}
-                  className={
-                    errors.description
-                      ? "border-rose-500 focus-visible:ring-rose-500"
-                      : ""
-                  }
-                  placeholder="Giao dịch này dùng cho việc gì?"
-                />
-                {errors.description && (
-                  <p className="text-rose-500 text-xs mt-1">
-                    {errors.description}
-                  </p>
-                )}
-              </div>
-            </div>
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => onOpenChange(false)}
+                disabled={isSubmitting}
+              >
+                Hủy
+              </Button>
+              <Button
+                className="bg-emerald-600 text-white hover:bg-emerald-700"
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting
+                  ? "Đang xử lý..."
+                  : isEditMode
+                    ? "Lưu thay đổi"
+                    : "Thêm"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="category" className="text-right">
-                Danh mục
-              </Label>
-              <div className="col-span-3">
-                <Select
-                  value={category}
-                  onValueChange={(val) => {
-                    setCategory(val);
-                    if (errors.category)
-                      setErrors({ ...errors, category: null });
-                  }}
-                >
-                  <SelectTrigger
-                    id="category"
-                    className={`max-w-full ${errors.category ? "border-rose-500 focus:ring-rose-500" : ""}`}
-                  >
-                    <SelectValue placeholder="Chọn danh mục" />
-                  </SelectTrigger>
-                  <SelectContent
-                    position="popper"
-                    align="start"
-                    className="max-w-full"
-                  >
-                    {categories && categories.length > 0 ? (
-                      categories.map((c) => (
-                        <SelectItem key={c.id} value={c.id}>
-                          {c.categoryName}
-                        </SelectItem>
-                      ))
-                    ) : (
-                      <SelectItem value="none" disabled>
-                        Không có danh mục nào
-                      </SelectItem>
-                    )}
-                  </SelectContent>
-                </Select>
-                {errors.category && (
-                  <p className="text-rose-500 text-xs mt-1">
-                    {errors.category}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="date" className="text-right">
-                Ngày
-              </Label>
-              <div className="col-span-3">
-                <Input
-                  id="date"
-                  type="date"
-                  value={date}
-                  onChange={(e) => {
-                    setDate(e.target.value);
-                    if (errors.date) setErrors({ ...errors, date: null });
-                  }}
-                  className={
-                    errors.date
-                      ? "border-rose-500 focus-visible:ring-rose-500"
-                      : ""
-                  }
-                />
-                {errors.date && (
-                  <p className="text-rose-500 text-xs mt-1">{errors.date}</p>
-                )}
-              </div>
-            </div>
-          </div>
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-              disabled={isSubmitting}
-            >
-              Hủy
-            </Button>
-            <Button
-              className="bg-emerald-600 hover:bg-emerald-700 text-white"
-              type="submit"
-              disabled={isSubmitting}
-            >
-              {isSubmitting
-                ? "Đang xử lý..."
-                : isEditMode
-                  ? "Lưu thay đổi"
-                  : "Thêm"}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+      <AddCategoryDialog
+        open={isAddCategoryOpen}
+        onOpenChange={setIsAddCategoryOpen}
+      />
+    </>
   );
 }
 

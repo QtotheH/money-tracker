@@ -6,9 +6,9 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const FinancialChartFilter = () => {
+const FinancialChartFilter = ({ filter, setFilter }) => {
   return (
-     <Select defaultValue="6months">
+     <Select value={filter} onValueChange={setFilter}>
         <SelectTrigger className="w-full sm:w-[180px] lg:w-[200px] text-xs sm:text-sm">
             <SelectValue placeholder="Chọn thời gian" />
         </SelectTrigger>
