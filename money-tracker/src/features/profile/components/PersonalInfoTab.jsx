@@ -69,7 +69,7 @@ const PersonalInfoTab = () => {
 
       toast.success("Cập nhật thành công!");
     } catch (error) {
-      toast.error("Lỗi hệ thống!", { description: error });
+      toast.error("Lỗi!", { description: error });
     } finally {
       setIsSubmitting(false);
     }
