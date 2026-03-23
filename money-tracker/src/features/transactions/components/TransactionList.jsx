@@ -21,14 +21,6 @@ function TransactionList({ limit, showAll = false, onEdit }) {
   const [searchTerm, setSearchTerm] = useState("")
   const [filterType, setFilterType] = useState("all")
 
-  const transactionsStatus = useSelector(getTransactionsStatus);
-
-  useEffect(() => {
-    if (transactionsStatus === 'idle') {
-      dispatch(fetchAllTransactions());
-    }
-  }, [transactionsStatus, dispatch]);
-
   const transactionsWithCategory = useSelector(selectTransactionsWithCategories) || [];
 
   // BỌC TOÀN BỘ LOGIC LỌC VÀO useMemo

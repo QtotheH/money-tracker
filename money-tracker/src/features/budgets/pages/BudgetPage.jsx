@@ -1,4 +1,3 @@
-
 import {useState} from "react"
 import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -7,7 +6,6 @@ import BudgetList from "@/features/budgets/components/BudgetList"
 import AddBudgetDialog from "@/features/budgets/components/AddBudgetDialog"
 import {useBudgetsData} from "@/hooks/useBudgetData.js";
 import Loading from "@/components/common/Loading.jsx";
-import {useInfiniteScroll} from "@/hooks/useInfiniteScroll.js";
 
 const BudgetPage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
