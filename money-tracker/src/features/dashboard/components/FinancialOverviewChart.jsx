@@ -1,5 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import FinancialChartFilter from "@/features/dashboard/components/FinancialChartFilter.jsx";
+import { useSelector } from "react-redux";
+import { selectTransactionsWithCategories } from "@/store/slices/transactionSlice";
+import { useMemo,useState } from "react";
+import { useContext } from "react";
+import { ThemeContext } from "@/contexts/ThemeContext.jsx";
 import {
   Chart as ChartJS,
   CategoryScale,   // Trục X (tháng)
@@ -11,6 +16,7 @@ import {
   Legend,          // Chú thích màu sắc
 } from "chart.js"
 import { Bar } from "react-chartjs-2" // Đã đổi từ Bar sang Line
+import { useCurrency } from "@/hooks/useCurrency";
 
 // Đăng ký các thành phần bắt buộc của Chart.js
 ChartJS.register(
@@ -24,82 +30,169 @@ ChartJS.register(
 )
 
 const FinancialOverviewChart = () => {
-  // Dữ liệu biểu đồ
-  const data = {
-    labels: ["January", "February", "March", "April", "May", "June"],
-    datasets: [
-      {
-        label: "Thu nhập",
-        data: [3200, 3500, 3800, 4000, 4200, 4500],
-        backgroundColor: "#10b981", // Màu nền (cho cột) hoặc điểm (cho đường)
-        borderColor: "#10b981",     // Màu đường kẻ (cho Line Chart)
-        borderRadius: 6,           // Độ bo góc nếu quay lại dùng Bar Chart
-        tension: 0.4,              // Độ cong của đường kẻ (0 = thẳng, 0.4 = mượt)
-        pointRadius: 4,            // Kích thước điểm nút trên đường
-        pointHoverRadius: 6,       // Kích thước điểm nút khi di chuột vào
-      },
-      {
-        label: "Chi tiêu",
-        data: [2100, 2300, 2200, 2400, 2000, 2150],
-        backgroundColor: "#ef4444",
-        borderColor: "#ef4444",
-        borderRadius: 6,
-        tension: 0.4,
-        pointRadius: 4,
-        pointHoverRadius: 6,
-      }
-    ]
+  const { isDark } = useContext(ThemeContext);
+  const colors = {
+  light: {
+    gridColor: "#e5e7eb",
+    textColor: "#111827",
+    axisLabelColor: "#64748b"
+  },
+  dark: {
+    gridColor: "#334155",
+    textColor: "#f1f5f9",
+    axisLabelColor: "#cbd5e1"
   }
+};
+
+const theme = isDark ? colors.dark : colors.light;
+  const [filter, setFilter] = useState('6months');
+  const {formatMoney} = useCurrency();
+  const monthsToShow = {
+    '1month': 1,
+    '3months': 3,
+    '6months': 6,
+    '1year': 12
+  };
+  // Dữ liệu biểu đồ
+  const transactions = useSelector(selectTransactionsWithCategories);
+  // Tính toán dữ liệu theo tháng cho biểu đồ
+  const chartData = useMemo(() => {
+    const monthlyData = {};
+    const currentDate = new Date();
+    const monthsCount = monthsToShow[filter];
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+    // Lấy dữ liệu N tháng gần nhất
+    if (monthsCount === 1) {
+      // Tháng trước
+      const lastMonthDate = new Date(currentYear, currentMonth - 1, 1);
+      const key = `${lastMonthDate.getFullYear()}-${lastMonthDate.getMonth() + 1}`;
+      monthlyData[key] = { income: 0, expense: 0 };
+      
+    } else if (monthsCount === 12) {
+      // 12 tháng của năm ngoái
+      const lastYear = currentYear - 1;
+      for (let i = 1; i <= 12; i++) {
+        monthlyData[`${lastYear}-${i}`] = { income: 0, expense: 0 };
+      }
+      
+    } else {
+      // 3 tháng hoặc 6 tháng gần nhất
+      for (let i = monthsCount - 1; i >= 0; i--) {
+        const date = new Date(currentYear, currentMonth - i, 1);
+        const key = `${date.getFullYear()}-${date.getMonth() + 1}`; 
+        monthlyData[key] = { income: 0, expense: 0 };
+      }
+    }
+    // Nhóm giao dịch theo tháng và loại (thu nhập/chi tiêu)
+    transactions.forEach(t => {
+      const transactionDate = new Date(t.date);
+      const key = `${transactionDate.getFullYear()}-${transactionDate.getMonth() + 1}`;
+      if (monthlyData[key]) {
+        if (t.type === 'income') {
+          monthlyData[key].income += t.amount;
+        } else if (t.type === 'expense') {
+          monthlyData[key].expense += t.amount;
+        }
+      }
+    });
+
+    // Chuyển đổi dữ liệu thành định dạng cho Chart.js
+    const labels = Object.keys(monthlyData).map(key => {
+      const [year, month] = key.split("-");
+      return `${month}/${year}`;
+    });
+
+    const incomeData = Object.values(monthlyData).map(data => data.income);
+    const expenseData = Object.values(monthlyData).map(data => data.expense);
+    return {
+        labels,
+        datasets: [
+            {
+                label: "Thu nhập",
+                data: incomeData,
+                borderColor: "#10b981",
+                backgroundColor: "#10b981",
+                borderRadius: 6,
+                tension: 0.4,
+                pointRadius: 4
+            },
+            {
+                label: "Chi tiêu",
+                data: expenseData,
+                borderColor: "#ef4444",
+                backgroundColor: "#ef4444",
+                borderRadius: 6,
+                tension: 0.4,
+                pointRadius: 4
+            }
+        ]
+    };
+  }, [transactions, filter]);
 
   // Cấu hình hiển thị
   const options = {
     responsive: true,
-    maintainAspectRatio: false, // Quan trọng: Cho phép biểu đồ co giãn theo chiều cao h-[320px]
+    maintainAspectRatio: false,
 
     scales: {
       x: {
         grid: {
-          display: false        // Ẩn các đường lưới dọc để biểu đồ sạch hơn
+          display: false
         },
-        // Các thông số dưới đây chủ yếu dùng cho Bar Chart nhưng không gây lỗi cho Line Chart
-        categoryPercentage: 0.6, // Tỷ lệ chiều rộng nhóm (giảm để các tháng xa nhau)
-        barPercentage: 0.7,      // Tỷ lệ chiều rộng cột (giảm để cột Thu nhập/Chi tiêu xa nhau)
-      },
-      y: {
-        beginAtZero: true,      // Luôn bắt đầu trục Y từ số 0
-        grid: {
-          color: "#e5e7eb",     // Màu của các đường lưới ngang
-          drawTicks: false,     // Không vẽ các vạch nhỏ nhô ra ở trục
+        categoryPercentage: 0.6,
+        barPercentage: 0.7,
+        title: {
+          display: true,
+          text: 'Thời gian (tháng)',
+          color: theme.textColor 
         },
         ticks: {
-          padding: 10,          // Khoảng cách giữa chữ số và trục Y
-          // Định dạng hiển thị tiền tệ
-          callback: (value) => "$" + value.toLocaleString() 
+          color: theme.textColor 
+        }
+      },
+      y: {
+        beginAtZero: true,
+        grid: {
+          color: theme.gridColor, 
+          drawTicks: false,
+        },
+        ticks: {
+          padding: 10,
+          color: theme.textColor,
+          callback: (value) => formatMoney(value)
+        },
+        title: {
+          display: true,
+          text: 'Số tiền',
+          color: theme.textColor 
         }
       }
     },
 
     plugins: {
       legend: {
-        position: "top",        // Vị trí chú thích: trên cùng
-        align: "end",           // Căn lề chú thích sang bên phải (end)
+        position: "top",
+        align: "end",
         labels: {
           usePointStyle: true,
-          pointStyle: "rectRounded", // Hình ô vuông bo góc nhỏ cho hiện đại
+          pointStyle: "rectRounded",
           padding: 20,
           font: {
             size: 13,
             family: "'Inter', sans-serif"
           },
-          color: "#64748b" // Màu xám đen (slate-500)
+          color: theme.textColor
         }
       },
       tooltip: {
-        backgroundColor: "#111827", // Màu nền hộp thông tin 
-        padding: 12,                // Khoảng đệm bên trong hộp
-        cornerRadius: 8,            // Bo góc hộp thông tin
-        titleFont: { size: 14 },    // Cỡ chữ tiêu đề trong tooltip
-        bodyFont: { size: 13 }      // Cỡ chữ nội dung trong tooltip
+        backgroundColor: isDark ? "#1e293b" : "#111827",
+        padding: 12,
+        cornerRadius: 8,
+        titleFont: { size: 14 },
+        bodyFont: { size: 13 },
+        titleColor: theme.textColor,
+        bodyColor: theme.textColor
       }
     }
   }
@@ -121,7 +214,7 @@ const FinancialOverviewChart = () => {
 
                 {/*  Filter */}
                 <div className="flex-shrink-0">
-                  <FinancialChartFilter />
+                  <FinancialChartFilter filter={filter} setFilter={setFilter} />
                 </div>
 
             </div>
@@ -130,7 +223,7 @@ const FinancialOverviewChart = () => {
     {/* Phần biểu đồ */}
       <CardContent className="h-[250px] sm:h-[320px] pt-2 sm:pt-4 px-2 sm:px-6">
         {/* Render biểu đồ cột Bar -> Nếu muốn đổi biểu đồ đường thì Line */}
-        <Bar data={data} options={options} />
+        <Bar data={chartData} options={options} />
       </CardContent>
     </Card>
   )
