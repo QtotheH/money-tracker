@@ -7,8 +7,22 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
+import {useDispatch, useSelector} from "react-redux";
+import {selectCurrentUser, syncAlertSettingsToDB} from "@/store/slices/authSlice.js";
+import {toast} from "sonner";
 
 const NotificationCard = () => {
+  const dispatch = useDispatch();
+  const user = useSelector(selectCurrentUser);
+
+  const handleToggle = async (type, value) => {
+      try {
+        await dispatch(syncAlertSettingsToDB({ type, value })).unwrap();
+      } catch (error) {
+        toast.error("Lỗi cập nhật!", { description: error });
+      }
+  }
+
   return (
     <Card className="p-4">
       <CardHeader>
@@ -25,7 +39,11 @@ const NotificationCard = () => {
             </p>
           </div>
           <div>
-            <Switch className="data-[state=checked]:bg-green-600" />
+            <Switch
+                checked={user?.settings?.budgetsAlert || false}
+                onCheckedChange={(val) => handleToggle("budgetsAlert", val)}
+                className="data-[state=checked]:bg-green-600"
+            />
           </div>
         </div>
 
@@ -37,7 +55,11 @@ const NotificationCard = () => {
             </p>
           </div>
           <div>
-            <Switch className="data-[state=checked]:bg-green-600" />
+            <Switch
+                checked={user?.settings?.goalsAlert || false}
+                onCheckedChange={(val) => handleToggle("goalsAlert", val)}
+                className="data-[state=checked]:bg-green-600"
+            />
           </div>
         </div>
       </CardContent>
