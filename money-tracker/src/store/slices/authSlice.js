@@ -126,6 +126,30 @@ export const syncCurrencyToDB = createAsyncThunk(
     }
 );
 
+// Cập nhật Alert của user
+export const syncAlertSettingsToDB = createAsyncThunk(
+    "auth/syncAlertSettings",
+    async ({ type, value }, { getState, rejectWithValue }) => {
+        try {
+            const user = getState().auth.user;
+            if (!user) {
+                return rejectWithValue("Chưa đăng nhập!");
+            }
+
+            // Tạo settings mới nhưng chỉ ghi đè key (budgetsAlert hoặc goalsAlert)
+            const newSettings = {
+                ...user.settings,
+                [type]: value
+            }
+
+            await authService.updateSettings(user.id, newSettings);
+            return { type, value };
+        } catch (error) {
+            console.error("Lỗi đồng bộ cài đặt thông báo: ", error);
+            return rejectWithValue("Lỗi đồng bộ cài đặt!");
+        }
+    }
+)
 
 // UPDATE: Cập nhật thông tin cá nhân
 export const updatePersonalInfo = createAsyncThunk(
@@ -134,6 +158,17 @@ export const updatePersonalInfo = createAsyncThunk(
         try{
             const state = getState();
             const currentInfo = state.auth.user;
+
+            // Check Email trùng
+            const resCheck = await authService.getUserByEmail(email);
+            const users = resCheck.data;
+
+            const isEmailTaken = users.some(u => u.id !== userId);
+
+            if (isEmailTaken) {
+                return rejectWithValue("Email đã được sử dụng!");
+            }
+
             // Lấy user từ DB để có thông tin đầy đủ (đặc biệt là password đã hash)
             const resUser = await authService.getUserByEmail(currentInfo.email);
             const dbUser = resUser.data[0];
@@ -273,6 +308,15 @@ const authSlice = createSlice({
                 if (state.user && state.user.settings) {
                     // cập nhật redux store
                     state.user.settings.currency = action.payload;
+                    // Cập nhật LocalStorage để đồng bộ hoàn toàn
+                    localStorage.setItem("MT_user", JSON.stringify(state.user));
+                }
+            })
+            // BẮT SỰ KIỆN SYNC ALERT THÀNH CÔNG
+            .addCase(syncAlertSettingsToDB.fulfilled, (state, action) => {
+                if (state.user && state.user.settings) {
+                    // cập nhật redux store
+                    state.user.settings[action.payload.type] = action.payload.value;
                     // Cập nhật LocalStorage để đồng bộ hoàn toàn
                     localStorage.setItem("MT_user", JSON.stringify(state.user));
                 }

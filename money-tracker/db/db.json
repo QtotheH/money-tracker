@@ -55,8 +55,8 @@
       "settings": {
         "theme": "light",
         "currency": "vnd",
-        "budgetsAlert": false,
-        "goalsAlert": false
+        "budgetsAlert": true,
+        "goalsAlert": true
       }
     },
     {
@@ -301,6 +301,42 @@
       "categoryId": "2WI_bMFmBGbIjHq6GokD-",
       "date": "2026-03-22T00:00:00.000Z",
       "type": "expense"
+    },
+    {
+      "id": "U4ZU41cPeEkAkWr8TxdT-",
+      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
+      "amount": 900000,
+      "description": "Mua quần áo dự fmt",
+      "categoryId": "sLxuezbr3uGbrNGp94uVD",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "Lg1Uwd5pvm_qddtBHKb9v",
+      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
+      "amount": 50000,
+      "description": "Mua quần short",
+      "categoryId": "sLxuezbr3uGbrNGp94uVD",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "qavZK2eNJCNCZfDRIyzh0",
+      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
+      "amount": 50000,
+      "description": "Mua áo trắng dự tốt nghiệp",
+      "categoryId": "sLxuezbr3uGbrNGp94uVD",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "D02wa_rd9_mCcDMH5HngO",
+      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
+      "amount": 900000,
+      "description": "Áo thun merch FMT Hyeri",
+      "categoryId": "sLxuezbr3uGbrNGp94uVD",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "expense"
     }
   ],
   "budgets": [
@@ -317,6 +353,46 @@
       "categoryId": "dyk3Sq-vhxERsdNsw6T4x",
       "total": 100000,
       "createdAt": "2026-03-22T07:57:53.232Z"
+      "id": "XQE80_rEX5NWUJ1ke6N23",
+      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
+      "categoryId": "sLxuezbr3uGbrNGp94uVD",
+      "total": 1500000,
+      "createdAt": "2026-03-22T06:00:42.814Z"
+    },
+    {
+      "id": "fMr_nwmeiK6rY7K8mVrDl",
+      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
+      "categoryId": "6VAXQFLDolpWh6MhBtzha",
+      "total": 500000,
+      "createdAt": "2026-03-22T08:20:08.652Z"
+    },
+    {
+      "id": "yrsL_GOTiu-9VJjhOsq6F",
+      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
+      "categoryId": "qnKUaVdm-_pv8By7P7Kf9",
+      "total": 10000000,
+      "createdAt": "2026-03-22T20:54:48.844Z"
+    },
+    {
+      "id": "X-8IZqbV4OZXJRSoJoeUc",
+      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
+      "categoryId": "rvG_AaFrKe7NMpbM4R5XK",
+      "total": 60000000,
+      "createdAt": "2026-03-22T20:54:56.416Z"
+    },
+    {
+      "id": "bPaBzzjwT9n18gf8EToZ_",
+      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
+      "categoryId": "wzgqLkk1h6fsVFb5PHxqH",
+      "total": 48651656,
+      "createdAt": "2026-03-22T20:55:09.484Z"
+    },
+    {
+      "id": "5rAdrq4otzBoDyr8xbQpX",
+      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
+      "categoryId": "fIT3zgaxQKkToJZwo5qp_",
+      "total": 78000000,
+      "createdAt": "2026-03-22T20:55:44.006Z"
     }
   ],
   "goals": [
@@ -326,7 +402,7 @@
       "name": "Mua nhà",
       "iconClass": "fa-regular fa-house-chimney",
       "iconName": "house-chimney",
-      "current": 50000,
+      "current": 900050000,
       "target": 1000000000,
       "targetDate": "2027-12-13T00:00:00.000Z"
     }
