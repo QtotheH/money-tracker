@@ -8,9 +8,17 @@ import {Button} from "@/components/ui/button"
 import {Plus} from "lucide-react"
 import {useState} from "react";
 import AddTransactionDialog from "@/features/transactions/components/AddTransactionDialog.jsx";
+import { selectCurrentUser } from "@/store/slices/authSlice";
+import { useSelector } from "react-redux";
 
 const DashboardPage = () => {
     const [isAddTransactionOpen, setIsAddTransactionOpen] = useState(false);
+
+    
+  const currentUser = useSelector(selectCurrentUser);
+  if (!currentUser) {
+    return <p className="text-center mt-10">Đang tải dữ liệu người dùng...</p>;
+  }
     return (
         <main
             className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">

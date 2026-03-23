@@ -21,11 +21,7 @@ const BalanceCardItem = ({ card }) => {
         <h2 className="text-xl sm:text-2xl font-bold break-words">
           {card.value}
         </h2>
-
-        {/* Change */}
-        <p className="text-xs text-muted-foreground line-clamp-2">
-          {card.change}
-        </p>
+      
       </CardContent>
     </Card>
   )

@@ -88,6 +88,21 @@
         "budgetsAlert": false,
         "goalsAlert": false
       }
+    },
+    {
+      "id": "Nfn4CgBy6W9qxcIfgsmgf",
+      "fullname": "Nhung Lê",
+      "email": "admin@gmail.com",
+      "dob": "2011-12-12",
+      "password": "$2b$12$rO2d3FG6Y2uusVnZaffDxuOR35dN0SVG9dQprjWr7TYzP1UpltsrO",
+      "phone": "0396468776",
+      "avatar": "",
+      "settings": {
+        "theme": "light",
+        "currency": "gbp",
+        "budgetsAlert": false,
+        "goalsAlert": false
+      }
     }
   ],
   "categories": [
@@ -104,6 +119,27 @@
       "categoryName": "Ăn uống",
       "iconName": "utensils",
       "iconClass": "fa-regular fa-utensils"
+    },
+    {
+      "id": "XZvCtb0lWUZtQ1nLSQpQI",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "categoryName": "Ăn uống",
+      "iconName": "utensils",
+      "iconClass": "fa-regular fa-utensils"
+    },
+    {
+      "id": "tn_mtQFq-CGgJENUi3U8Z",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "categoryName": "Lương",
+      "iconName": "money-bill-1-wave",
+      "iconClass": "fa-regular fa-money-bill-1-wave"
+    },
+    {
+      "id": "ylqcx6CUO9GXjGkTxEnQK",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "categoryName": "Du lịch",
+      "iconName": "plane-arrival",
+      "iconClass": "fa-regular fa-plane-arrival"
     }
   ],
   "transactions": [
@@ -115,6 +151,78 @@
       "categoryId": "TvRorweozfKxAmfJTK8Kb",
       "date": "2026-03-19T00:00:00.000Z",
       "type": "expense"
+    },
+    {
+      "id": "FHZDo_PRfxnHwoPa98zT0",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "amount": 10000000,
+      "description": "ăn",
+      "categoryId": "XZvCtb0lWUZtQ1nLSQpQI",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "s3aOe8VjnQddfi2uJIZ_S",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "amount": 30000000,
+      "description": "Lương",
+      "categoryId": "tn_mtQFq-CGgJENUi3U8Z",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "income"
+    },
+    {
+      "id": "XX3MoRUHSEViIQDvkTROQ",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "amount": 5000000,
+      "description": "đi chơi",
+      "categoryId": "ylqcx6CUO9GXjGkTxEnQK",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "7jniH2FQl9SfZOl-qWtSu",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "amount": 20000,
+      "description": "trà sữa",
+      "categoryId": "XZvCtb0lWUZtQ1nLSQpQI",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "kHx2wzY9gVPuNL3u7VhWS",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "amount": 10000,
+      "description": "ăn",
+      "categoryId": "XZvCtb0lWUZtQ1nLSQpQI",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "QZGdZpdqkeMCRIQnUs6Fx",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "amount": 10000,
+      "description": "ăn",
+      "categoryId": "XZvCtb0lWUZtQ1nLSQpQI",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "4qsJs-XcCzQWBn8Xyp91C",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "amount": 30000000,
+      "description": "Lương",
+      "categoryId": "tn_mtQFq-CGgJENUi3U8Z",
+      "date": "2026-04-22T00:00:00.000Z",
+      "type": "income"
+    },
+    {
+      "id": "Z7L8-JKOnaq51EC6b9bZ-",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "amount": 20000,
+      "description": "ăn",
+      "categoryId": "XZvCtb0lWUZtQ1nLSQpQI",
+      "date": "2026-03-22T00:00:00.000Z",
+      "type": "expense"
     }
   ],
   "budgets": [
@@ -124,6 +232,20 @@
       "categoryId": "TvRorweozfKxAmfJTK8Kb",
       "total": 400000,
       "createdAt": "2026-03-21T01:31:22.891Z"
+    },
+    {
+      "id": "QXkMxMHmrW_1oslrmTnpL",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "categoryId": "XZvCtb0lWUZtQ1nLSQpQI",
+      "total": 20000,
+      "createdAt": "2026-03-22T05:48:42.675Z"
+    },
+    {
+      "id": "E2kUeq6jCTuZelyv6e7ZS",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "categoryId": "tn_mtQFq-CGgJENUi3U8Z",
+      "total": 20000000,
+      "createdAt": "2026-03-22T05:51:01.656Z"
     }
   ],
   "goals": [
@@ -136,6 +258,26 @@
       "current": 50000,
       "target": 1000000000,
       "targetDate": "2027-12-13T00:00:00.000Z"
+    },
+    {
+      "id": "1Px6SH3wgpnRi4B74YBpN",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "name": "Nhà",
+      "iconClass": "fa-regular fa-fish",
+      "iconName": "fish",
+      "current": 10000,
+      "target": 20000,
+      "targetDate": "2026-03-27T00:00:00.000Z"
+    },
+    {
+      "id": "_rZdPx3EUJPW3sHvuHPOP",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "name": "du lịch",
+      "iconClass": "fa-regular fa-train",
+      "iconName": "train",
+      "current": 20000000,
+      "target": 50000000,
+      "targetDate": "2026-03-15T00:00:00.000Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
