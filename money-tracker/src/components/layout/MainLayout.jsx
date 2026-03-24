@@ -1,14 +1,25 @@
+<<<<<<< HEAD
+import {useState,useEffect} from "react";
+=======
 import {useEffect, useState} from "react";
+>>>>>>> main
 import TopBar from "@/components/layout/TopBar.jsx";
 import Sidebar from "@/components/layout/Sidebar.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {Menu} from "lucide-react";
 import {Outlet} from "react-router";
+<<<<<<< HEAD
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategories, getCategoriesStatus } from "@/store/slices/categorySlice";
+
+
+=======
 import {useDispatch, useSelector} from "react-redux";
 import {fetchCategories, getCategoriesStatus} from "@/store/slices/categorySlice.js";
 import {fetchBudgets, getBudgetsStatus} from "@/store/slices/budgetSlice.js";
 import {fetchAllTransactions, getTransactionsStatus} from "@/store/slices/transactionSlice.js";
 import {fetchGoals, getGoalsStatus} from "@/store/slices/goalSlice.js";
+>>>>>>> main
 const MainLayout = () => {
     const dispatch = useDispatch();
 
@@ -39,6 +50,14 @@ const MainLayout = () => {
     }, [categoryStatus, budgetStatus, transactionStatus, goalStatus, dispatch]);
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const dispatch = useDispatch();
+    const categoryStatus = useSelector(getCategoriesStatus);
+    
+    useEffect(() => {
+        if(categoryStatus === "idle") {
+            dispatch(fetchCategories);
+        }
+    }, [categoryStatus, dispatch]);
     const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState(true);
     return (
         <div className="flex h-screen overflow-hidden">

@@ -88,21 +88,6 @@
         "budgetsAlert": false,
         "goalsAlert": false
       }
-    },
-    {
-      "id": "o4lr_MfJWJC-lwwZIG8yi",
-      "fullname": "Chí Thanh",
-      "email": "thanhchi2332004@gmail.com",
-      "dob": "2026-03-22",
-      "password": "$2b$12$DwREJDQt2aRabwNsALTLy.cInYJy3.RHK8godayVrPmrrAGNI.4ie",
-      "phone": "0927 141 358",
-      "avatar": "",
-      "settings": {
-        "theme": "dark",
-        "currency": "vnd",
-        "budgetsAlert": false,
-        "goalsAlert": false
-      }
     }
   ],
   "categories": [
@@ -119,69 +104,6 @@
       "categoryName": "Ăn uống",
       "iconName": "utensils",
       "iconClass": "fa-regular fa-utensils"
-    },
-    {
-      "id": "yKV91aPf2qoO1rDBtrKFb",
-      "userId": "eo5FZMND84r47I8WHZg3w",
-      "categoryName": "Uống bia",
-      "iconName": "beer-mug-empty",
-      "iconClass": "fa-regular fa-beer-mug-empty"
-    },
-    {
-      "id": "dyk3Sq-vhxERsdNsw6T4x",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "categoryName": "Ăn ún",
-      "iconName": "fish",
-      "iconClass": "fa-regular fa-fish"
-    },
-    {
-      "id": "CowKu1ilWVmReg-8Y-Vu5",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "categoryName": "lương",
-      "iconName": "mug-saucer",
-      "iconClass": "fa-regular fa-mug-saucer"
-    },
-    {
-      "id": "aULzjgewDJU2SHflV3Yqv",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "categoryName": "xăng",
-      "iconName": "glass-water",
-      "iconClass": "fa-regular fa-glass-water"
-    },
-    {
-      "id": "n8dLgRJ40a0xZvLafV_jI",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "categoryName": "hong bé ơi",
-      "iconName": "bottle-water",
-      "iconClass": "fa-regular fa-bottle-water"
-    },
-    {
-      "id": "tkMWIBee5uDlAeg5WKUqA",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "categoryName": "hello",
-      "iconName": "utensils",
-      "iconClass": "fa-regular fa-utensils"
-    },
-    {
-      "id": "qdRA9sjyNOxnqsYgITHI1",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "categoryName": "code code code",
-      "iconName": "burger",
-      "iconClass": "fa-regular fa-burger"
-    },
-    {
-      "id": "na8NUataD865cAnsRiFqs",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "categoryName": "huhuhuhu",
-      "iconName": "bottle-water",
-      "iconClass": "fa-regular fa-bottle-water"
-    },
-    {
-      "id": "2WI_bMFmBGbIjHq6GokD-",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "categoryName": "demo",
-      "iconName": "burger",
-      "iconClass": "fa-regular fa-burger"
     }
   ],
   "transactions": [
@@ -193,150 +115,6 @@
       "categoryId": "TvRorweozfKxAmfJTK8Kb",
       "date": "2026-03-19T00:00:00.000Z",
       "type": "expense"
-    },
-    {
-      "id": "-DHxDU7j52_3AkWLV_ocd",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "amount": 10000,
-      "description": "ăn ún",
-      "categoryId": "dyk3Sq-vhxERsdNsw6T4x",
-      "date": "2026-03-22T00:00:00.000Z",
-      "type": "expense"
-    },
-    {
-      "id": "rBrkj2JWug-w5X6wpXA1i",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "amount": 1000000000,
-      "description": "lưn",
-      "categoryId": "CowKu1ilWVmReg-8Y-Vu5",
-      "date": "2026-03-22T00:00:00.000Z",
-      "type": "income"
-    },
-    {
-      "id": "eO9oF1RgnYdmzpctvhJCe",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "amount": 100000,
-      "description": "ăn ún",
-      "categoryId": "dyk3Sq-vhxERsdNsw6T4x",
-      "date": "2026-03-22T00:00:00.000Z",
-      "type": "expense"
-    },
-    {
-      "id": "E2uQwE1QBQjie4-rsa4Bn",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "amount": 1000000,
-      "description": "đổ xăng",
-      "categoryId": "aULzjgewDJU2SHflV3Yqv",
-      "date": "2026-03-22T00:00:00.000Z",
-      "type": "expense"
-    },
-    {
-      "id": "uvFED1uoqjZYDenur32Nc",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "amount": 10000000,
-      "description": "ăn",
-      "categoryId": "dyk3Sq-vhxERsdNsw6T4x",
-      "date": "2026-03-22T00:00:00.000Z",
-      "type": "expense"
-    },
-    {
-      "id": "aFXDFhhzwwmZk97EkZs5y",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "amount": 1000000000,
-      "description": "ăn ún",
-      "categoryId": "dyk3Sq-vhxERsdNsw6T4x",
-      "date": "2026-03-22T00:00:00.000Z",
-      "type": "expense"
-    },
-    {
-      "id": "a7V5sho32cNKKvuzyjil7",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "amount": 300000000,
-      "description": "đổ xăng",
-      "categoryId": "aULzjgewDJU2SHflV3Yqv",
-      "date": "2026-03-22T00:00:00.000Z",
-      "type": "expense"
-    },
-    {
-      "id": "uwlI0VO0IO-lsUqhKXU_h",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "amount": 230000000,
-      "description": "code",
-      "categoryId": "qdRA9sjyNOxnqsYgITHI1",
-      "date": "2026-03-22T00:00:00.000Z",
-      "type": "expense"
-    },
-    {
-      "id": "FgQ35MgIED13ClUr9MfxA",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "amount": 300000000,
-      "description": "aa",
-      "categoryId": "tkMWIBee5uDlAeg5WKUqA",
-      "date": "2026-03-22T00:00:00.000Z",
-      "type": "expense"
-    },
-    {
-      "id": "sb-iSjEHKNdohyo3BG7Z9",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "amount": 4500000000,
-      "description": "lưn",
-      "categoryId": "n8dLgRJ40a0xZvLafV_jI",
-      "date": "2026-03-22T00:00:00.000Z",
-      "type": "expense"
-    },
-    {
-      "id": "m-ygB_V5Jf44Sio6M-LpR",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "amount": 400000000,
-      "description": "aaa",
-      "categoryId": "na8NUataD865cAnsRiFqs",
-      "date": "2026-03-22T00:00:00.000Z",
-      "type": "expense"
-    },
-    {
-      "id": "HFyZ_sAgDQkJibYwYxobX",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "amount": 5000000000,
-      "description": "hii",
-      "categoryId": "2WI_bMFmBGbIjHq6GokD-",
-      "date": "2026-03-22T00:00:00.000Z",
-      "type": "expense"
-    },
-    {
-      "id": "U4ZU41cPeEkAkWr8TxdT-",
-      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
-      "amount": 900000,
-      "description": "Mua quần áo dự fmt",
-      "categoryId": "sLxuezbr3uGbrNGp94uVD",
-      "date": "2026-03-22T00:00:00.000Z",
-      "type": "expense"
-    },
-    {
-      "id": "Lg1Uwd5pvm_qddtBHKb9v",
-      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
-      "amount": 50000,
-      "description": "Mua quần short",
-      "categoryId": "sLxuezbr3uGbrNGp94uVD",
-      "date": "2026-03-22T00:00:00.000Z",
-      "type": "expense"
-    },
-    {
-      "id": "qavZK2eNJCNCZfDRIyzh0",
-      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
-      "amount": 50000,
-      "description": "Mua áo trắng dự tốt nghiệp",
-      "categoryId": "sLxuezbr3uGbrNGp94uVD",
-      "date": "2026-03-22T00:00:00.000Z",
-      "type": "expense"
-    },
-    {
-      "id": "D02wa_rd9_mCcDMH5HngO",
-      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
-      "amount": 900000,
-      "description": "Áo thun merch FMT Hyeri",
-      "categoryId": "sLxuezbr3uGbrNGp94uVD",
-      "date": "2026-03-22T00:00:00.000Z",
-      "type": "expense"
     }
   ],
   "budgets": [
@@ -346,53 +124,6 @@
       "categoryId": "TvRorweozfKxAmfJTK8Kb",
       "total": 400000,
       "createdAt": "2026-03-21T01:31:22.891Z"
-    },
-    {
-      "id": "6Sfg9ZGnMtzWUG9L6cqEg",
-      "userId": "o4lr_MfJWJC-lwwZIG8yi",
-      "categoryId": "dyk3Sq-vhxERsdNsw6T4x",
-      "total": 100000,
-      "createdAt": "2026-03-22T07:57:53.232Z"
-      "id": "XQE80_rEX5NWUJ1ke6N23",
-      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
-      "categoryId": "sLxuezbr3uGbrNGp94uVD",
-      "total": 1500000,
-      "createdAt": "2026-03-22T06:00:42.814Z"
-    },
-    {
-      "id": "fMr_nwmeiK6rY7K8mVrDl",
-      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
-      "categoryId": "6VAXQFLDolpWh6MhBtzha",
-      "total": 500000,
-      "createdAt": "2026-03-22T08:20:08.652Z"
-    },
-    {
-      "id": "yrsL_GOTiu-9VJjhOsq6F",
-      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
-      "categoryId": "qnKUaVdm-_pv8By7P7Kf9",
-      "total": 10000000,
-      "createdAt": "2026-03-22T20:54:48.844Z"
-    },
-    {
-      "id": "X-8IZqbV4OZXJRSoJoeUc",
-      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
-      "categoryId": "rvG_AaFrKe7NMpbM4R5XK",
-      "total": 60000000,
-      "createdAt": "2026-03-22T20:54:56.416Z"
-    },
-    {
-      "id": "bPaBzzjwT9n18gf8EToZ_",
-      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
-      "categoryId": "wzgqLkk1h6fsVFb5PHxqH",
-      "total": 48651656,
-      "createdAt": "2026-03-22T20:55:09.484Z"
-    },
-    {
-      "id": "5rAdrq4otzBoDyr8xbQpX",
-      "userId": "8S6_ZacSfi7ji3L1Wm0Mp",
-      "categoryId": "fIT3zgaxQKkToJZwo5qp_",
-      "total": 78000000,
-      "createdAt": "2026-03-22T20:55:44.006Z"
     }
   ],
   "goals": [
@@ -405,6 +136,26 @@
       "current": 900050000,
       "target": 1000000000,
       "targetDate": "2027-12-13T00:00:00.000Z"
+    },
+    {
+      "id": "1Px6SH3wgpnRi4B74YBpN",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "name": "Nhà",
+      "iconClass": "fa-regular fa-fish",
+      "iconName": "fish",
+      "current": 10000,
+      "target": 20000,
+      "targetDate": "2026-03-27T00:00:00.000Z"
+    },
+    {
+      "id": "_rZdPx3EUJPW3sHvuHPOP",
+      "userId": "Nfn4CgBy6W9qxcIfgsmgf",
+      "name": "du lịch",
+      "iconClass": "fa-regular fa-train",
+      "iconName": "train",
+      "current": 20000000,
+      "target": 50000000,
+      "targetDate": "2026-03-15T00:00:00.000Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
