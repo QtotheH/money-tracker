@@ -33,6 +33,7 @@ import AddCategoryDialog from "@/features/categories/components/AddCategoryDialo
 import { selectBudgetsWithCategories } from "@/store/slices/budgetSlice.js";
 import { selectCurrentUser } from "@/store/slices/authSlice.js";
 import { checkThresholdAlert } from "@/lib/alertUtils.js";
+import { fetchDashboardCards } from "@/store/slices/dashboardSlice";
 
 function AddTransactionDialog({
   open,
@@ -197,6 +198,7 @@ function AddTransactionDialog({
         toast.success("Thêm thành công!", {
           description: `Giao dịch ${amount}₫ đã được ghi nhận.`,
         });
+        dispatch(fetchDashboardCards(user.id));
       } else {
         await dispatch(
           updateTransaction({
@@ -214,6 +216,7 @@ function AddTransactionDialog({
         toast.success("Cập nhật thành công!", {
           description: `Giao dịch ${description} đã được cập nhật.`,
         });
+        dispatch(fetchDashboardCards(user.id));
       }
 
       setAmount("");
@@ -300,7 +303,8 @@ function AddTransactionDialog({
                       value={amount}
                       onChange={(e) => {
                         setAmount(e.target.value);
-                        if (errors.amount) setErrors({ ...errors, amount: null });
+                        if (errors.amount)
+                          setErrors({ ...errors, amount: null });
                       }}
                       className={`pl-7 ${errors.amount ? "border-rose-500 focus-visible:ring-rose-500" : ""}`}
                       placeholder="0"
@@ -309,7 +313,9 @@ function AddTransactionDialog({
                     />
                   </div>
                   {errors.amount && (
-                    <p className="mt-1 text-xs text-rose-500">{errors.amount}</p>
+                    <p className="mt-1 text-xs text-rose-500">
+                      {errors.amount}
+                    </p>
                   )}
                 </div>
               </div>
