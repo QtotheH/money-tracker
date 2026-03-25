@@ -300,7 +300,8 @@ function AddTransactionDialog({
                       value={amount}
                       onChange={(e) => {
                         setAmount(e.target.value);
-                        if (errors.amount) setErrors({ ...errors, amount: null });
+                        if (errors.amount)
+                          setErrors({ ...errors, amount: null });
                       }}
                       className={`pl-7 ${errors.amount ? "border-rose-500 focus-visible:ring-rose-500" : ""}`}
                       placeholder="0"
@@ -309,7 +310,9 @@ function AddTransactionDialog({
                     />
                   </div>
                   {errors.amount && (
-                    <p className="mt-1 text-xs text-rose-500">{errors.amount}</p>
+                    <p className="mt-1 text-xs text-rose-500">
+                      {errors.amount}
+                    </p>
                   )}
                 </div>
               </div>

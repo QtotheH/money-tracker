@@ -7,6 +7,7 @@ import {
 import { transactionService } from "@/api/services/transactionService.js";
 import { selectCategoryDictionary } from "@/store/slices/categorySlice.js";
 import { selectCurrentUser } from "@/store/slices/authSlice.js";
+import { selectAllGoals } from "./goalSlice";
 
 const initialState = {
   transactions: [],
@@ -169,5 +170,43 @@ const transactionSlice = createSlice({
       });
   },
 });
+
+// Selector tổng hợp dữ liệu card
+export const selectDashboardCards = createSelector(
+  [selectAllTransactions, selectCurrentUser, selectAllGoals],
+  (transactions, currentUser, goals) => {
+    if (!currentUser)
+      return { balance: 0, income: 0, expense: 0, savingsRate: 0 };
+
+    const userTransactions = transactions.filter(
+      (t) => t.userId === currentUser.id,
+    );
+
+    const income = userTransactions
+      .filter((t) => t.type === "income")
+      .reduce((sum, t) => sum + t.amount, 0);
+      
+    const expense = userTransactions
+      .filter((t) => t.type === "expense")
+      .reduce((sum, t) => sum + t.amount, 0);
+      
+    const allGoal = goals
+      .filter((g) => g.userId === currentUser.id)
+      .reduce(
+        (sum, g) => {
+          sum.totalTarget += g.target;
+          sum.totalCurrent += g.current;
+          return sum;
+        },
+        { totalTarget: 0, totalCurrent: 0 },
+      );
+
+    const balance = income - expense;
+    const savingsRate = (allGoal.totalCurrent / allGoal.totalTarget) * 100 || 0;
+
+    return { balance, income, expense, savingsRate };
+
+  },
+);
 
 export default transactionSlice.reducer;
