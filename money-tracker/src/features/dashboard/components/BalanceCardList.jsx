@@ -1,14 +1,17 @@
 import BalanceCardItem from "@/features/dashboard/components/BalanceCardItem.jsx";
 import { Wallet, ArrowUp, ArrowDown, TrendingUp } from "lucide-react";
-import { useDashboardCardsData } from "@/hooks/useDashboardCardsData.js";
 import { useCurrency } from "@/hooks/useCurrency.js";
+import { selectDashboardCards } from "@/store/slices/transactionSlice";
+import { useSelector } from "react-redux";
 
 const BalanceCardList = () => {
-  const { balance, income, expense, savingsRate, isLoading } =
-    useDashboardCardsData();
+  const {balance, income, expense, savingsRate} = useSelector(selectDashboardCards) || {
+    balance: 0,
+    income: 0,
+    expense: 0,
+    savingsRate: 0,
+  };
   const { formatMoney } = useCurrency();
-
-  if (isLoading) return <p className="text-center mt-4">Đang tải số liệu...</p>;
 
   const cards = [
     {

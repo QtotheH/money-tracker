@@ -33,7 +33,6 @@ import AddCategoryDialog from "@/features/categories/components/AddCategoryDialo
 import { selectBudgetsWithCategories } from "@/store/slices/budgetSlice.js";
 import { selectCurrentUser } from "@/store/slices/authSlice.js";
 import { checkThresholdAlert } from "@/lib/alertUtils.js";
-import { fetchDashboardCards } from "@/store/slices/dashboardSlice";
 
 function AddTransactionDialog({
   open,
@@ -198,7 +197,6 @@ function AddTransactionDialog({
         toast.success("Thêm thành công!", {
           description: `Giao dịch ${amount}₫ đã được ghi nhận.`,
         });
-        dispatch(fetchDashboardCards(user.id));
       } else {
         await dispatch(
           updateTransaction({
@@ -216,7 +214,6 @@ function AddTransactionDialog({
         toast.success("Cập nhật thành công!", {
           description: `Giao dịch ${description} đã được cập nhật.`,
         });
-        dispatch(fetchDashboardCards(user.id));
       }
 
       setAmount("");
