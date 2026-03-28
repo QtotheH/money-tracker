@@ -9,6 +9,7 @@ import {fetchCategories, getCategoriesStatus} from "@/store/slices/categorySlice
 import {fetchBudgets, getBudgetsStatus} from "@/store/slices/budgetSlice.js";
 import {fetchAllTransactions, getTransactionsStatus} from "@/store/slices/transactionSlice.js";
 import {fetchGoals, getGoalsStatus} from "@/store/slices/goalSlice.js";
+
 const MainLayout = () => {
     const dispatch = useDispatch();
 
@@ -37,8 +38,9 @@ const MainLayout = () => {
 
         fetchInitialData();
     }, [categoryStatus, budgetStatus, transactionStatus, goalStatus, dispatch]);
-
+   
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    
     const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState(true);
     return (
         <div className="flex h-screen overflow-hidden">

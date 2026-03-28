@@ -5,7 +5,7 @@ import {Input} from "@/components/ui/input"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
 import TransactionItem from "@/features/transactions/components/TransactionItem.jsx";
 import {useNavigate} from "react-router";
-import {useDispatch, useSelector} from "react-redux";
+import { useSelector} from "react-redux";
 import {
     selectTransactionsWithCategories
 } from "@/store/slices/transactionSlice.js";

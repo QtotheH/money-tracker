@@ -1,224 +1,248 @@
-import {useEffect, useState} from "react"
+import { useEffect, useState } from "react";
 
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog"
-import {Button} from "@/components/ui/button"
-import {Input} from "@/components/ui/input"
-import {Label} from "@/components/ui/label"
-import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group"
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select"
-import {useDispatch, useSelector} from "react-redux";
-import {selectCategoriesItems} from "@/store/slices/categorySlice.js";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCategoriesItems } from "@/store/slices/categorySlice.js";
 
-import {toast} from "sonner"
-import {createTransaction, updateTransaction} from "@/store/slices/transactionSlice.js";
-import {useCurrency} from "@/hooks/useCurrency.js";
-import {PlusIcon} from "lucide-react";
+import { toast } from "sonner";
+import {
+  createTransaction,
+  updateTransaction,
+} from "@/store/slices/transactionSlice.js";
+import { useCurrency } from "@/hooks/useCurrency.js";
+import { PlusIcon } from "lucide-react";
 import AddCategoryDialog from "@/features/categories/components/AddCategoryDialog.jsx";
-import {selectBudgetsWithCategories} from "@/store/slices/budgetSlice.js";
-import {selectCurrentUser} from "@/store/slices/authSlice.js";
-import {checkThresholdAlert} from "@/lib/alertUtils.js";
+import { selectBudgetsWithCategories } from "@/store/slices/budgetSlice.js";
+import { selectCurrentUser } from "@/store/slices/authSlice.js";
+import { checkThresholdAlert } from "@/lib/alertUtils.js";
 
-function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = null}) {
-    const dispatch = useDispatch();
-    const categories = useSelector(selectCategoriesItems);
+function AddTransactionDialog({
+  open,
+  onOpenChange,
+  mode = "add",
+  transaction = null,
+}) {
+  const dispatch = useDispatch();
+  const categories = useSelector(selectCategoriesItems);
 
-    const user = useSelector(selectCurrentUser); // Lấy User
-    const budgets = useSelector(selectBudgetsWithCategories); // Lấy danh sách ngân sách
+  const user = useSelector(selectCurrentUser);
+  const budgets = useSelector(selectBudgetsWithCategories);
 
-    const {symbol} = useCurrency();
+  const { symbol } = useCurrency();
+  const [transactionType, setTransactionType] = useState("expense");
+  const [amount, setAmount] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
 
-    const [transactionType, setTransactionType] = useState("expense")
-    const [amount, setAmount] = useState("")
-    const [description, setDescription] = useState("")
-    const [category, setCategory] = useState("")
-    const [date, setDate] = useState(new Date().toISOString().split("T")[0])
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const [errors, setErrors] = useState({});
-    const [isSubmitting, setIsSubmitting] = useState(false)
+  // quản lý đóng mở dialog thêm category
+  const [isAddCategoryOpen, setIsAddCategoryOpen] = useState(false);
 
-    // quản lý đóng mở dialog thêm category
-    const [isAddCategoryOpen, setIsAddCategoryOpen] = useState(false);
+  const isEditMode = mode === "edit";
 
-    const isEditMode = mode === "edit";
+  // Khi mở dialog ở chế độ sửa → điền dữ liệu cũ vào form
+  useEffect(() => {
+    if (open && isEditMode && transaction) {
+      setTransactionType(transaction.type);
+      setAmount(transaction.amount);
+      setDate(new Date(transaction.date).toISOString().split("T")[0]);
+      setDescription(transaction.description);
+      setCategory(transaction.categoryId);
 
-    // Khi mở dialog ở chế độ sửa → điền dữ liệu cũ vào form
-    useEffect(() => {
-        if (open && isEditMode && transaction) {
-            setTransactionType(transaction.type);
-            setAmount(transaction.amount);
-            setDate(new Date(transaction.date).toISOString().split("T")[0]);
-            setDescription(transaction.description);
-            setCategory(transaction.categoryId);
-
-            setErrors({});
-        }
-        // Khi mở dialog ở chế độ thêm → reset form
-        if (open && !isEditMode) {
-            setTransactionType("expense");
-            setAmount("");
-            setDate(new Date().toISOString().split("T")[0]);
-            setDescription("");
-            setCategory("");
-
-            setErrors({});
-        }
-    }, [open, isEditMode, transaction])
-
-    // Xóa lỗi khi dialog đóng/mở
-    useEffect(() => {
-        if (!open) {
-            setErrors({})
-        }
-    }, [open])
-
-    // Hàm Validate
-    const validateForm = () => {
-        const newErrors = {}
-
-        // Validate Số tiền: Không được rỗng, phải là số và lớn hơn 0
-        if (!amount) {
-            newErrors.amount = "Vui lòng nhập số tiền."
-        } else if (isNaN(amount) || Number(amount) <= 0) {
-            newErrors.amount = "Số tiền phải lớn hơn 0."
-        }
-
-        // Validate Mô tả: Không được rỗng hoặc chỉ chứa khoảng trắng
-        if (!description || description.trim() === "") {
-            newErrors.description = "Vui lòng nhập mô tả giao dịch."
-        } else if (description.trim().length > 200) {
-            newErrors.description = "Mô tả không được vượt quá 200 ký tự."
-        }
-
-        // Validate Danh mục: Phải được chọn
-        if (!category) {
-            newErrors.category = "Vui lòng chọn danh mục."
-        }
-
-        // Validate Ngày: Phải hợp lệ
-        if (!date) {
-            newErrors.date = "Vui lòng chọn ngày."
-        }
-
-        setErrors(newErrors)
-
-        // Nếu object newErrors không có key nào (length === 0) => Form hợp lệ (true)
-        return Object.keys(newErrors).length === 0
+      setErrors({});
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+    // Khi mở dialog ở chế độ thêm → reset form
+    if (open && !isEditMode) {
+      setTransactionType("expense");
+      setAmount("");
+      setDate(new Date().toISOString().split("T")[0]);
+      setDescription("");
+      setCategory("");
 
-        // Chạy hàm validate, nếu có lỗi thì dừng lại không chạy tiếp
-        if (!validateForm()) {
-            return
-        }
+      setErrors({});
+    }
+  }, [open, isEditMode, transaction]);
 
-        setIsSubmitting(true);
+  // Xóa lỗi khi dialog đóng/mở
+  useEffect(() => {
+    if (!open) {
+      setErrors({});
+    }
+  }, [open]);
 
-        try {
-            // CHUẨN BỊ LOGIC ALERT TRƯỚC KHI DISPATCH
-            let alertMsg = null;
-            // nếu có on budget alert và loại transaction là "expense"
-            if (user?.settings?.budgetsAlert && transactionType === "expense") {
-                // lấy ra budget tương ứng vs transaction
-                // Lấy ngày của giao dịch đang được nhập trên form
-                const transactionDateObj = new Date(date);
-                const transMonth = transactionDateObj.getMonth();
-                const transYear = transactionDateObj.getFullYear();
+  // Hàm Validate
+  const validateForm = () => {
+    const newErrors = {};
 
-                // Tìm ngân sách có CÙNG DANH MỤC và CÙNG THÁNG/NĂM với giao dịch
-                const relatedBudget = budgets.find(b => {
-                    if (String(b.categoryId) !== String(category)) return false;
-
-                    const budgetDateObj = new Date(b.createdAt);
-                    return budgetDateObj.getMonth() === transMonth &&
-                        budgetDateObj.getFullYear() === transYear;
-                });
-                // cảnh báo nếu giao dịch này thuộc về một danh mục ĐÃ ĐƯỢC thiết lập Ngân sách trong tháng
-                if (relatedBudget) {
-                    // Nếu là sửa, chỉ tính số tiền chênh lệch tăng lên. Nếu thêm mới thì lấy toàn bộ amount, nếu là sửa thì lấy phần chênh lệnh so vs amount cũ của giao dịch đó
-                    const diff = isEditMode ?
-                        (Number(amount) - Number(transaction.amount)) :
-                        Number(amount);
-
-                    // chỉ chạy cảnh báo khi người dùng tiêu thêm tiền (diff mang số dương)
-                    if (diff > 0) {
-                        const oldSpent = relatedBudget.spent;
-                        const newSpent = relatedBudget.spent + diff;
-                        const hitThreshold = checkThresholdAlert(oldSpent, newSpent, relatedBudget.total);
-
-                        if (hitThreshold === 100) {
-                            alertMsg = `Cảnh báo: Bạn đã dùng HẾT (>=100%) ngân sách ${relatedBudget.category?.categoryName}!`;
-                        } else if (hitThreshold) {
-                            alertMsg = `Chú ý: Bạn đã chạm mức ${hitThreshold}% ngân sách ${relatedBudget.category?.categoryName}.`;
-                        }
-                    }
-                }
-            }
-
-            if (!isEditMode) {
-                await dispatch(createTransaction({
-                    type: transactionType,
-                    amount: Number(amount),
-                    description: description,
-                    category: category,
-                    date: new Date(date).toISOString()
-                })).unwrap();
-
-                toast.success("Thêm thành công!", {
-                    description: `Giao dịch ${amount}₫ đã được ghi nhận.`,
-                })
-            } else {
-                await dispatch(updateTransaction({
-                        id: transaction.id,
-                        transaction: {
-                            type: transactionType,
-                            amount: Number(amount),
-                            description: description,
-                            category: category,
-                            date: new Date(date).toISOString()
-                        }
-                    }
-                )).unwrap();
-
-                toast.success("Cập nhật thành công!", {
-                    description: `Giao dịch ${description} đã được cập nhật.`,
-                })
-            }
-
-            setAmount("")
-            setDescription("")
-            setCategory("")
-            setDate(new Date().toISOString().split("T")[0])
-            setErrors({})
-            onOpenChange(false)
-
-            // HIỆN TOAST ALERT NẾU CÓ CHẠM MỐC
-            if (alertMsg) {
-                setTimeout(() => {
-                    toast.warning("Cảnh báo Ngân sách", {
-                        description: alertMsg,
-                        duration: 6000
-                    });
-                }, 500);
-            }
-        } catch (error) {
-            toast.error("Lỗi hệ thống!", {
-                description: error || "Không thể thêm giao dịch lúc này. Vui lòng thử lại sau.",
-            })
-        } finally {
-            setIsSubmitting(false)
-        }
+    // Validate Số tiền
+    if (!amount) {
+      newErrors.amount = "Vui lòng nhập số tiền.";
+    } else if (isNaN(amount) || Number(amount) <= 0) {
+      newErrors.amount = "Số tiền phải lớn hơn 0.";
     }
 
-    return (
+    // Validate Mô tả
+    if (!description || description.trim() === "") {
+      newErrors.description = "Vui lòng nhập mô tả giao dịch.";
+    } else if (description.trim().length > 200) {
+      newErrors.description = "Mô tả không được vượt quá 200 ký tự.";
+    }
+
+    // Validate Danh mục
+    if (!category) {
+      newErrors.category = "Vui lòng chọn danh mục.";
+    }
+
+    // Validate Ngày
+    if (!date) {
+      newErrors.date = "Vui lòng chọn ngày.";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Chạy hàm validate, nếu có lỗi thì dừng lại không chạy tiếp
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // CHUẨN BỊ LOGIC ALERT TRƯỚC KHI DISPATCH
+      let alertMsg = null;
+
+      // nếu có on budget alert và loại transaction là "expense"
+      if (user?.settings?.budgetsAlert && transactionType === "expense") {
+        // Lấy ngày của giao dịch đang được nhập trên form
+        const transactionDateObj = new Date(date);
+        const transMonth = transactionDateObj.getMonth();
+        const transYear = transactionDateObj.getFullYear();
+
+        // Tìm ngân sách có CÙNG DANH MỤC và CÙNG THÁNG/NĂM với giao dịch
+        const relatedBudget = budgets.find((b) => {
+          if (String(b.categoryId) !== String(category)) return false;
+
+          const budgetDateObj = new Date(b.createdAt);
+          return (
+            budgetDateObj.getMonth() === transMonth &&
+            budgetDateObj.getFullYear() === transYear
+          );
+        });
+
+        // cảnh báo nếu giao dịch này thuộc về một danh mục ĐÃ ĐƯỢC thiết lập Ngân sách trong tháng
+        if (relatedBudget) {
+          // Nếu là sửa, chỉ tính số tiền chênh lệch tăng lên
+          const diff = isEditMode
+            ? Number(amount) - Number(transaction.amount)
+            : Number(amount);
+
+          // chỉ chạy cảnh báo khi người dùng tiêu thêm tiền
+          if (diff > 0) {
+            const oldSpent = relatedBudget.spent;
+            const newSpent = relatedBudget.spent + diff;
+            const hitThreshold = checkThresholdAlert(
+              oldSpent,
+              newSpent,
+              relatedBudget.total,
+            );
+
+            if (hitThreshold === 100) {
+              alertMsg = `Cảnh báo: Bạn đã dùng HẾT (>=100%) ngân sách ${relatedBudget.category?.categoryName}!`;
+            } else if (hitThreshold) {
+              alertMsg = `Chú ý: Bạn đã chạm mức ${hitThreshold}% ngân sách ${relatedBudget.category?.categoryName}.`;
+            }
+          }
+        }
+      }
+
+      if (!isEditMode) {
+        await dispatch(
+          createTransaction({
+            type: transactionType,
+            amount: Number(amount),
+            description: description,
+            category: category,
+            date: new Date(date).toISOString(),
+          }),
+        ).unwrap();
+
+        toast.success("Thêm thành công!", {
+          description: `Giao dịch ${amount}₫ đã được ghi nhận.`,
+        });
+      } else {
+        await dispatch(
+          updateTransaction({
+            id: transaction.id,
+            transaction: {
+              type: transactionType,
+              amount: Number(amount),
+              description: description,
+              category: category,
+              date: new Date(date).toISOString(),
+            },
+          }),
+        ).unwrap();
+
+        toast.success("Cập nhật thành công!", {
+          description: `Giao dịch ${description} đã được cập nhật.`,
+        });
+      }
+
+      setAmount("");
+      setDescription("");
+      setCategory("");
+      setDate(new Date().toISOString().split("T")[0]);
+      setErrors({});
+      onOpenChange(false);
+
+      // HIỆN TOAST ALERT NẾU CÓ CHẠM MỐC
+      if (alertMsg) {
+        setTimeout(() => {
+          toast.warning("Cảnh báo Ngân sách", {
+            description: alertMsg,
+            duration: 6000,
+          });
+        }, 500);
+      }
+    } catch (error) {
+      toast.error("Lỗi hệ thống!", {
+        description:
+          error || "Không thể thêm giao dịch lúc này. Vui lòng thử lại sau.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
     <>
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[425px]">
@@ -390,8 +414,8 @@ function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = n
             onOpenChange={setIsAddCategoryOpen}
         />
     </>
-    )
+  );
 }
 
-export {AddTransactionDialog}
-export default AddTransactionDialog
+export { AddTransactionDialog };
+export default AddTransactionDialog;
