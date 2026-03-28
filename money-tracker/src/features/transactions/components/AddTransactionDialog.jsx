@@ -299,11 +299,11 @@ function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = n
                         </div>
 
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="category" className="text-right">
+                            <Label htmlFor="category">
                                 Danh mục
                             </Label>
                             <div className="col-span-3">
-                                <div className="flex gap-1">
+                                <div className="flex flex-col sm:flex-row gap-1">
                                     <Select
                                         value={category}
                                         onValueChange={(val) => {
@@ -312,7 +312,7 @@ function AddTransactionDialog({open, onOpenChange, mode = 'add', transaction = n
                                         }}
                                     >
                                         <SelectTrigger id="category"
-                                                       className={`max-w-1/2 ${errors.category ? "border-rose-500 focus:ring-rose-500" : ""}`}>
+                                                       className={`max-w-full sm:max-w-1/2 ${errors.category ? "border-rose-500 focus:ring-rose-500" : ""}`}>
                                             <SelectValue placeholder="Chọn danh mục"/>
                                         </SelectTrigger>
                                         <SelectContent
