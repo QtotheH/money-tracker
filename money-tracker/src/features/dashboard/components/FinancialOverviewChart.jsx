@@ -186,7 +186,7 @@ const theme = isDark ? colors.dark : colors.light;
         }
       },
       tooltip: {
-        backgroundColor: isDark ? "#1e293b" : "#111827",
+        backgroundColor: isDark ? "#1e293b" : "#f8f8f8",
         padding: 12,
         cornerRadius: 8,
         titleFont: { size: 14 },
