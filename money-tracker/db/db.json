@@ -55,8 +55,8 @@
       "settings": {
         "theme": "light",
         "currency": "vnd",
-        "budgetsAlert": false,
-        "goalsAlert": false
+        "budgetsAlert": true,
+        "goalsAlert": true
       }
     }
   ],
@@ -111,8 +111,107 @@
       "iconClass": "fa-regular fa-oil-can"
     }
   ],
-  "transactions": [],
-  "budgets": [],
-  "goals": [],
+  "transactions": [
+    {
+      "id": "ADBTFhRk0mTPgEooHptqK",
+      "userId": "IDhbD_VhbE7JvZYE4fOdW",
+      "amount": 50000,
+      "description": "Ăn uống",
+      "categoryId": "2FGPgZ5QijmR7YmNKmBjv",
+      "date": "2026-04-02T00:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "jOl3i2IviA85qbcC-6Wi0",
+      "userId": "IDhbD_VhbE7JvZYE4fOdW",
+      "amount": 12000000,
+      "description": "Lương tháng 3/2026",
+      "categoryId": "zV3rTa55QLCSz7XFqiGEG",
+      "date": "2026-04-10T00:00:00.000Z",
+      "type": "income"
+    },
+    {
+      "id": "fYenr5hrLHTxjYMIuK5e5",
+      "userId": "IDhbD_VhbE7JvZYE4fOdW",
+      "amount": 5000000,
+      "description": "Lương web Money Tracker",
+      "categoryId": "4GMDqy2m9qlxS_9EFDsML",
+      "date": "2026-04-08T00:00:00.000Z",
+      "type": "income"
+    },
+    {
+      "id": "3ie4a67xIPfx5KExfu-hJ",
+      "userId": "IDhbD_VhbE7JvZYE4fOdW",
+      "amount": 61250,
+      "description": "Đồ xăng 8/4/2026",
+      "categoryId": "Ms1RVWOjDM5fN0v8iEqTT",
+      "date": "2026-04-08T00:00:00.000Z",
+      "type": "expense"
+    },
+    {
+      "id": "kq-VoBhwMLwoq6zbK1IwG",
+      "userId": "IDhbD_VhbE7JvZYE4fOdW",
+      "amount": 8000000,
+      "description": "Bao rạp xem Song Hỷ Lâm Nguy",
+      "categoryId": "pK0Cl1vvry8gnWUV15nUl",
+      "date": "2026-04-01T00:00:00.000Z",
+      "type": "expense"
+    }
+  ],
+  "budgets": [
+    {
+      "id": "3SrZ14Hqi6UgdjhAQcU0R",
+      "userId": "IDhbD_VhbE7JvZYE4fOdW",
+      "categoryId": "2FGPgZ5QijmR7YmNKmBjv",
+      "total": 200000,
+      "createdAt": "2026-04-02T09:01:40.222Z"
+    },
+    {
+      "id": "t6QGQE18cXb6goJsUcxkt",
+      "userId": "IDhbD_VhbE7JvZYE4fOdW",
+      "categoryId": "Ms1RVWOjDM5fN0v8iEqTT",
+      "total": 200000,
+      "createdAt": "2026-04-10T16:28:04.914Z"
+    },
+    {
+      "id": "p5YpYV7K1rx5D0JMlf2Dy",
+      "userId": "IDhbD_VhbE7JvZYE4fOdW",
+      "categoryId": "70CRdvS42112eQmw-4G1h",
+      "total": 6000000,
+      "createdAt": "2026-04-10T16:28:13.598Z"
+    }
+  ],
+  "goals": [
+    {
+      "id": "bgRQKQPQhjcKsCPCE8S2Y",
+      "userId": "IDhbD_VhbE7JvZYE4fOdW",
+      "name": "Mua nhà",
+      "iconClass": "fa-regular fa-house-chimney",
+      "iconName": "house-chimney",
+      "current": 0,
+      "target": 1000000000,
+      "targetDate": "2027-12-13T00:00:00.000Z"
+    },
+    {
+      "id": "2PRmF3_nNoZEQi3H2EIVZ",
+      "userId": "IDhbD_VhbE7JvZYE4fOdW",
+      "name": "Du lịch Hàn Quốc",
+      "iconClass": "fa-regular fa-city",
+      "iconName": "city",
+      "current": 1000000,
+      "target": 50000000,
+      "targetDate": "2026-08-17T00:00:00.000Z"
+    },
+    {
+      "id": "TsLs6lAzoD5i9v4_Qb71w",
+      "userId": "IDhbD_VhbE7JvZYE4fOdW",
+      "name": "Fanmeeting Hyeri 2026",
+      "iconClass": "fa-regular fa-ticket",
+      "iconName": "ticket",
+      "current": 4000000,
+      "target": 4900000,
+      "targetDate": "2026-07-01T00:00:00.000Z"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }
