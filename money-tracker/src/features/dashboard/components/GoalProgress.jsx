@@ -11,6 +11,7 @@ const GoalProgress = () => {
 
     const { goals, isLoading } = useGoalData();
 
+    // TODO: sử dụng useMemo
     const topGoals = [...goals]
         .sort((a, b) => (b.current / b.target) - (a.current / a.target))
         .slice(0, 3);
