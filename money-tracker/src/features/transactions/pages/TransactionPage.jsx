@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {useCallback, useState} from "react"
 import {PlusIcon} from "lucide-react"
 
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card"
@@ -19,12 +19,12 @@ const TransactionPage = () => {
         setIsAddTransactionOpen(true);
     }
 
-    const handleEdit = (transaction) => {
+    // TỐI ƯU: Sử dụng useCallback để giữ nguyên tham chiếu của hàm qua các lần render
+    const handleEdit = useCallback((transaction) => {
         setDialogMode("edit");
         setEditingTransaction(transaction);
         setIsAddTransactionOpen(true);
-    };
-
+    }, []); // Dependency rỗng vì các hàm set state của React đã đảm bảo tính ổn định
 
     return (
         <main

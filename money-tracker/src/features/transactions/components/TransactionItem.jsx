@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge.jsx"
 import { cn } from "@/lib/utils.js"
 import {formatDateToVNDate} from "@/lib/helpers.js";
 import {useCurrency} from "@/hooks/useCurrency.js";
+import {memo} from "react";
 
 const TransactionItem = ({ transaction, onEdit }) => {
   const category = transaction.category;
@@ -67,4 +68,4 @@ const TransactionItem = ({ transaction, onEdit }) => {
   )
 }
 
-export default TransactionItem
+export default memo(TransactionItem);
