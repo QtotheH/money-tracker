@@ -11,6 +11,7 @@ const GoalProgress = () => {
 
     const { goals, isLoading } = useGoalData();
 
+    // TODO: sử dụng useMemo
     const topGoals = [...goals]
         .sort((a, b) => (b.current / b.target) - (a.current / a.target))
         .slice(0, 3);
@@ -42,7 +43,7 @@ const GoalProgress = () => {
             <CardContent className="px-4 sm:px-6">
                 {isLoading ? <Loading/> :
                     goals.length === 0 ?
-                        <p className="text-center">Không có dữ liệu</p> :
+                        <p className="text-center py-4 text-sm text-muted-foreground">Chưa có mục tiêu tiết kiệm nào.</p> :
                         <GoalList goals={topGoals} isDashboard={true} />
                 }
             </CardContent>

@@ -244,221 +244,175 @@ function AddTransactionDialog({
 
   return (
     <>
-      <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>
-              {isEditMode ? "Sửa giao dịch" : "Thêm giao dịch mới"}
-            </DialogTitle>
-            <DialogDescription>
-              {isEditMode
-                ? "Chỉnh sửa thông tin giao dịch bên dưới."
-                : "Nhập thông tin để tạo giao dịch mới."}
-            </DialogDescription>
-          </DialogHeader>
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle>
+                        {isEditMode ? "Sửa giao dịch" : "Thêm giao dịch mới"}
+                    </DialogTitle>
+                    <DialogDescription>
+                        {isEditMode
+                            ? "Chỉnh sửa thông tin giao dịch bên dưới."
+                            : "Nhập thông tin để tạo giao dịch mới."}
+                    </DialogDescription>
+                </DialogHeader>
+                <form onSubmit={handleSubmit} noValidate> {/* noValidate để tắt tooltip mặc định của HTML */}
+                    <div className="grid gap-4 py-4">
+                        <RadioGroup value={transactionType} onValueChange={setTransactionType}
+                                    className="grid grid-cols-2 gap-4">
+                            <div className="flex items-center space-x-2 rounded-md border p-3">
+                                <RadioGroupItem value="expense" id="expense"
+                                                className="border-emerald-600 text-emerald-600"/>
+                                <Label htmlFor="expense" className="flex-1">
+                                    Chi tiêu
+                                </Label>
+                            </div>
+                            <div className="flex items-center space-x-2 rounded-md border p-3">
+                                <RadioGroupItem value="income" id="income"
+                                                className="border-emerald-600 text-emerald-600"/>
+                                <Label htmlFor="income" className="flex-1">
+                                    Thu nhập
+                                </Label>
+                            </div>
+                        </RadioGroup>
 
-          <form onSubmit={handleSubmit} noValidate>
-            <div className="grid gap-4 py-4">
-              <RadioGroup
-                value={transactionType}
-                onValueChange={setTransactionType}
-                className="grid grid-cols-2 gap-4"
-              >
-                <div className="flex items-center space-x-2 rounded-md border p-3">
-                  <RadioGroupItem
-                    value="expense"
-                    id="expense"
-                    className="border-emerald-600 text-emerald-600"
-                  />
-                  <Label htmlFor="expense" className="flex-1">
-                    Chi tiêu
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2 rounded-md border p-3">
-                  <RadioGroupItem
-                    value="income"
-                    id="income"
-                    className="border-emerald-600 text-emerald-600"
-                  />
-                  <Label htmlFor="income" className="flex-1">
-                    Thu nhập
-                  </Label>
-                </div>
-              </RadioGroup>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="amount" className="text-right">
+                                Số tiền
+                            </Label>
+                            <div className="col-span-3">
+                                <div className="relative">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2">
+                                    {symbol}
+                                </span>
+                                    <Input
+                                        id="amount"
+                                        value={amount}
+                                        onChange={(e) => {
+                                            setAmount(e.target.value)
+                                            if (errors.amount) setErrors({...errors, amount: null}) // Xóa lỗi khi người dùng bắt đầu nhập
+                                        }}
+                                        className={`pl-7 ${errors.amount ? "border-rose-500 focus-visible:ring-rose-500" : ""}`}
+                                        placeholder="0"
+                                        type="number"
+                                        step="0.01"
+                                    />
+                                </div>
+                                {errors.amount && <p className="text-rose-500 text-xs mt-1">{errors.amount}</p>}
+                            </div>
+                        </div>
 
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="amount" className="text-right">
-                  Số tiền
-                </Label>
-                <div className="col-span-3">
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2">
-                      {symbol}
-                    </span>
-                    <Input
-                      id="amount"
-                      value={amount}
-                      onChange={(e) => {
-                        setAmount(e.target.value);
-                        if (errors.amount)
-                          setErrors({ ...errors, amount: null });
-                      }}
-                      className={`pl-7 ${errors.amount ? "border-rose-500 focus-visible:ring-rose-500" : ""}`}
-                      placeholder="0"
-                      type="number"
-                      step="0.01"
-                    />
-                  </div>
-                  {errors.amount && (
-                    <p className="mt-1 text-xs text-rose-500">
-                      {errors.amount}
-                    </p>
-                  )}
-                </div>
-              </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="description" className="text-right">
+                                Mô tả
+                            </Label>
+                            <div className="col-span-3">
+                                <Input
+                                    id="description"
+                                    value={description}
+                                    onChange={(e) => {
+                                        setDescription(e.target.value)
+                                        if (errors.description) setErrors({...errors, description: null})
+                                    }}
+                                    className={errors.description ? "border-rose-500 focus-visible:ring-rose-500" : ""}
+                                    placeholder="Giao dịch này dùng cho việc gì?"
+                                />
+                                {errors.description &&
+                                    <p className="text-rose-500 text-xs mt-1">{errors.description}</p>}
+                            </div>
+                        </div>
 
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="description" className="text-right">
-                  Mô tả
-                </Label>
-                <div className="col-span-3">
-                  <Input
-                    id="description"
-                    value={description}
-                    onChange={(e) => {
-                      setDescription(e.target.value);
-                      if (errors.description) {
-                        setErrors({ ...errors, description: null });
-                      }
-                    }}
-                    className={
-                      errors.description
-                        ? "border-rose-500 focus-visible:ring-rose-500"
-                        : ""
-                    }
-                    placeholder="Giao dịch này dùng cho việc gì?"
-                  />
-                  {errors.description && (
-                    <p className="mt-1 text-xs text-rose-500">
-                      {errors.description}
-                    </p>
-                  )}
-                </div>
-              </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="category">
+                                Danh mục
+                            </Label>
+                            <div className="col-span-3">
+                                <div className="flex flex-col sm:flex-row gap-1">
+                                    <Select
+                                        value={category}
+                                        onValueChange={(val) => {
+                                            setCategory(val)
+                                            if (errors.category) setErrors({...errors, category: null})
+                                        }}
+                                    >
+                                        <SelectTrigger id="category"
+                                                       className={`max-w-full sm:max-w-1/2 ${errors.category ? "border-rose-500 focus:ring-rose-500" : ""}`}>
+                                            <SelectValue placeholder="Chọn danh mục"/>
+                                        </SelectTrigger>
+                                        <SelectContent
+                                            position="popper"
+                                            align="start"
+                                            className="max-w-full"
+                                        >
+                                            {categories && categories.length > 0 ? (
+                                                categories.map(c => (
+                                                    <SelectItem key={c.id} value={c.id}>
+                                                        {c.categoryName}
+                                                    </SelectItem>
+                                                ))
+                                            ) : (
+                                                <SelectItem value="none" disabled>Không có danh mục nào</SelectItem>
+                                            )}
+                                        </SelectContent>
+                                    </Select>
+                                    <Button
+                                        onClick={() => setIsAddCategoryOpen(true)}
+                                        type="button"
+                                        className="shrink-0 bg-emerald-600 hover:bg-emerald-700 text-white"
+                                    >
+                                        <PlusIcon className="h-4 w-4"/>
+                                        Thêm danh mục
+                                    </Button>
+                                </div>
+                                {errors.category && <p className="text-rose-500 text-xs mt-1">{errors.category}</p>}
+                            </div>
+                        </div>
 
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="category" className="text-right">
-                  Danh mục
-                </Label>
-                <div className="col-span-3">
-                  <div className="flex gap-1">
-                    <Select
-                      value={category}
-                      onValueChange={(val) => {
-                        setCategory(val);
-                        if (errors.category) {
-                          setErrors({ ...errors, category: null });
-                        }
-                      }}
-                    >
-                      <SelectTrigger
-                        id="category"
-                        className={`max-w-1/2 ${errors.category ? "border-rose-500 focus:ring-rose-500" : ""}`}
-                      >
-                        <SelectValue placeholder="Chọn danh mục" />
-                      </SelectTrigger>
-                      <SelectContent
-                        position="popper"
-                        align="start"
-                        className="max-w-full"
-                      >
-                        {categories && categories.length > 0 ? (
-                          categories.map((c) => (
-                            <SelectItem key={c.id} value={c.id}>
-                              {c.categoryName}
-                            </SelectItem>
-                          ))
-                        ) : (
-                          <SelectItem value="none" disabled>
-                            Không có danh mục nào
-                          </SelectItem>
-                        )}
-                      </SelectContent>
-                    </Select>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="date" className="text-right">
+                                Ngày
+                            </Label>
+                            <div className="col-span-3">
+                                <Input
+                                    id="date"
+                                    type="date"
+                                    value={date}
+                                    onChange={(e) => {
+                                        setDate(e.target.value)
+                                        if (errors.date) setErrors({...errors, date: null})
+                                    }}
+                                    className={errors.date ? "border-rose-500 focus-visible:ring-rose-500" : ""}
+                                />
+                                {errors.date && <p className="text-rose-500 text-xs mt-1">{errors.date}</p>}
+                            </div>
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => onOpenChange(false)}
+                            disabled={isSubmitting}
+                        >
+                            Hủy
+                        </Button>
+                        <Button
+                            className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                            type="submit"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? "Đang xử lý..." : isEditMode ? "Lưu thay đổi" : "Thêm"}
+                        </Button>
+                    </DialogFooter>
+                </form>
+            </DialogContent>
+        </Dialog>
 
-                    <Button
-                      onClick={() => setIsAddCategoryOpen(true)}
-                      type="button"
-                      className="shrink-0 bg-emerald-600 text-white hover:bg-emerald-700"
-                    >
-                      <PlusIcon className="h-4 w-4" />
-                      Thêm danh mục
-                    </Button>
-                  </div>
-
-                  {errors.category && (
-                    <p className="mt-1 text-xs text-rose-500">
-                      {errors.category}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="date" className="text-right">
-                  Ngày
-                </Label>
-                <div className="col-span-3">
-                  <Input
-                    id="date"
-                    type="date"
-                    value={date}
-                    onChange={(e) => {
-                      setDate(e.target.value);
-                      if (errors.date) setErrors({ ...errors, date: null });
-                    }}
-                    className={
-                      errors.date
-                        ? "border-rose-500 focus-visible:ring-rose-500"
-                        : ""
-                    }
-                  />
-                  {errors.date && (
-                    <p className="mt-1 text-xs text-rose-500">{errors.date}</p>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <DialogFooter>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => onOpenChange(false)}
-                disabled={isSubmitting}
-              >
-                Hủy
-              </Button>
-              <Button
-                className="bg-emerald-600 text-white hover:bg-emerald-700"
-                type="submit"
-                disabled={isSubmitting}
-              >
-                {isSubmitting
-                  ? "Đang xử lý..."
-                  : isEditMode
-                    ? "Lưu thay đổi"
-                    : "Thêm"}
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-
-      <AddCategoryDialog
-        open={isAddCategoryOpen}
-        onOpenChange={setIsAddCategoryOpen}
-      />
+        {/* Dialog Thêm / Sửa */}
+        <AddCategoryDialog
+            open={isAddCategoryOpen}
+            onOpenChange={setIsAddCategoryOpen}
+        />
     </>
   );
 }
